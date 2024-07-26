@@ -1,0 +1,52 @@
+{
+  "name": "newrmfweb",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "lint": "eslint . --ext js,jsx --report-unused-disable-directives --max-warnings 0",
+    "preview": "vite preview"
+  },
+  "dependencies": {
+    "@ant-design/icons": "^5.3.7",
+    "@aws-sdk/client-s3": "^3.614.0",
+    "@aws-sdk/s3-request-presigner": "^3.614.0",
+    "@formatjs/intl-datetimeformat": "^6.12.5",
+    "@formatjs/intl-displaynames": "^6.6.8",
+    "@formatjs/intl-listformat": "^7.5.7",
+    "@formatjs/intl-locale": "^4.0.0",
+    "@formatjs/intl-numberformat": "^8.10.3",
+    "@formatjs/intl-pluralrules": "^5.2.14",
+    "@formatjs/intl-relativetimeformat": "^11.2.14",
+    "@turf/turf": "^7.0.0",
+    "antd": "^5.19.3",
+    "axios": "^1.7.2",
+    "leaflet": "^1.9.4",
+    "moment": "^2.30.1",
+    "randomcolor": "^0.6.2",
+    "react": "^18.3.1",
+    "react-dnd": "^16.0.1",
+    "react-dnd-html5-backend": "^16.0.1",
+    "react-dom": "^18.3.1",
+    "react-icons": "^5.2.1",
+    "react-intl": "^6.6.8",
+    "react-leaflet": "^4.2.1",
+    "react-router-dom": "^6.24.1",
+    "socket.io-client": "^4.7.5",
+    "styled-components": "^6.1.11",
+    "turf": "^3.0.14",
+    "vite-plugin-svgr": "^4.2.0"
+  },
+  "devDependencies": {
+    "@types/react": "^18.3.3",
+    "@types/react-dom": "^18.3.0",
+    "@vitejs/plugin-react": "^4.3.1",
+    "eslint": "^8.57.0",
+    "eslint-plugin-react": "^7.34.2",
+    "eslint-plugin-react-hooks": "^4.6.2",
+    "eslint-plugin-react-refresh": "^0.4.7",
+    "vite": "^5.3.1"
+  }
+}
