@@ -26,18 +26,18 @@ const useWebSocket = (isWindowVisible) => {
 
   const connectWebSocket = useCallback(async () => {
     try {
-      const response = await axios.get('http://rosagv.ru:8000/socket.io/', {
+      const response = await axios.get(`${import.meta.env.VITE_AGV_API_SERVER}/socket.io/`, {
         params: { EIO: 4, transport: 'polling', t: Date.now() },
       });
 
       const { sid } = JSON.parse(response.data.slice(1));
 
-      await axios.post('http://rosagv.ru:8000/socket.io/', '40', {
+      await axios.post(`${import.meta.env.VITE_AGV_API_SERVER}/socket.io/`, '40', {
         params: { EIO: 4, transport: 'polling', t: Date.now(), sid },
         headers: { 'Content-Type': 'text/plain' },
       });
 
-      const wsUrl = `ws://rosagv.ru:8000/socket.io/?EIO=4&transport=websocket&sid=${sid}`;
+      const wsUrl = `${import.meta.env.VITE_AGV_DATA_SOCKET}?EIO=4&transport=websocket&sid=${sid}`;
       const ws = new WebSocket(wsUrl);
 
       wsRef.current = ws;
@@ -49,7 +49,7 @@ const useWebSocket = (isWindowVisible) => {
           ws.send('5');
           ws.send('42' + JSON.stringify(["subscribe", { room: "/building_map" }]));
 
-          const fleetResponse = await axios.get('http://rosagv.ru:8000/fleets');
+          const fleetResponse = await axios.get(`${import.meta.env.VITE_AGV_API_SERVER}/fleets`);
           const fleets = fleetResponse.data;
           setMapData((prevData) => ({ ...prevData, fleets }));
 
@@ -57,7 +57,7 @@ const useWebSocket = (isWindowVisible) => {
             ws.send('42' + JSON.stringify(["subscribe", { room: `/fleets/${fleet.name}/state` }]));
           });
 
-          const doorsResponse = await axios.get('http://rosagv.ru:8000/doors');
+          const doorsResponse = await axios.get(`${import.meta.env.VITE_AGV_API_SERVER}/doors`);
           const doorsName = doorsResponse.data;
           setMapData((prevData) => ({ ...prevData, doorsName }));
 
@@ -155,7 +155,7 @@ const useWebSocket = (isWindowVisible) => {
 
   useEffect(() => {
     const connectToTrajectorySocket = () => {
-      const wsTrajectory = new WebSocket('ws://rosagv.ru:8006/');
+      const wsTrajectory = new WebSocket(import.meta.env.VITE_AGV_TRAJECTORY_SOCKET);
 
       wsTrajectoryRef.current = wsTrajectory;
 
@@ -217,7 +217,7 @@ const useWebSocket = (isWindowVisible) => {
 
     const fetchTasks = async () => {
       try {
-        const response = await axios.get('http://rosagv.ru:8000/tasks', {
+        const response = await axios.get(`${import.meta.env.VITE_AGV_API_SERVER}/tasks`, {
           params: {
             limit: 10,
             offset: 0,

@@ -1,7 +1,8 @@
 import React, { useMemo, useCallback } from 'react';
-import { Button, Progress } from 'antd';
-import { ThunderboltOutlined } from '@ant-design/icons';
+import { Button, Progress, message } from 'antd';
+import { ThunderboltOutlined, CloseOutlined } from '@ant-design/icons';
 import { useIntl } from 'react-intl';
+import axios from 'axios';
 import {
   InfoWindowContainer,
   InfoHeader,
@@ -14,7 +15,7 @@ import {
 import { useTheme } from '../../../../themes';
 import { BackIcon, RobotIcon } from '../../../../icons/Icons';
 
-const InfoWindow = ({ robot, tasks, onClose, collapsed }) => {
+const InfoWindow = ({ robot, tasks, onClose, collapsed, onMove }) => {
   const theme = useTheme();
   const intl = useIntl();
 
@@ -36,13 +37,36 @@ const InfoWindow = ({ robot, tasks, onClose, collapsed }) => {
   const robotTasks = useMemo(() => tasks.filter(task => task.assigned_to?.name === robot.name), [tasks, robot.name]);
   const firstTask = useMemo(() => (robotTasks.length > 0 ? robotTasks[0] : null), [robotTasks]);
 
+  const handleCancel = useCallback(async (taskId) => {
+    try {
+      await axios.post(`${import.meta.env.VITE_AGV_API_SERVER}/tasks/cancel_task`, {
+        type: 'cancel_task_request',
+        task_id: taskId
+      });
+      message.success(intl.formatMessage({ id: 'infowindow.taskCanceled' }));
+    } catch (error) {
+      message.error(intl.formatMessage({ id: 'infowindow.taskCancelError' }));
+    }
+  }, [intl]);
+
   const getItems = useCallback((tasks) => {
     return tasks.map(task => ({
       key: task.booking.id,
       label: (
-        <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
           <span>{task.category} ({task.status})</span>
-          {task.unix_millis_finish_time && <span>{formatTime(task.unix_millis_finish_time)}</span>}
+          <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+            {task.unix_millis_finish_time && <span>{formatTime(task.unix_millis_finish_time)}</span>}
+            {task.status !== 'canceled' && task.status !== 'failed' && task.status !== 'completed' && (
+              <Button
+                type="text"
+                size="small"
+                icon={<CloseOutlined />}
+                onClick={() => handleCancel(task.booking.id)}
+                style={{ padding: '0', fontSize: '12px', lineHeight: '12px', height: '20px', width: '20px' }}
+              />
+            )}
+          </div>
         </div>
       ),
       children: (
@@ -67,7 +91,7 @@ const InfoWindow = ({ robot, tasks, onClose, collapsed }) => {
         </React.Fragment>
       )
     }));
-  }, [formatTime, intl]);
+  }, [formatTime, intl, handleCancel]);
 
   return (
     <InfoWindowContainer theme={theme} $collapsed={collapsed} onClick={(e) => e.stopPropagation()}>
@@ -78,6 +102,16 @@ const InfoWindow = ({ robot, tasks, onClose, collapsed }) => {
           onClick={onClose}
           icon={<BackIcon />}
         />
+        {robot.status === 'idle' && (
+          <Button
+            type="primary"
+            size="small"
+            onClick={onMove}
+            style={{ marginLeft: '8px' }}
+          >
+            Move
+          </Button>
+        )}
         <BatteryInfo $battery={robot.battery}>
           {formatBatteryPercentage(robot.battery)} <ThunderboltOutlined />
         </BatteryInfo>

@@ -80,5 +80,7 @@
   "layers.lines": "Roads",
   "layers.points": "Points",
   "layers.robots": "Robots",
-    "layers.trajectories": "Trajectories"
+  "layers.trajectories": "Trajectories",
+  "infowindow.taskCanceled": "Task canceled",
+  "infowindow.taskCancelError": "Task cancel error"
 }

@@ -58,7 +58,7 @@ const CreateTaskWindow = ({ isOpen, onClose, geoJsonPoints }) => {
     };
 
     try {
-      const response = await axios.post('http://rosagv.ru:8000/tasks/dispatch_task', requestBody, {
+      const response = await axios.post(`${import.meta.env.VITE_AGV_API_SERVER}/tasks/dispatch_task`, requestBody, {
         headers: {
           'Content-Type': 'application/json',
         }

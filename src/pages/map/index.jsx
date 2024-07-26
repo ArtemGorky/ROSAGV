@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef, useCallback, useMemo } from 'react';
-import { Polyline, ImageOverlay, GeoJSON, Pane, CircleMarker, Tooltip, FeatureGroup } from 'react-leaflet';
+import { Polyline, ImageOverlay, GeoJSON, Pane, CircleMarker, Tooltip, FeatureGroup, useMapEvents } from 'react-leaflet';
 import 'leaflet/dist/leaflet.css';
 import { Spin, Button, Tree } from 'antd'; 
 import AnimatedMarker from './view/animated-marker/index';
@@ -8,6 +8,7 @@ import { useIntl } from 'react-intl';
 import useWebSocket from './hooks/use-web-socket';
 import { FullHeightMapContainer } from './ui';
 import InfoWindow from './view/info-window/index';
+import PointInfoWindow from './view/point-window';
 import L from 'leaflet';
 import CreateTaskWindow from './view/create-task-window'; 
 
@@ -36,6 +37,9 @@ const Map = ({ collapsed }) => {
   const [isReady, setIsReady] = useState(false);
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [visibleLayers, setVisibleLayers] = useState(['mapImage', 'lines', 'points', 'robots', 'trajectories']);
+  const [hoveredPoint, setHoveredPoint] = useState(null);
+  const [clickedPoint, setClickedPoint] = useState(null);
+  const [selectedPoint, setSelectedPoint] = useState(null); // состояние для выбранной точки
   const mapRef = useRef(null);
   const intl = useIntl();
 
@@ -69,12 +73,31 @@ const Map = ({ collapsed }) => {
     setSelectedRobot(null);
   }, []);
 
+  const handleMoveClick = useCallback(() => {
+    // Логика перемещения робота
+  }, []);
+
   const renderCircleMarkers = useCallback((points) => {
     return points.features.map((feature, index) => {
       if (feature.geometry.type === 'Point') {
         const [x, y] = feature.geometry.coordinates;
+        const isHovered = hoveredPoint === index;
+        const isClicked = clickedPoint === index;
         return (
-          <CircleMarker key={index} center={[y, x]} radius={3} color="green">
+          <CircleMarker 
+            key={index} 
+            center={[y, x]} 
+            radius={isHovered ? 6 : 3} 
+            color={isClicked ? "red" : "green"}
+            eventHandlers={{
+              mouseover: () => setHoveredPoint(index),
+              mouseout: () => setHoveredPoint(null),
+              click: () => {
+                setClickedPoint(index);
+                setSelectedPoint(feature); // установить выбранную точку
+              }
+            }}
+          >
             {feature.properties.name && (
               <Tooltip direction="top">{feature.properties.name}</Tooltip>
             )}
@@ -88,7 +111,7 @@ const Map = ({ collapsed }) => {
       }
       return null;
     });
-  }, []);
+  }, [hoveredPoint, clickedPoint]);
 
   const getCenter = useMemo(() => {
     if (imageBounds?.length >= 2 && imageBounds[0].length > 0 && imageBounds[1].length > 0) {
@@ -198,7 +221,20 @@ const Map = ({ collapsed }) => {
         </>
       </FullHeightMapContainer>
       {isWindowVisible && selectedRobot && (
-        <InfoWindow robot={selectedRobot} tasks={tasks} onClose={handleWindowClose} collapsed={collapsed} />
+        <InfoWindow
+          robot={selectedRobot}
+          tasks={tasks}
+          onClose={handleWindowClose}
+          collapsed={collapsed}
+          onMove={handleMoveClick}
+        />
+      )}
+      {selectedPoint && (
+        <PointInfoWindow
+          open={selectedPoint !== null}
+          onClose={() => setSelectedPoint(null)}
+          point={selectedPoint}
+        />
       )}
       <Button
         type="primary"

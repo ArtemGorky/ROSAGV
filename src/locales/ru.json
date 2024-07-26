@@ -82,5 +82,7 @@
   "layers.lines": "Дороги",
   "layers.points": "Точки",
   "layers.robots": "Роботы",
-  "layers.trajectories": "Траектории"
+  "layers.trajectories": "Траектории",
+  "infowindow.taskCanceled": "Задача отменена",
+  "infowindow.taskCancelError": "Ошибка отмены задачи"
 }
