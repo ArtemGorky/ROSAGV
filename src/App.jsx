@@ -57,6 +57,7 @@ const AppContent = React.memo(({ collapsed }) => {
   );
 });
 
+
 function App() {
   const getSystemTheme = useCallback(() => window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches, []);
   const getSystemLocale = useCallback(() => navigator.language.slice(0, 2), []);

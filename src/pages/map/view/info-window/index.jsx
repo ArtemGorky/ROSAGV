@@ -1,4 +1,4 @@
-import React, { useMemo, useCallback } from 'react';
+import React, { useMemo, useCallback, useEffect } from 'react';
 import { Button, Progress, message } from 'antd';
 import { ThunderboltOutlined, CloseOutlined } from '@ant-design/icons';
 import { useIntl } from 'react-intl';
@@ -93,6 +93,9 @@ const InfoWindow = ({ robot, tasks, onClose, collapsed, onMove }) => {
     }));
   }, [formatTime, intl, handleCancel]);
 
+  useEffect(() => {
+  }, [robot]);
+
   return (
     <InfoWindowContainer theme={theme} $collapsed={collapsed} onClick={(e) => e.stopPropagation()}>
       <InfoHeader>
@@ -154,4 +157,4 @@ const InfoWindow = ({ robot, tasks, onClose, collapsed, onMove }) => {
   );
 };
 
-export default React.memo(InfoWindow);
+export default InfoWindow;

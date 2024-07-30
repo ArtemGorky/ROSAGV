@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef, useCallback, useMemo } from 'react';
-import { Polyline, ImageOverlay, GeoJSON, Pane, CircleMarker, Tooltip, FeatureGroup, useMapEvents } from 'react-leaflet';
+import { Polyline, ImageOverlay, GeoJSON, Pane, CircleMarker, Tooltip, FeatureGroup } from 'react-leaflet';
 import 'leaflet/dist/leaflet.css';
-import { Spin, Button, Tree } from 'antd'; 
+import { Spin, Button, Tree, Modal, Input } from 'antd'; 
 import AnimatedMarker from './view/animated-marker/index';
 import { useTheme } from '../../themes';
 import { useIntl } from 'react-intl';
@@ -10,13 +10,13 @@ import { FullHeightMapContainer } from './ui';
 import InfoWindow from './view/info-window/index';
 import PointInfoWindow from './view/point-window';
 import L from 'leaflet';
+import CursorMarker from './view/cursor-marker/index';
 import CreateTaskWindow from './view/create-task-window'; 
 
 const initialZoom = 5;
 const maxZoom = 8;
 const minZoom = 0.5;
 
-// Функция для генерации цвета из строки
 const stringToColor = (str) => {
   let hash = 0;
   for (let i = 0; i < str.length; i++) {
@@ -36,14 +36,17 @@ const Map = ({ collapsed }) => {
   const [isWindowVisible, setIsWindowVisible] = useState(false);
   const [isReady, setIsReady] = useState(false);
   const [isModalVisible, setIsModalVisible] = useState(false);
+  const [isCreateTaskWindowOpen, setIsCreateTaskWindowOpen] = useState(false); 
   const [visibleLayers, setVisibleLayers] = useState(['mapImage', 'lines', 'points', 'robots', 'trajectories']);
   const [hoveredPoint, setHoveredPoint] = useState(null);
   const [clickedPoint, setClickedPoint] = useState(null);
-  const [selectedPoint, setSelectedPoint] = useState(null); // состояние для выбранной точки
+  const [selectedPoint, setSelectedPoint] = useState(null);
+  const [modalCoords, setModalCoords] = useState(null); 
+  const [showCursorMarker, setShowCursorMarker] = useState(false); 
   const mapRef = useRef(null);
   const intl = useIntl();
 
-  const { mapImageUrl, geoJsonLines, geoJsonPoints, doorGeoJsonData, robots, trajectoryData, tasks, imageBounds } = useWebSocket(isWindowVisible);
+  const { mapImageUrl, geoJsonLines, geoJsonPoints, doorGeoJsonData, robots, trajectoryData, tasks, imageBounds } = useWebSocket(true);
 
   useEffect(() => {
     if (imageBounds) {
@@ -74,8 +77,17 @@ const Map = ({ collapsed }) => {
   }, []);
 
   const handleMoveClick = useCallback(() => {
-    // Логика перемещения робота
+    setVisibleLayers(prev => prev.filter(layer => layer !== 'robots'));
+    setIsWindowVisible(false);
+    setShowCursorMarker(true);
   }, []);
+
+  const handleMapClick = (coords) => {
+    setModalCoords(coords);
+    setIsModalVisible(true);
+    setVisibleLayers(prev => [...prev, 'robots']);
+    setShowCursorMarker(false); 
+  };
 
   const renderCircleMarkers = useCallback((points) => {
     return points.features.map((feature, index) => {
@@ -94,7 +106,7 @@ const Map = ({ collapsed }) => {
               mouseout: () => setHoveredPoint(null),
               click: () => {
                 setClickedPoint(index);
-                setSelectedPoint(feature); // установить выбранную точку
+                setSelectedPoint(feature); 
               }
             }}
           >
@@ -177,6 +189,7 @@ const Map = ({ collapsed }) => {
         zoomControl={false}
         crs={L.CRS.Simple}
         ref={mapRef}
+        className={showCursorMarker ? 'hide-cursor' : ''}
       >
         {visibleLayers.includes('mapImage') && mapImageUrl && imageBounds && (
           <ImageOverlay url={mapImageUrl} bounds={imageBounds} />
@@ -219,10 +232,11 @@ const Map = ({ collapsed }) => {
             </Pane>
           )}
         </>
+        <CursorMarker show={showCursorMarker} onClick={handleMapClick} />
       </FullHeightMapContainer>
       {isWindowVisible && selectedRobot && (
         <InfoWindow
-          robot={selectedRobot}
+          robot={robots[selectedRobot.name]}
           tasks={tasks}
           onClose={handleWindowClose}
           collapsed={collapsed}
@@ -239,15 +253,10 @@ const Map = ({ collapsed }) => {
       <Button
         type="primary"
         style={{ position: 'absolute', top: 20, right: 20, zIndex: 1000 }}
-        onClick={() => setIsModalVisible(true)}
+        onClick={() => setIsCreateTaskWindowOpen(true)}
       >
         {intl.formatMessage({ id: 'createTask.createButton' })}
       </Button>
-      <CreateTaskWindow
-        isOpen={isModalVisible} 
-        onClose={() => setIsModalVisible(false)}
-        geoJsonPoints={geoJsonPoints}
-      />
       <div style={{ position: 'absolute', top: 70, right: 20, zIndex: 1000 }}>
         <Tree
           checkable
@@ -257,6 +266,19 @@ const Map = ({ collapsed }) => {
           treeData={treeData}
         />
       </div>
+      <Modal
+        title="Координаты клика"
+        open={isModalVisible}
+        onCancel={() => setIsModalVisible(false)}
+        footer={null}
+      >
+        <Input value={modalCoords ? `x: ${modalCoords[0]}, y: ${modalCoords[1]}` : ''} readOnly />
+      </Modal>
+      <CreateTaskWindow
+        isOpen={isCreateTaskWindowOpen} 
+        onClose={() => setIsCreateTaskWindowOpen(false)}
+        geoJsonPoints={geoJsonPoints} 
+      />
     </>
   );
 };
