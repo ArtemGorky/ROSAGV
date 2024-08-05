@@ -5,5 +5,11 @@
   "page.parksAndRobots.table.task_id": "Task id",
   "page.parksAndRobots.table.unix_millis_time": "Milliseconds",
   "page.parksAndRobots.table.battery": "Battery",
-  "page.parksAndRobots.table.issues": "Issues"
+  "page.parksAndRobots.table.issues": "Issues",
+  "page.parksAndRobots.filterDropdown.name": "Name",
+  "page.parksAndRobots.filterDropdown.status": "Status",
+  "page.parksAndRobots.filterDropdown.taskId": "Task ID",
+  "page.parksAndRobots.filterDropdown.title": "Filter",
+  "page.parksAndRobots.autoComplete.title": "Please, enter the name!",
+  "page.parksAndRobots.checkbox.title": "Checked all"
 }

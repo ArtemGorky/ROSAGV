@@ -1,8 +1,10 @@
-export const getParksAndRobotsStructuredData = (data: any) => {
+import { ParksAndRobotsTypes } from "@/pages/parks-and-robots/types";
 
-    const StructuredData = Object.keys(data.robots).map((item, index) => {
+export const getParksAndRobotsStructuredData = (data: ParksAndRobotsTypes[]) => {
 
-        const obj = data.robots[item];
+    const StructuredData = Object.keys(data).map((item, index) => {
+
+        const obj = data[item];
 
         return {
             key: index,

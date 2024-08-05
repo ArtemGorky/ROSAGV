@@ -1,0 +1,16 @@
+.checkboxNameWrapper {
+  padding-left: 8px;
+}
+
+span:has(div.checkboxNameWrapper) {
+  width: 100%;
+  padding: 0;
+}
+
+div:has(ul li span div.hideCheckbox) {
+  display: none;
+}
+
+.showCheckbox {
+  display: block;
+}

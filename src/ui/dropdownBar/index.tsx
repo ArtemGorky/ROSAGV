@@ -4,12 +4,16 @@ import { MarginBottomWrapper } from '@/shared';
 
 type DropdownBarProps = {
     data: any;
-    barItem: any;
+    barItem: (key: string) => JSX.Element;
+    dropdownTitle: string;
+    openingControl: (val: boolean) => void;
 }
 
-export const DropdownBar = ({ data, barItem }: DropdownBarProps) => {
+type PropExecType = (key: string, index: number) => { label: JSX.Element, key: string };
 
-    function loopThroughObjRecurs(obj: any, propExec: any, count: any) {
+export const DropdownBar = ({ data, dropdownTitle, barItem, openingControl }: DropdownBarProps) => {
+
+    const loopThroughObjRecurs = (obj: any, propExec: PropExecType, count: number) => {
         return Object.keys(obj).map((currentKey, index) => {
             if (typeof obj[currentKey] === 'object' && obj[currentKey] !== null) {
                 const label = obj[currentKey]["label"];
@@ -20,13 +24,13 @@ export const DropdownBar = ({ data, barItem }: DropdownBarProps) => {
                     children: [...loopThroughObjRecurs(obj[currentKey], propExec, ++count + index)]
                 };
             } else if (obj.hasOwnProperty(currentKey)) {
-                return propExec(obj[currentKey], currentKey, index + count);
+                return propExec(currentKey, index + count);
             }
         })
     }
 
-    const callbackLoop = (label: any, key: any, index: any) => {
-        return { label: barItem(label, key), key: index + key }
+    const callbackLoop = (key: string, index: number) => {
+        return { label: barItem(key), key: index + key }
     }
 
     const items: MenuProps['items'] = loopThroughObjRecurs(data, callbackLoop, 0);
@@ -34,11 +38,12 @@ export const DropdownBar = ({ data, barItem }: DropdownBarProps) => {
     return <Dropdown
         overlayStyle={{ minWidth: 0 }}
         menu={{ items }}
+        onOpenChange={openingControl}
     >
         <MarginBottomWrapper>
             <Button>
                 <Space>
-                    Фильтровать
+                    {dropdownTitle}
                     <DownOutlined />
                 </Space>
             </Button>

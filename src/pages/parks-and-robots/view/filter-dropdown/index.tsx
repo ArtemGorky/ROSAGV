@@ -1,4 +1,4 @@
-import { DropdownBar, DropdownBarItem, AutoCompleteDropdown } from "@/ui"
+import { DropdownBar, AutoCompleteDropdown, CheckboxDropdown } from "@/ui"
 import { IntlProps } from "../../types";
 import { parksAndRobotsStore } from "@/entities";
 import { observer } from "mobx-react-lite";
@@ -6,8 +6,16 @@ import { observer } from "mobx-react-lite";
 
 export const FilterDropdown = observer(({ intl }: IntlProps) => {
 
+    const dropdownTitle = intl.formatMessage({ id: 'page.parksAndRobots.filterDropdown.title' });
+    const autoCompleteTitle = intl.formatMessage({ id: 'page.parksAndRobots.autoComplete.title' });
+    const checkboxTitle = intl.formatMessage({ id: 'page.parksAndRobots.checkbox.title' });
+
     const {
-        store: { robotsName, filterRobotsByName },
+        store: {
+            robotsName, robotsStatuses, robotsCurrentStatuses, robotsTaskIds, robotsCurrentTaskIds,
+            isOpenDropdown, filterRobotsByName, filterRobotsByStatus, filterRobotsByTaskId,
+            openingControl
+        },
     } = parksAndRobotsStore;
 
     const NAME = "name";
@@ -16,40 +24,35 @@ export const FilterDropdown = observer(({ intl }: IntlProps) => {
 
     const dataObj = {
         title_01: {
-            label: "Имя",
-            [NAME + "_01"]: "Поле с именем",
+            label: intl.formatMessage({ id: 'page.parksAndRobots.filterDropdown.name' }),
+            [NAME + "_01"]: "name",
         },
         title_02: {
-            label: "Статус",
-            [STATUS + "_01"]: "Поле со статусом",
+            label: intl.formatMessage({ id: 'page.parksAndRobots.filterDropdown.status' }),
+            [STATUS + "_01"]: "status",
         },
         title_03: {
-            label: "ID задачи",
-            [TASK + "_01"]: "Поле с id задачи",
+            label: intl.formatMessage({ id: 'page.parksAndRobots.filterDropdown.taskId' }),
+            [TASK + "_01"]: "task",
         }
     }
 
-    const action_02 = (val: any) => () => {
-        // console.log("action_02", val);
-        console.log(val);
-    };
-
-    const getBarItem = (label: string, key: any) => {
+    const getBarItem = (key: string) => {
 
         switch (key) {
             case !key.includes(NAME) || key:
-                return AutoCompleteDropdown(label, filterRobotsByName, robotsName);
+                return AutoCompleteDropdown(autoCompleteTitle, filterRobotsByName, robotsName);
 
             case !key.includes(STATUS) || key:
-                return DropdownBarItem(label, action_02(label));
+                return CheckboxDropdown(filterRobotsByStatus, robotsStatuses, robotsCurrentStatuses, checkboxTitle, isOpenDropdown);
 
             case !key.includes(TASK) || key:
-                return DropdownBarItem(label, action_02(label));
+                return CheckboxDropdown(filterRobotsByTaskId, robotsTaskIds, robotsCurrentTaskIds, checkboxTitle, isOpenDropdown);
 
             default:
-                return DropdownBarItem(label, action_02(label));
+                return CheckboxDropdown(filterRobotsByTaskId, robotsTaskIds, robotsCurrentTaskIds, checkboxTitle, isOpenDropdown);
         }
     };
 
-    return <DropdownBar data={dataObj} barItem={getBarItem} />
+    return <DropdownBar data={dataObj} dropdownTitle={dropdownTitle} barItem={getBarItem} openingControl={openingControl} />
 });

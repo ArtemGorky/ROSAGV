@@ -1,13 +1,13 @@
-import { Table } from 'antd';
+import { Spin, Table } from 'antd';
 import { useEffect } from 'react';
 import { parksAndRobotsStore } from '@/entities';
 import { observer } from "mobx-react-lite";
-import { IntlProps } from '../../types';
+import { IntlProps, IssueTypes } from '../../types';
 
 export const ParksAndRobotsTable = observer(({ intl }: IntlProps) => {
 
     const {
-        store: { currentRobots, getParksAndRobotsData },
+        store: { currentRobots, isLoading, getParksAndRobotsData },
     } = parksAndRobotsStore;
 
     const columns = [
@@ -40,9 +40,9 @@ export const ParksAndRobotsTable = observer(({ intl }: IntlProps) => {
             title: intl.formatMessage({ id: 'page.parksAndRobots.table.issues' }),
             dataIndex: 'issues',
             key: 'issues',
-            render: (_: string, record: any) => {
+            render: (_: string, record: { issues: IssueTypes[] }) => {
 
-                return <div>{record.issues.map((issue: any, index: number) => {
+                return <div>{record.issues.map((issue: IssueTypes, index: number) => {
 
                     return (
                         <div key={index}>
@@ -61,6 +61,14 @@ export const ParksAndRobotsTable = observer(({ intl }: IntlProps) => {
         getParksAndRobotsData();
 
     }, []);
+
+    if (isLoading) {
+        return (
+            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', height: '70vh' }}>
+                <Spin size="large" />
+            </div>
+        );
+    }
 
     return <Table dataSource={currentRobots} columns={columns} />
 

@@ -9,6 +9,7 @@ export const getParksAndRobots = async () => {
 
         // console.log(resp.data[0]);
 
+        // return resp.data[0];
         return parksAndRobotsMockData;
 
     } catch (error) {
