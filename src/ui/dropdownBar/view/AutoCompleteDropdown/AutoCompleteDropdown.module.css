@@ -1,0 +1,15 @@
+.popup {
+  min-height: 275px;
+  opacity: 0;
+  display: none;
+}
+
+.popup:hover {
+  opacity: 1;
+  display: block;
+}
+
+div:has(.autoComplete):hover ~ div div.popup {
+  opacity: 1;
+  display: block;
+}

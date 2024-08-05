@@ -1,0 +1,1 @@
+export { getParksAndRobots } from './api/parks-and-robots'

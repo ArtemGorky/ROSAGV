@@ -1,0 +1,9 @@
+{
+  "page.parksAndRobots.title": "Parks and Robots",
+  "page.parksAndRobots.table.name": "Name",
+  "page.parksAndRobots.table.status": "Status",
+  "page.parksAndRobots.table.task_id": "Task id",
+  "page.parksAndRobots.table.unix_millis_time": "Milliseconds",
+  "page.parksAndRobots.table.battery": "Battery",
+  "page.parksAndRobots.table.issues": "Issues"
+}

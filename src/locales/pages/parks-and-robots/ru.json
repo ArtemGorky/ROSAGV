@@ -1,0 +1,9 @@
+{
+  "page.parksAndRobots.title": "Парки и роботы",
+  "page.parksAndRobots.table.name": "Имя",
+  "page.parksAndRobots.table.status": "Статус",
+  "page.parksAndRobots.table.task_id": "ID задачи",
+  "page.parksAndRobots.table.unix_millis_time": "Миллисекунды",
+  "page.parksAndRobots.table.battery": "Зарядка",
+  "page.parksAndRobots.table.issues": "Неисправности"
+}

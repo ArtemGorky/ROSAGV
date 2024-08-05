@@ -1,0 +1,23 @@
+{
+    "compilerOptions": {
+        "lib": ["ES2020", "DOM", "DOM.Iterable"],
+        "jsx": "react-jsx",
+        "module": "es2022",
+        "moduleResolution": "Node",
+        "baseUrl": "./src",
+        "paths": {
+            "@/*": [
+                "*"
+            ],
+        },
+    },
+    "include": [
+        "vite-env.d.ts",
+        "src",
+        "**/*.ts",
+        "**/*.tsx",
+    ],
+    "exclude": [
+        "node_modules"
+    ]
+}
