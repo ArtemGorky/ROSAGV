@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useMemo, useCallback } from 'react';
 import { Layout, ConfigProvider } from 'antd';
-import { BrowserRouter as Router, Route, Routes, useLocation } from 'react-router-dom';
+import { BrowserRouter as Router, Route, Routes, useLocation, Navigate } from 'react-router-dom';
 import Sidebar from './ui/sidebar';
 import Dashboard from './pages/dashboard';
 import Scenes from './pages/scenes';
@@ -52,11 +52,11 @@ const AppContent = React.memo(({ collapsed }) => {
         <Route path="/support" element={<Support />} />
         <Route path="/usage-guide" element={<UsageGuide />} />
         <Route path="/account" element={<Account />} />
+        <Route path="*" element={<Navigate to="/" replace />} /> {/* Обработка 404 страниц */}
       </Routes>
     </Content>
   );
 });
-
 
 function App() {
   const getSystemTheme = useCallback(() => window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches, []);
