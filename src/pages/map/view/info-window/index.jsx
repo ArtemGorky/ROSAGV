@@ -1,5 +1,5 @@
 import React, { useMemo, useCallback, useEffect } from 'react';
-import { Button, Progress, message } from 'antd';
+import { Button, Progress, message, Tree } from 'antd';
 import { ThunderboltOutlined, CloseOutlined } from '@ant-design/icons';
 import { useIntl } from 'react-intl';
 import axios from 'axios';
@@ -14,10 +14,12 @@ import {
 } from './ui';
 import { useTheme } from '../../../../themes';
 import { BackIcon, RobotIcon } from '../../../../icons/Icons';
+import useNestEvents from './hooks/use-nest-events'; // Импортируем хук
 
 const InfoWindow = ({ robot, tasks, onClose, collapsed, onMove }) => {
   const theme = useTheme();
   const intl = useIntl();
+  const { nestEvents } = useNestEvents(); // Используем хук
 
   const formatBatteryPercentage = useCallback((battery) => `${(battery * 100).toFixed(0)}%`, []);
 
@@ -49,12 +51,41 @@ const InfoWindow = ({ robot, tasks, onClose, collapsed, onMove }) => {
     }
   }, [intl]);
 
+  const cleanName = (name) => name.replace(/<.*?>/g, '');
+
+  const getStatusColor = (status) => {
+    switch (status) {
+      case 'completed':
+        return 'green';
+      case 'failed':
+        return 'red';
+      case 'canceled':
+        return 'blue';
+      default:
+        return 'orange';
+    }
+  };
+
+  const convertToTreeData = (events) => {
+    const buildTree = (event) => ({
+      title: (
+        <span style={{ color: getStatusColor(event.status) }}>
+          {cleanName(event.name)} ({event.status})
+        </span>
+      ),
+      key: event.id,
+      children: event.children ? event.children.map(child => buildTree(child)) : []
+    });
+
+    return events.map(event => buildTree(event));
+  };
+
   const getItems = useCallback((tasks) => {
     return tasks.map(task => ({
       key: task.booking.id,
       label: (
         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-          <span>{task.category} ({task.status})</span>
+          <span style={{ color: getStatusColor(task.status) }}>{task.category} ({task.status})</span>
           <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
             {task.unix_millis_finish_time && <span>{formatTime(task.unix_millis_finish_time)}</span>}
             {task.status !== 'canceled' && task.status !== 'failed' && task.status !== 'completed' && (
@@ -72,26 +103,24 @@ const InfoWindow = ({ robot, tasks, onClose, collapsed, onMove }) => {
       children: (
         <React.Fragment key={task.booking.id}>
           {Object.values(task.phases || {}).map((phase, phaseIndex) => (
-            <div key={phaseIndex} style={{ marginBottom: '16px' }}>
+            <div key={phaseIndex} style={{ marginBottom: '8px', padding: '8px 0' }}>
               <div style={{ display: 'flex', justifyContent: 'space-between', fontWeight: 'bold' }}>
                 <span>{intl.formatMessage({ id: 'phase' })} {phase.id}: {phase.category}</span>
                 {phase.unix_millis_finish_time && <span>{formatTime(phase.unix_millis_finish_time)}</span>}
               </div>
               <div style={{ display: 'flex', flexDirection: 'column', gap: '8px', paddingLeft: '16px', borderLeft: '2px solid #d9d9d9', marginTop: '8px' }}>
-                {Object.values(phase.events || {}).map((event) => (
-                  <div key={event.id} style={{ display: 'flex', justifyContent: 'space-between' }}>
-                    <div>{event.name}</div>
-                    <div style={{ color: event.status === 'completed' ? '#62C655' : '#E1A011' }}>{event.status}</div>
-                    {event.unix_millis_finish_time && <div>{formatTime(event.unix_millis_finish_time)}</div>}
-                  </div>
-                ))}
+                <Tree
+                  treeData={convertToTreeData(nestEvents(phase.events))}
+                  defaultExpandAll
+                  style={{ paddingTop: 0, paddingBottom: 0 }}
+                />
               </div>
             </div>
           ))}
         </React.Fragment>
       )
     }));
-  }, [formatTime, intl, handleCancel]);
+  }, [formatTime, intl, handleCancel, nestEvents]);
 
   useEffect(() => {
   }, [robot]);
