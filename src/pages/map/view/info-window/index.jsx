@@ -1,4 +1,4 @@
-import React, { useMemo, useCallback, useEffect } from 'react';
+import React, { useMemo, useCallback } from 'react';
 import { Button, Progress, message, Tree } from 'antd';
 import { ThunderboltOutlined, CloseOutlined } from '@ant-design/icons';
 import { useIntl } from 'react-intl';
@@ -14,21 +14,19 @@ import {
 } from './ui';
 import { useTheme } from '../../../../themes';
 import { BackIcon, RobotIcon } from '../../../../icons/Icons';
-import useNestEvents from './hooks/use-nest-events'; // Импортируем хук
+import useNestEvents from './hooks/use-nest-events';
 
 const InfoWindow = ({ robot, tasks, onClose, collapsed, onMove }) => {
   const theme = useTheme();
   const intl = useIntl();
-  const { nestEvents } = useNestEvents(); // Используем хук
+  const { nestEvents } = useNestEvents();
 
   const formatBatteryPercentage = useCallback((battery) => `${(battery * 100).toFixed(0)}%`, []);
-
   const formatTime = useCallback((unixMillis) => {
     if (!unixMillis) return '';
     const date = new Date(unixMillis);
     return date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', hour12: false });
   }, []);
-
   const calculateCompletionPercentage = useCallback((start, finish, estimate) => {
     if (!start || !finish || !estimate) return 0;
     const totalTime = finish - start;
@@ -47,12 +45,12 @@ const InfoWindow = ({ robot, tasks, onClose, collapsed, onMove }) => {
       });
       message.success(intl.formatMessage({ id: 'infowindow.taskCanceled' }));
     } catch (error) {
+      console.error('Task cancel error:', error);
       message.error(intl.formatMessage({ id: 'infowindow.taskCancelError' }));
     }
   }, [intl]);
 
   const cleanName = (name) => name.replace(/<.*?>/g, '');
-
   const getStatusColor = (status) => {
     switch (status) {
       case 'completed':
@@ -67,6 +65,11 @@ const InfoWindow = ({ robot, tasks, onClose, collapsed, onMove }) => {
   };
 
   const convertToTreeData = (events) => {
+    if (!events || !Array.isArray(events)) {
+      console.error('Invalid events array:', events);
+      return [];
+    }
+
     const buildTree = (event) => ({
       title: (
         <span style={{ color: getStatusColor(event.status) }}>
@@ -76,7 +79,6 @@ const InfoWindow = ({ robot, tasks, onClose, collapsed, onMove }) => {
       key: event.id,
       children: event.children ? event.children.map(child => buildTree(child)) : []
     });
-
     return events.map(event => buildTree(event));
   };
 
@@ -121,9 +123,6 @@ const InfoWindow = ({ robot, tasks, onClose, collapsed, onMove }) => {
       )
     }));
   }, [formatTime, intl, handleCancel, nestEvents]);
-
-  useEffect(() => {
-  }, [robot]);
 
   return (
     <InfoWindowContainer theme={theme} $collapsed={collapsed} onClick={(e) => e.stopPropagation()}>

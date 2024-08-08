@@ -2,7 +2,10 @@ import { useCallback } from 'react';
 
 const useNestEvents = () => {
   const nestEvents = useCallback((events) => {
-    // Helper function to nest events recursively
+    if (!events || typeof events !== 'object') {
+      return [];
+    }
+
     const buildTree = (eventId, events) => {
       const event = events[eventId];
       return {
@@ -11,20 +14,14 @@ const useNestEvents = () => {
       };
     };
 
-    // Get the root events (events that are not dependencies of any other event)
     const rootEventIds = Object.keys(events).filter(id => 
       !Object.values(events).some(event => event.deps.includes(parseInt(id)))
     );
 
-    // Build the nested structure starting from root events
-    const nestedEvents = rootEventIds.map(rootId => buildTree(rootId, events));
-    
-    console.log(nestedEvents);
-    return nestedEvents;
+    return rootEventIds.map(rootId => buildTree(rootId, events));
   }, []);
 
   return { nestEvents };
 };
 
 export default useNestEvents;
-
