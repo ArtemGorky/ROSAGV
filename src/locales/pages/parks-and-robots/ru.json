@@ -1,0 +1,15 @@
+{
+  "page.parksAndRobots.title": "Парки и роботы",
+  "page.parksAndRobots.table.name": "Имя",
+  "page.parksAndRobots.table.status": "Статус",
+  "page.parksAndRobots.table.task_id": "ID задачи",
+  "page.parksAndRobots.table.unix_millis_time": "Миллисекунды",
+  "page.parksAndRobots.table.battery": "Зарядка",
+  "page.parksAndRobots.table.issues": "Неисправности",
+  "page.parksAndRobots.filterDropdown.name": "Имя",
+  "page.parksAndRobots.filterDropdown.status": "Статус",
+  "page.parksAndRobots.filterDropdown.taskId": "ID задачи",
+  "page.parksAndRobots.filterDropdown.title": "Фильтровать",
+  "page.parksAndRobots.autoComplete.title": "Пожалуйста, введите название!",
+  "page.parksAndRobots.checkbox.title": "Включить все"
+}
