@@ -17,26 +17,21 @@ const AnimatedMarker = ({ position, name, robot, onClick }) => {
   const markerRef = useRef();
   const map = useMap();
   const [rotationAngle, setRotationAngle] = useState(0);
+  const [iconSize, setIconSize] = useState(40);
   const color = getMarkerColor(robot);
 
   useEffect(() => {
-    const icon = markerRef.current?.getElement();
-    if (!icon) return;
-
-    const handleZoomStart = () => {
-      icon.style.transition = 'transform 0.1s';
+    const updateIconSize = () => {
+      const zoom = map.getZoom();
+      const newSize = Math.max(0, 40 * (zoom / 10)); // Размер можно настроить
+      setIconSize(newSize);
     };
 
-    const handleZoomEnd = () => {
-      icon.style.transition = 'transform 1s';
-    };
-
-    map.on('zoomstart', handleZoomStart);
-    map.on('zoomend', handleZoomEnd);
+    updateIconSize();
+    map.on('zoomend', updateIconSize);
 
     return () => {
-      map.off('zoomstart', handleZoomStart);
-      map.off('zoomend', handleZoomEnd);
+      map.off('zoomend', updateIconSize);
     };
   }, [map]);
 
@@ -48,15 +43,14 @@ const AnimatedMarker = ({ position, name, robot, onClick }) => {
     icon.style.transition = 'transform 1s';
 
     if (robot.location && robot.location.yaw !== undefined) {
-      const angle = radToDeg(robot.location.yaw)-90;
+      const angle = radToDeg(robot.location.yaw) - 90;
       setRotationAngle(angle);
     }
 
-    marker.setLatLng(position);
+    marker.setLatLng(position); 
   }, [position, robot.location]);
 
-  const modifiedName = name;
-  const customIcon = CustomIcon({ rotationAngle, name: modifiedName, color, jacking: robot.jacking });
+  const customIcon = CustomIcon({ rotationAngle, name, color, jacking: robot.jacking, size: iconSize });
 
   const handleClick = useCallback(() => {
     onClick(robot);

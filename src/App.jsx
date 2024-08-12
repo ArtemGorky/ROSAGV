@@ -66,17 +66,30 @@ function App() {
   const savedLocale = useMemo(() => localStorage.getItem('locale'), []);
 
   const [collapsed, setCollapsed] = useState(false);
-  const [theme, setTheme] = useState(savedTheme === 'dark' ? darkTheme : lightTheme);
-  const [locale, setLocale] = useState(savedLocale || getSystemLocale());
+  const [theme, setTheme] = useState(() => {
+    const savedTheme = localStorage.getItem('theme');
+    return savedTheme === 'dark' ? darkTheme : lightTheme;
+  });
+  
+  const [locale, setLocale] = useState(() => {
+    const savedLocale = localStorage.getItem('locale');
+    return savedLocale || getSystemLocale();
+  });
+  
 
   useEffect(() => {
     if (!savedTheme) {
-      setTheme(getSystemTheme() ? darkTheme : lightTheme);
+      const systemTheme = getSystemTheme() ? darkTheme : lightTheme;
+      setTheme(systemTheme);
+      localStorage.setItem('theme', systemTheme === darkTheme ? 'dark' : 'light');
     }
     if (!savedLocale) {
-      setLocale(getSystemLocale());
+      const systemLocale = getSystemLocale();
+      setLocale(systemLocale);
+      localStorage.setItem('locale', systemLocale);
     }
-  }, [savedTheme, savedLocale, getSystemTheme, getSystemLocale]);
+  }, [getSystemTheme, getSystemLocale, savedTheme, savedLocale]);
+  
 
   const toggle = useCallback(() => {
     setCollapsed(prev => !prev);
@@ -101,7 +114,8 @@ function App() {
     height: '100vh',
     backgroundColor: theme.token.colorBgBase,
     color: theme.token.colorTextBase,
-  }), [collapsed, theme]);
+  }), [collapsed, theme.token.colorBgBase, theme.token.colorTextBase]);
+  
 
   return (
     <I18nProvider locale={locale}>

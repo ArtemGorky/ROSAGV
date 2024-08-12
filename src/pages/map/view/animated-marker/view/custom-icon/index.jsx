@@ -28,22 +28,22 @@ const createJackingSVG = (color) => `
     <rect transform="rotate(-41 50.2591 140.551)" stroke="#000" height="127.14668" width="11" y="76.97742" x="44.75913" fill="#E6C36A"/>
   </g>`;
 
-const CustomIcon = ({ rotationAngle = 0, name = '', color = 'white', jacking = 0 }) => {
+const CustomIcon = ({ rotationAngle = 0, name = '', color = 'white', jacking = 0, size = 40 }) => {
   const selectedSVG = useMemo(() => jacking === 2 ? createJackingSVG(color) : createDefaultSVG(color), [jacking, color]);
 
   const icon = useMemo(() => {
     return L.divIcon({
       className: 'custom-icon',
-      html: `<div>
-               <div style="color: black;margin-left: -5px;" >${name}</div>
-               <svg class="marker-image" style="transform: rotate(${rotationAngle}deg);" width="30" height="60" viewBox="0 0 100 220" xmlns="http://www.w3.org/2000/svg">
+      html: `<div style="text-align: center;">
+               <div style="color: black; font-size:${size / 3}px; margin-bottom: 2px;">${name}</div>
+               <svg class="marker-image" style="transform: rotate(${rotationAngle}deg);" width="${size}" height="${size * 2}" viewBox="0 0 100 220" xmlns="http://www.w3.org/2000/svg">
                  ${selectedSVG}
                </svg>
              </div>`,
-      iconSize: [30, 60],
-      iconAnchor: [15, 50],
+      iconSize: [size, size * 2],
+      iconAnchor: [size / 2, size * 1.66],
     });
-  }, [rotationAngle, name, selectedSVG]);
+  }, [rotationAngle, name, selectedSVG, size]);
 
   return icon;
 };

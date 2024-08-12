@@ -1,7 +1,6 @@
 import { useState, useEffect, useMemo } from 'react';
 
 const convertToGeoJson = (graph, type) => {
-  const color = type === 'wallGraph' ? 'black' : '#FFD700';
   const lineFeatures = graph.edges.map(edge => {
     const startVertex = graph.vertices[edge.v1_idx];
     const endVertex = graph.vertices[edge.v2_idx];
@@ -16,7 +15,6 @@ const convertToGeoJson = (graph, type) => {
       },
       properties: {
         type,
-        color,
         ...edge.params.reduce((acc, param) => ({
           ...acc,
           [param.name]: param.value_string || param.value_float || param.value_int || param.value_bool
