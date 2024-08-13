@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef, useCallback, useMemo } from 'react';
-import { Polyline, ImageOverlay, GeoJSON, Pane, CircleMarker, Tooltip, FeatureGroup } from 'react-leaflet';
+import { Polyline, ImageOverlay, GeoJSON, Pane, CircleMarker, Tooltip, FeatureGroup, useMapEvent, MapContainer } from 'react-leaflet';
 import 'leaflet/dist/leaflet.css';
 import { Spin, Button, Tree, Modal, Input } from 'antd'; 
 import AnimatedMarker from './view/animated-marker/index';
@@ -31,7 +31,7 @@ const stringToColor = (str) => {
 };
 
 const Map = ({ collapsed }) => {
-  const theme = useTheme();  // Получаем текущую тему
+  const theme = useTheme();  
   const [selectedRobot, setSelectedRobot] = useState(null);
   const [isWindowVisible, setIsWindowVisible] = useState(false);
   const [isReady, setIsReady] = useState(false);
@@ -44,6 +44,10 @@ const Map = ({ collapsed }) => {
   const [modalCoords, setModalCoords] = useState(null); 
   const [showCursorMarker, setShowCursorMarker] = useState(false); 
   const mapRef = useRef(null);
+  const [center, setCenter] = useState([0, 0]);
+  const [zoom, setZoom] = useState(initialZoom);
+  const [savedCenter, setSavedCenter] = useState(null);
+  const [savedZoom, setSavedZoom] = useState(null);
   const intl = useIntl();
 
   const { mapImageUrl, geoJsonLines, geoJsonPoints, doorGeoJsonData, robots, trajectoryData, tasks, imageBounds } = useWebSocket(true);
@@ -51,11 +55,19 @@ const Map = ({ collapsed }) => {
   useEffect(() => {
     if (imageBounds) {
       setIsReady(true);
+      setCenter([imageBounds[0][0] / 2, imageBounds[1][1] / 2]);
     } else {
       const timer = setTimeout(() => setIsReady(true), 200);
       return () => clearTimeout(timer);
     }
   }, [imageBounds]);
+
+  useEffect(() => {
+    if (savedCenter && savedZoom) {
+      setCenter(savedCenter);
+      setZoom(savedZoom);
+    }
+  }, [theme]); 
 
   const onEachFeature = useCallback((feature, layer) => {
     if (feature.properties) {
@@ -98,7 +110,7 @@ const Map = ({ collapsed }) => {
         const isClicked = clickedPoint === index;
         return (
           <CircleMarker 
-            key={`${index}-${theme.token.colorPoint}`}  // Используем key, зависящий от темы
+            key={`${index}-${theme.token.colorPoint}`}  
             center={[y, x]} 
             radius={isHovered ? 6 : 3} 
             color={isClicked ? theme.token.colorPrimary : theme.token.colorPoint}
@@ -128,12 +140,9 @@ const Map = ({ collapsed }) => {
     });
   }, [hoveredPoint, clickedPoint, theme]);
 
-  const getCenter = useMemo(() => {
-    if (imageBounds?.length >= 2 && imageBounds[0].length > 0 && imageBounds[1].length > 0) {
-      return [imageBounds[0][0] / 2, imageBounds[1][1] / 2];
-    }
-    return [0, 0];
-  }, [imageBounds]);
+  const memoizedCircleMarkers = useMemo(() => {
+    return renderCircleMarkers(geoJsonPoints);
+  }, [geoJsonPoints, hoveredPoint, clickedPoint, theme]);
 
   const handleLayerVisibilityChange = useCallback((checkedKeys) => {
     setVisibleLayers(checkedKeys);
@@ -163,7 +172,7 @@ const Map = ({ collapsed }) => {
         const segments = route.segments.map(segment => [segment.x[1], segment.x[0]]);
         return (
           <Polyline
-            key={`${index}-${theme.token.colorPrimary}`}  // Используем key, зависящий от темы
+            key={`${index}-${theme.token.colorPrimary}`}  
             positions={segments}
             color={color}
             weight={5}
@@ -172,6 +181,24 @@ const Map = ({ collapsed }) => {
         );
       });
   }, [selectedRobot, isWindowVisible, trajectoryData, theme]);
+
+  const memoizedTrajectories = useMemo(() => {
+    return renderTrajectories();
+  }, [renderTrajectories]);
+
+  const updateMapState = useCallback(() => {
+    const map = mapRef.current;
+    if (map) {
+      setSavedCenter(map.getCenter());
+      setSavedZoom(map.getZoom());
+    }
+  }, []);
+
+  const MapEvents = () => {
+    useMapEvent('moveend', updateMapState);
+    useMapEvent('zoomend', updateMapState);
+    return null;
+  };
 
   if (!isReady) {
     return (
@@ -185,8 +212,8 @@ const Map = ({ collapsed }) => {
     <>
       <FullHeightMapContainer
         key={theme.token.colorBgBase}
-        center={getCenter}
-        zoom={initialZoom}
+        center={savedCenter || center}
+        zoom={savedZoom || zoom} 
         minZoom={minZoom}
         maxZoom={maxZoom}
         attributionControl={false}
@@ -196,13 +223,14 @@ const Map = ({ collapsed }) => {
         style={{ backgroundColor: theme.token.colorBgBase }}
         className={showCursorMarker ? 'hide-cursor' : ''}
       >
+        <MapEvents />
         {visibleLayers.includes('mapImage') && mapImageUrl && imageBounds && (
           <ImageOverlay 
-            key={`${mapImageUrl}-${theme.token.colorBgContainer}`}  // Используем key, зависящий от темы
+            key={`${mapImageUrl}-${theme.token.colorBgContainer}`}  
             url={mapImageUrl} 
             bounds={imageBounds} 
             opacity={theme.token.opacity || 1}
-            style={{ backgroundColor: theme.token.colorBgContainer }} // Изменяем фон в зависимости от темы
+            style={{ backgroundColor: theme.token.colorBgContainer }} 
           />
         )}
         <>
@@ -218,12 +246,12 @@ const Map = ({ collapsed }) => {
           )}
           {visibleLayers.includes('points') && (
             <Pane name="geojsonObjects" style={{ zIndex: 650 }}>
-              <FeatureGroup>{geoJsonPoints && renderCircleMarkers(geoJsonPoints)}</FeatureGroup>
+              <FeatureGroup>{memoizedCircleMarkers}</FeatureGroup>
             </Pane>
           )}
           {visibleLayers.includes('trajectories') && (
             <Pane name="trajectories" style={{ zIndex: 645 }}>
-              {renderTrajectories()}
+              {memoizedTrajectories}
             </Pane>
           )}
           {visibleLayers.includes('robots') && (
@@ -231,7 +259,7 @@ const Map = ({ collapsed }) => {
               {Object.values(robots).map((robot, index) => (
                 robot.location?.x !== undefined && robot.location?.y !== undefined && (
                   <AnimatedMarker
-                    key={`${index}-${theme.token.colorPrimary}`}  // Используем key, зависящий от темы
+                    key={`${index}-${theme.token.colorPrimary}`}  
                     position={[robot.location.y, robot.location.x]}
                     name={robot.name}
                     robot={robot}
