@@ -3,12 +3,14 @@ import { IntlProps } from "../../types";
 import { parksAndRobotsStore } from "@/entities";
 import { observer } from "mobx-react-lite";
 
-
 export const FilterDropdown = observer(({ intl }: IntlProps) => {
 
     const dropdownTitle = intl.formatMessage({ id: 'page.parksAndRobots.filterDropdown.title' });
     const autoCompleteTitle = intl.formatMessage({ id: 'page.parksAndRobots.autoComplete.title' });
     const checkboxTitle = intl.formatMessage({ id: 'page.parksAndRobots.checkbox.title' });
+    const emptyNameValue = intl.formatMessage({ id: 'page.parksAndRobots.checkbox.emptyNameValue' });
+    const emptyStatusValue = intl.formatMessage({ id: 'page.parksAndRobots.checkbox.emptyStatusValue' });
+    const emptyTaskValue = intl.formatMessage({ id: 'page.parksAndRobots.checkbox.emptyTaskValue' });
 
     const {
         store: {
@@ -41,16 +43,37 @@ export const FilterDropdown = observer(({ intl }: IntlProps) => {
 
         switch (key) {
             case !key.includes(NAME) || key:
-                return AutoCompleteDropdown(autoCompleteTitle, filterRobotsByName, robotsName);
+                return AutoCompleteDropdown(autoCompleteTitle, filterRobotsByName, robotsName, emptyNameValue);
 
             case !key.includes(STATUS) || key:
-                return CheckboxDropdown(filterRobotsByStatus, robotsStatuses, robotsCurrentStatuses, checkboxTitle, isOpenDropdown);
+                return CheckboxDropdown(
+                    filterRobotsByStatus,
+                    robotsStatuses,
+                    robotsCurrentStatuses,
+                    checkboxTitle,
+                    isOpenDropdown,
+                    emptyStatusValue
+                );
 
             case !key.includes(TASK) || key:
-                return CheckboxDropdown(filterRobotsByTaskId, robotsTaskIds, robotsCurrentTaskIds, checkboxTitle, isOpenDropdown);
+                return CheckboxDropdown(
+                    filterRobotsByTaskId,
+                    robotsTaskIds,
+                    robotsCurrentTaskIds,
+                    checkboxTitle,
+                    isOpenDropdown,
+                    emptyTaskValue
+                );
 
             default:
-                return CheckboxDropdown(filterRobotsByTaskId, robotsTaskIds, robotsCurrentTaskIds, checkboxTitle, isOpenDropdown);
+                return CheckboxDropdown(
+                    filterRobotsByTaskId,
+                    robotsTaskIds,
+                    robotsCurrentTaskIds,
+                    checkboxTitle,
+                    isOpenDropdown,
+                    emptyTaskValue
+                );
         }
     };
 

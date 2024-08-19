@@ -11,5 +11,8 @@
   "page.parksAndRobots.filterDropdown.taskId": "ID задачи",
   "page.parksAndRobots.filterDropdown.title": "Фильтровать",
   "page.parksAndRobots.autoComplete.title": "Пожалуйста, введите название!",
-  "page.parksAndRobots.checkbox.title": "Включить все"
+  "page.parksAndRobots.checkbox.title": "Включить все",
+  "page.parksAndRobots.checkbox.emptyNameValue": "Без имени",
+  "page.parksAndRobots.checkbox.emptyStatusValue": "Без статуса",
+  "page.parksAndRobots.checkbox.emptyTaskValue": "Без задачи"
 }

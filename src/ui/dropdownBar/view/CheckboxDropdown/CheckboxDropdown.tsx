@@ -12,7 +12,8 @@ export const CheckboxDropdown = (
     state: { value: string }[],
     currentState: string[],
     title: string,
-    isOpenDropdown: boolean
+    isOpenDropdown: boolean,
+    emptyValue: string,
 ) => {
 
     return (
@@ -29,8 +30,9 @@ export const CheckboxDropdown = (
 
             <CheckboxGroupDropdown
                 currentState={currentState}
-                robotsState={state}
+                state={state}
                 action={action}
+                emptyValue={emptyValue}
             />
         </div>
     );

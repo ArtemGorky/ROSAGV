@@ -6,14 +6,19 @@ import ruMessages from './locales/ru.json';
 import enMessagesParksAndRobots from './locales/pages/parks-and-robots/en.json';
 import ruMessagesParksAndRobots from './locales/pages/parks-and-robots/ru.json';
 
+import enMessagesRobotsTasks from './locales/pages/robots-tasks/en.json';
+import ruMessagesRobotsTasks from './locales/pages/robots-tasks/ru.json';
+
 const messages = {
   en: {
     ...enMessages,
-    ...enMessagesParksAndRobots
+    ...enMessagesParksAndRobots,
+    ...enMessagesRobotsTasks
   },
   ru: {
     ...ruMessages,
-    ...ruMessagesParksAndRobots
+    ...ruMessagesParksAndRobots,
+    ...ruMessagesRobotsTasks
   },
 };
 
