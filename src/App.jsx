@@ -19,6 +19,7 @@ import Breadcrumbs from './ui/breadcrumbs';
 import I18nProvider from './i18n';
 import { lightTheme, darkTheme, ThemeProvider } from './themes';
 import './App.css';
+import ErrorBoundary from './ErrorBoundary'; // Импортируем компонент границы ошибок
 
 const { Content } = Layout;
 
@@ -132,7 +133,9 @@ function App() {
                 toggleLocale={toggleLocale}
               />
               <Layout className="site-layout" style={themeStyles}>
-                <AppContent collapsed={collapsed} />
+                <ErrorBoundary>
+                  <AppContent collapsed={collapsed} />
+                </ErrorBoundary>
               </Layout>
             </Layout>
           </Router>

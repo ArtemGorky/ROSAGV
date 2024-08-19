@@ -22,61 +22,67 @@ const InfoWindow = ({ robot, tasks, onClose, collapsed, onMove }) => {
   const { nestEvents } = useNestEvents();
 
   const getLocalizedCategory = useCallback((category) => {
-    if (category.startsWith("Go to [place:")) {
-      const place = category.match(/\[place:(.*?)\]/)[1];
-      return intl.formatMessage(
-        { id: "category.go_to_place", defaultMessage: `Go to [place:${place}]` },
-        { place }
-      );
-    }
+    if (category) {
+      if (category.startsWith("Go to [place:")) {
+        const place = category.match(/\[place:(.*?)\]/)[1];
+        return intl.formatMessage(
+          { id: "category.go_to_place", defaultMessage: `Go to [place:${place}]` },
+          { place }
+        );
+      }
 
-    return intl.formatMessage({ id: `category.${category.toLowerCase()}` });
+      return intl.formatMessage({ id: `category.${category.toLowerCase()}` });
+    }
   }, [intl]);
 
   const getLocalizedStatus = useCallback((status) => {
     return intl.formatMessage({ id: `status.${status.toLowerCase()}` });
   }, [intl]);
 
-  const getLocalizedEventName = useCallback((name) => {
+  const getLocalizedEventName = useCallback((name, detail) => {
     const templateMapping = {
       "Sequence": "event.sequence",
       "Go to [place:": "event.go_to_place",
       "Moving the robot from [place:": "event.moving_robot",
       "Move to [place:": "event.move_to_place_through_points",
       "Move to [graph-wp:": "event.move_to_graph_wp_through_points",
-      "Dock robot to": "event.dock_robot_to"
+      "Dock robot to": "event.dock_robot_to",
+      "Perform action": "event.perform_action"
     };
-
     const matchedTemplate = Object.keys(templateMapping).find(key => name.startsWith(key));
-
+  
     if (matchedTemplate) {
       const templateId = templateMapping[matchedTemplate];
       let templateString = intl.formatMessage({ id: templateId });
-
+  
       if (templateId === "event.go_to_place") {
-        const place = name.match(/\[place:(.*?)\]/)[1];
+        const place = name.match(/\[place:(.*?)\]/)?.[1] || '';
         templateString = templateString.replace("{place}", place);
       } else if (templateId === "event.moving_robot") {
-        const places = name.match(/\[place:(.*?)\]/g).map(p => p.match(/\[place:(.*?)\]/)[1]);
+        const places = name.match(/\[place:(.*?)\]/g)?.map(p => p.match(/\[place:(.*?)\]/)[1]) || ['', ''];
         templateString = templateString.replace("{from}", places[0]).replace("{to}", places[1]);
       } else if (templateId === "event.move_to_place_through_points") {
-        const place = name.match(/\[place:(.*?)\]/)[1];
-        const points = name.match(/through (\d+) points/)[1];
+        const place = name.match(/\[place:(.*?)\]/)?.[1] || '';
+        const points = name.match(/through (\d+) points/)?.[1] || '';
         templateString = templateString.replace("{place}", place).replace("{points}", points);
       } else if (templateId === "event.move_to_graph_wp_through_points") {
-        const place = name.match(/\[graph-wp:(.*?)\]/)[1];
-        const points = name.match(/through (\d+) points/)[1];
+        const place = name.match(/\[graph-wp:(.*?)\]/)?.[1] || '';
+        const points = name.match(/through (\d+) points/)?.[1] || '';
         templateString = templateString.replace("{place}", place).replace("{points}", points);
       } else if (templateId === "event.dock_robot_to") {
-        const dock = name.match(/dock_(\d+)/)[1];
+        const dock = name.match(/dock_(\d+)/)?.[1] || '';
         templateString = templateString.replace("{dock}", dock);
+      } else if (templateId === "event.perform_action") {
+        const actionDetail = detail?.match(/Performing action (.+)/)?.[1] || '';
+        templateString = `${intl.formatMessage({ id: templateId })}: ${actionDetail}`;
       }
-
+  
       return templateString;
     }
-
+  
     return intl.formatMessage({ id: `event.${name.toLowerCase()}`, defaultMessage: name });
   }, [intl]);
+  
 
 
   const formatBatteryPercentage = useCallback((battery) => `${(battery * 100).toFixed(0)}%`, []);

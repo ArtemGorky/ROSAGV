@@ -17,6 +17,8 @@
   "page.dashboard.description": "Добро пожаловать на панель управления.",
   "page.scenes.title": "Сцены",
   "page.scenes.description": "Добро пожаловать на страницу сцен.",
+  "page.scenes.initialScene": "Добавить сцену",
+  "page.scenes.initialScene.description": "Нажмите на плюс для создания новой сцены",
   "page.cardsAndSnapshots.title": "Карты и снимки",
   "page.cardsAndSnapshots.description": "Здесь отображаются карты и снимки.",
   "page.parksAndRobots.description": "Здесь отображаются парки и роботы.",
@@ -108,6 +110,6 @@
   "event.move_to_place_through_points": "Переместиться в [место:{place}] через {points} точек",
   "event.move_to_graph_wp_through_points": "Переместиться в точку [graph-wp:{place}] через {points} точек",
   "event.dock_robot_to": "Пристыковать робота к dock_{dock}", 
-  "event.perform action": "Пользовательская задача",
-  "event.wait for traffic": "Ожидание трафика"    
+  "event.perform_action": "Пользовательская задача",
+  "event.wait for traffic": "Ожидание трафика"  
 }

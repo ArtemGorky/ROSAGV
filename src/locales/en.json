@@ -17,6 +17,8 @@
   "page.dashboard.description": "Welcome to the Dashboard page.",
   "page.scenes.title": "Scenes",
   "page.scenes.description": "Welcome to the Scenes page.",
+  "page.scenes.initialScene": "Add a scene",
+  "page.scenes.initialScene.description": "Click on the plus sign to create a new scene",
   "page.cardsAndSnapshots.title": "Cards and Snapshots",
   "page.cardsAndSnapshots.description": "Here you can see cards and snapshots.",
   "page.parksAndRobots.description": "Here you can see parks and robots.",
@@ -106,6 +108,6 @@
   "event.move_to_place_through_points": "Move to [place:{place}] through {points} points",
   "event.move_to_graph_wp_through_points": "Move to [graph-wp:{place}] through {points} points",
   "event.dock_robot_to": "Dock robot to dock_{dock}",
-  "event.perform action": "Custom task",
+  "event.perform_action": "Custom task",
   "event.wait for traffic": "Wait for traffic"
 }
