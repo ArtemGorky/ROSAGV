@@ -219,7 +219,7 @@ const useWebSocket = (isWindowVisible) => {
       try {
         const response = await axios.get(`${import.meta.env.VITE_AGV_API_SERVER}/tasks`, {
           params: {
-            limit: 10,
+            limit: 1000,
             offset: 0,
             order_by: '-unix_millis_start_time'
           }

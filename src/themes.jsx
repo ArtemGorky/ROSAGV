@@ -10,7 +10,9 @@ export const lightTheme = {
     colorBgContainer: '#ffffff',
     colorLink: '#6A728F',
     colorPrimaryBg: '#ffffff',
-    colorBgSecondary: '#C0C0C0'
+    colorBgSecondary: '#C0C0C0',
+    colorRoad: '#B0C4DE', 
+    colorPoint: '#4682B4',
   },
   sider: 'light',
 };
@@ -24,10 +26,13 @@ export const darkTheme = {
     colorBgContainer: '#0C0F17',
     colorLink: '#6A728F',
     colorPrimaryBg: '#0C0F17',
-    colorBgSecondary: '#2B3442'
+    colorBgSecondary: '#2B3442',
+    colorRoad: '#1B382E',
+    colorPoint: '#1C2939',
   },
   sider: 'dark',
 };
+
 
 const ThemeContext = createContext();
 

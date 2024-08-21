@@ -1,37 +1,29 @@
 import React, { useState, useEffect, useRef, useCallback, useMemo } from 'react';
-import { Polyline, ImageOverlay, GeoJSON, Pane, CircleMarker, Tooltip, FeatureGroup } from 'react-leaflet';
+import { ImageOverlay, GeoJSON, Pane, useMapEvent } from 'react-leaflet';
 import 'leaflet/dist/leaflet.css';
 import { Spin, Button, Tree, Modal, Input } from 'antd'; 
-import AnimatedMarker from './view/animated-marker/index';
+import L from 'leaflet';
 import { useTheme } from '../../themes';
 import { useIntl } from 'react-intl';
 import useWebSocket from './hooks/use-web-socket';
-import { FullHeightMapContainer } from './ui';
-import InfoWindow from './view/info-window/index';
+
+import AnimatedMarker from './view/animated-marker';
+import CursorMarker from './view/cursor-marker';
+import CreateTaskWindow from './view/create-task-window';
+import CircleMarkers from './view/circle-markers';
+import Trajectories from './view/trajectories';
+import InfoWindow from './view/info-window';
 import PointInfoWindow from './view/point-window';
-import L from 'leaflet';
-import CursorMarker from './view/cursor-marker/index';
-import CreateTaskWindow from './view/create-task-window'; 
+import { FullHeightMapContainer } from './ui';
 
-const initialZoom = 5;
-const maxZoom = 8;
-const minZoom = 0.5;
-
-const stringToColor = (str) => {
-  let hash = 0;
-  for (let i = 0; i < str.length; i++) {
-    hash = str.charCodeAt(i) + ((hash << 5) - hash);
-  }
-  let color = '#';
-  for (let j = 0; j < 3; j++) {
-    const value = (hash >> (j * 8)) & 0xFF;
-    color += value.toString(16).padStart(2, '0');
-  }
-  return color;
-};
+const initialZoom = 2;
+const maxZoom = 6;
+const minZoom = 2;
 
 const Map = ({ collapsed }) => {
   const theme = useTheme();
+  const intl = useIntl();
+  
   const [selectedRobot, setSelectedRobot] = useState(null);
   const [isWindowVisible, setIsWindowVisible] = useState(false);
   const [isReady, setIsReady] = useState(false);
@@ -42,29 +34,41 @@ const Map = ({ collapsed }) => {
   const [clickedPoint, setClickedPoint] = useState(null);
   const [selectedPoint, setSelectedPoint] = useState(null);
   const [modalCoords, setModalCoords] = useState(null); 
-  const [showCursorMarker, setShowCursorMarker] = useState(false); 
-  const mapRef = useRef(null);
-  const intl = useIntl();
+  const [showCursorMarker, setShowCursorMarker] = useState(false);
+  const [center, setCenter] = useState([0, 0]);
+  const [zoom, setZoom] = useState(initialZoom);
+  const [savedCenter, setSavedCenter] = useState(null);
+  const [savedZoom, setSavedZoom] = useState(null);
 
+  const mapRef = useRef(null);
+  
   const { mapImageUrl, geoJsonLines, geoJsonPoints, doorGeoJsonData, robots, trajectoryData, tasks, imageBounds } = useWebSocket(true);
 
   useEffect(() => {
     if (imageBounds) {
       setIsReady(true);
+      setCenter([imageBounds[0][0] / 2, imageBounds[1][1] / 2]);
     } else {
-      const timer = setTimeout(() => setIsReady(true), 200);
+      const timer = setTimeout(() => setIsReady(true), 2000);
       return () => clearTimeout(timer);
     }
   }, [imageBounds]);
 
+  useEffect(() => {
+    if (savedCenter && savedZoom) {
+      setCenter(savedCenter);
+      setZoom(savedZoom);
+    }
+  }, [theme]);
+
   const onEachFeature = useCallback((feature, layer) => {
     if (feature.properties) {
       const { color, params, name } = feature.properties;
-      if (color) layer.setStyle({ color });
+      layer.setStyle({ color: color || theme.token.colorRoad });
       if (params) layer.bindTooltip(params, { permanent: false, direction: 'top' });
       if (name) layer.bindTooltip(name, { permanent: false, direction: 'top' });
     }
-  }, []);
+  }, [theme]);
 
   const handleRobotClick = useCallback((robot) => {
     setSelectedRobot(robot);
@@ -89,52 +93,7 @@ const Map = ({ collapsed }) => {
     setShowCursorMarker(false); 
   };
 
-  const renderCircleMarkers = useCallback((points) => {
-    return points.features.map((feature, index) => {
-      if (feature.geometry.type === 'Point') {
-        const [x, y] = feature.geometry.coordinates;
-        const isHovered = hoveredPoint === index;
-        const isClicked = clickedPoint === index;
-        return (
-          <CircleMarker 
-            key={index} 
-            center={[y, x]} 
-            radius={isHovered ? 6 : 3} 
-            color={isClicked ? "red" : "green"}
-            eventHandlers={{
-              mouseover: () => setHoveredPoint(index),
-              mouseout: () => setHoveredPoint(null),
-              click: () => {
-                setClickedPoint(index);
-                setSelectedPoint(feature); 
-              }
-            }}
-          >
-            {feature.properties.name && (
-              <Tooltip direction="top">{feature.properties.name}</Tooltip>
-            )}
-          </CircleMarker>
-        );
-      } else if (feature.geometry.type === 'Polygon') {
-        const coordinates = feature.geometry.coordinates[0].map(coord => [coord[1], coord[0]]);
-        return (
-          <GeoJSON key={index} data={feature} style={{ color: 'blue' }} />
-        );
-      }
-      return null;
-    });
-  }, [hoveredPoint, clickedPoint]);
-
-  const getCenter = useMemo(() => {
-    if (imageBounds?.length >= 2 && imageBounds[0].length > 0 && imageBounds[1].length > 0) {
-      return [imageBounds[0][0] / 2, imageBounds[1][1] / 2];
-    }
-    return [0, 0];
-  }, [imageBounds]);
-
-  const handleLayerVisibilityChange = useCallback((checkedKeys) => {
-    setVisibleLayers(checkedKeys);
-  }, []);
+  const handleLayerVisibilityChange = useCallback((checkedKeys) => setVisibleLayers(checkedKeys), []);
 
   const treeData = useMemo(() => [
     {
@@ -150,29 +109,23 @@ const Map = ({ collapsed }) => {
     },
   ], [intl]);
 
-  const renderTrajectories = useCallback(() => {
-    if (!selectedRobot || !isWindowVisible || !trajectoryData) return null;
+  const updateMapState = useCallback(() => {
+    const map = mapRef.current;
+    if (map) {
+      setSavedCenter(map.getCenter());
+      setSavedZoom(map.getZoom());
+    }
+  }, []);
 
-    return trajectoryData
-      .filter(route => route.robot_name === selectedRobot.name)
-      .map((route, index) => {
-        const color = stringToColor(route.robot_name);
-        const segments = route.segments.map(segment => [segment.x[1], segment.x[0]]);
-        return (
-          <Polyline
-            key={index}
-            positions={segments}
-            color={color}
-            weight={5}
-            pane="trajectories"
-          />
-        );
-      });
-  }, [selectedRobot, isWindowVisible, trajectoryData]);
+  const MapEvents = () => {
+    useMapEvent('moveend', updateMapState);
+    useMapEvent('zoomend', updateMapState);
+    return null;
+  };
 
   if (!isReady) {
     return (
-      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', height: '100%' }}>
+      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', height: '100%', backgroundColor: theme.token.colorBgBase }}>
         <Spin size="large" />
       </div>
     );
@@ -181,57 +134,74 @@ const Map = ({ collapsed }) => {
   return (
     <>
       <FullHeightMapContainer
-        center={getCenter}
-        zoom={initialZoom}
+        key={theme.token.colorBgBase}
+        center={savedCenter || center}
+        zoom={savedZoom || zoom} 
         minZoom={minZoom}
         maxZoom={maxZoom}
         attributionControl={false}
         zoomControl={false}
         crs={L.CRS.Simple}
         ref={mapRef}
+        style={{ backgroundColor: theme.token.colorBgBase }}
         className={showCursorMarker ? 'hide-cursor' : ''}
       >
+        <MapEvents />
         {visibleLayers.includes('mapImage') && mapImageUrl && imageBounds && (
-          <ImageOverlay url={mapImageUrl} bounds={imageBounds} />
+          <ImageOverlay 
+            key={`${mapImageUrl}-${theme.token.colorBgContainer}`}  
+            url={mapImageUrl} 
+            bounds={imageBounds} 
+            opacity={theme.token.opacity || 1}
+            style={{ backgroundColor: theme.token.colorBgContainer }} 
+          />
         )}
-        <>
-          {visibleLayers.includes('lines') && (
-            <Pane name="geojson" style={{ zIndex: 640 }}>
-              {geoJsonLines && (
-                <GeoJSON key={JSON.stringify(geoJsonLines)} data={geoJsonLines} onEachFeature={onEachFeature} pane="geojson" />
-              )}
-              {doorGeoJsonData && (
-                <GeoJSON key={JSON.stringify(doorGeoJsonData)} data={doorGeoJsonData} onEachFeature={onEachFeature} pane="geojson" />
-              )}
-            </Pane>
-          )}
-          {visibleLayers.includes('points') && (
-            <Pane name="geojsonObjects" style={{ zIndex: 650 }}>
-              <FeatureGroup>{geoJsonPoints && renderCircleMarkers(geoJsonPoints)}</FeatureGroup>
-            </Pane>
-          )}
-          {visibleLayers.includes('trajectories') && (
-            <Pane name="trajectories" style={{ zIndex: 645 }}>
-              {renderTrajectories()}
-            </Pane>
-          )}
-          {visibleLayers.includes('robots') && (
-            <Pane name="robots" style={{ zIndex: 660 }}>
-              {Object.values(robots).map((robot, index) => (
-                robot.location?.x !== undefined && robot.location?.y !== undefined && (
-                  <AnimatedMarker
-                    key={index}
-                    position={[robot.location.y, robot.location.x]}
-                    name={robot.name}
-                    robot={robot}
-                    onClick={() => handleRobotClick(robot)}
-                    pane="robots"
-                  />
-                )
-              ))}
-            </Pane>
-          )}
-        </>
+        {visibleLayers.includes('lines') && (
+          <Pane name="geojson" style={{ zIndex: 640 }}>
+            {geoJsonLines && (
+              <GeoJSON key={`${JSON.stringify(geoJsonLines)}-${theme.token.colorRoad}`} data={geoJsonLines} onEachFeature={onEachFeature} pane="geojson" />
+            )}
+            {doorGeoJsonData && (
+              <GeoJSON key={`${JSON.stringify(doorGeoJsonData)}-${theme.token.colorRoad}`} data={doorGeoJsonData} onEachFeature={onEachFeature} pane="geojson" />
+            )}
+          </Pane>
+        )}
+        {visibleLayers.includes('points') && (
+          <CircleMarkers 
+            points={geoJsonPoints} 
+            hoveredPoint={hoveredPoint} 
+            clickedPoint={clickedPoint} 
+            setHoveredPoint={setHoveredPoint} 
+            setClickedPoint={setClickedPoint} 
+            setSelectedPoint={setSelectedPoint} 
+            theme={theme} 
+          />
+        )}
+        {visibleLayers.includes('trajectories') && (
+          <Trajectories 
+            selectedRobot={selectedRobot} 
+            isWindowVisible={isWindowVisible} 
+            trajectoryData={trajectoryData} 
+            theme={theme} 
+          />
+        )}
+        {visibleLayers.includes('robots') && (
+          <Pane name="robots" style={{ zIndex: 660 }}>
+            {Object.values(robots).map((robot, index) => (
+              robot.location?.x !== undefined && robot.location?.y !== undefined && (
+                <AnimatedMarker
+                  key={`${index}-${theme.token.colorPrimary}`}  
+                  position={[robot.location.y, robot.location.x]}
+                  name={robot.name}
+                  robot={robot}
+                  onClick={() => handleRobotClick(robot)}
+                  pane="robots"
+                  color={theme.token.colorPrimary}
+                />
+              )
+            ))}
+          </Pane>
+        )}
         <CursorMarker show={showCursorMarker} onClick={handleMapClick} />
       </FullHeightMapContainer>
       {isWindowVisible && selectedRobot && (
@@ -241,6 +211,7 @@ const Map = ({ collapsed }) => {
           onClose={handleWindowClose}
           collapsed={collapsed}
           onMove={handleMoveClick}
+          theme={theme}
         />
       )}
       {selectedPoint && (
@@ -248,6 +219,7 @@ const Map = ({ collapsed }) => {
           open={selectedPoint !== null}
           onClose={() => setSelectedPoint(null)}
           point={selectedPoint}
+          theme={theme} 
         />
       )}
       <Button
@@ -277,7 +249,8 @@ const Map = ({ collapsed }) => {
       <CreateTaskWindow
         isOpen={isCreateTaskWindowOpen} 
         onClose={() => setIsCreateTaskWindowOpen(false)}
-        geoJsonPoints={geoJsonPoints} 
+        geoJsonPoints={geoJsonPoints}
+        theme={theme}
       />
     </>
   );

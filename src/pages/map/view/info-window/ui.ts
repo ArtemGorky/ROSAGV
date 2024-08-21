@@ -97,7 +97,7 @@ export const StyledCollapse = styled(Collapse)`
   }
 
   .ant-collapse-header {
-    padding-left: 0;
+    padding: 6px 16px !important;
   }
 
   .ant-collapse-content {

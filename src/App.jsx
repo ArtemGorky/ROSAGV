@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useMemo, useCallback } from 'react';
 import { Layout, ConfigProvider } from 'antd';
-import { BrowserRouter as Router, Route, Routes, useLocation } from 'react-router-dom';
+import { BrowserRouter as Router, Route, Routes, useLocation, Navigate } from 'react-router-dom';
 import Sidebar from './ui/sidebar';
 import Dashboard from './pages/dashboard';
 import Scenes from './pages/scenes';
@@ -20,6 +20,7 @@ import Breadcrumbs from './ui/breadcrumbs';
 import I18nProvider from './i18n';
 import { lightTheme, darkTheme, ThemeProvider } from './themes';
 import './App.css';
+import ErrorBoundary from './ErrorBoundary'; // Импортируем компонент границы ошибок
 
 const { Content } = Layout;
 
@@ -54,11 +55,11 @@ const AppContent = React.memo(({ collapsed }) => {
         <Route path="/support" element={<Support />} />
         <Route path="/usage-guide" element={<UsageGuide />} />
         <Route path="/account" element={<Account />} />
+        <Route path="*" element={<Navigate to="/" replace />} /> {/* Обработка 404 страниц */}
       </Routes>
     </Content>
   );
 });
-
 
 function App() {
   const getSystemTheme = useCallback(() => window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches, []);
@@ -68,17 +69,30 @@ function App() {
   const savedLocale = useMemo(() => localStorage.getItem('locale'), []);
 
   const [collapsed, setCollapsed] = useState(false);
-  const [theme, setTheme] = useState(savedTheme === 'dark' ? darkTheme : lightTheme);
-  const [locale, setLocale] = useState(savedLocale || getSystemLocale());
+  const [theme, setTheme] = useState(() => {
+    const savedTheme = localStorage.getItem('theme');
+    return savedTheme === 'dark' ? darkTheme : lightTheme;
+  });
+  
+  const [locale, setLocale] = useState(() => {
+    const savedLocale = localStorage.getItem('locale');
+    return savedLocale || getSystemLocale();
+  });
+  
 
   useEffect(() => {
     if (!savedTheme) {
-      setTheme(getSystemTheme() ? darkTheme : lightTheme);
+      const systemTheme = getSystemTheme() ? darkTheme : lightTheme;
+      setTheme(systemTheme);
+      localStorage.setItem('theme', systemTheme === darkTheme ? 'dark' : 'light');
     }
     if (!savedLocale) {
-      setLocale(getSystemLocale());
+      const systemLocale = getSystemLocale();
+      setLocale(systemLocale);
+      localStorage.setItem('locale', systemLocale);
     }
-  }, [savedTheme, savedLocale, getSystemTheme, getSystemLocale]);
+  }, [getSystemTheme, getSystemLocale, savedTheme, savedLocale]);
+  
 
   const toggle = useCallback(() => {
     setCollapsed(prev => !prev);
@@ -103,7 +117,8 @@ function App() {
     height: '100vh',
     backgroundColor: theme.token.colorBgBase,
     color: theme.token.colorTextBase,
-  }), [collapsed, theme]);
+  }), [collapsed, theme.token.colorBgBase, theme.token.colorTextBase]);
+  
 
   return (
     <I18nProvider locale={locale}>
@@ -120,7 +135,9 @@ function App() {
                 toggleLocale={toggleLocale}
               />
               <Layout className="site-layout" style={themeStyles}>
-                <AppContent collapsed={collapsed} />
+                <ErrorBoundary>
+                  <AppContent collapsed={collapsed} />
+                </ErrorBoundary>
               </Layout>
             </Layout>
           </Router>
