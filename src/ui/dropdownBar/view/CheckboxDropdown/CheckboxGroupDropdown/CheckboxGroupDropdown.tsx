@@ -1,4 +1,3 @@
-import { parksAndRobotsStore } from "@/entities";
 import { Checkbox } from "antd";
 import { observer } from "mobx-react-lite";
 
@@ -9,13 +8,14 @@ const checkboxGroupStyles: React.CSSProperties = {
 
 type CheckboxGroupDropdownProps = {
     currentState: string[];
-    robotsState: { value: string }[];
+    state: { value: string }[];
+    emptyValue: string;
     action: (items: string[]) => void;
 }
 
-export const CheckboxGroupDropdown = observer(({ currentState, robotsState, action }: CheckboxGroupDropdownProps) => {
+export const CheckboxGroupDropdown = observer(({ currentState, state, emptyValue, action }: CheckboxGroupDropdownProps) => {
 
-    const options = robotsState.map((item) => item.value);
+    const options = state.map((item) => ({ label: item.value === "" ? emptyValue : item.value, value: item.value }));
 
     const onChange = (list: string[]) => {
         action(list);

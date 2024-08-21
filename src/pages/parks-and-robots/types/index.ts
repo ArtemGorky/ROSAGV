@@ -9,10 +9,6 @@ export type IssueTypes = {
     detail: { message: string }
 }
 
-export type ValueTypes = {
-    value: string;
-}
-
 export type ParksAndRobotsTypes = {
     name: string,
     status: string,

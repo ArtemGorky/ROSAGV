@@ -38,6 +38,7 @@ const Sidebar = ({ collapsed, toggle, toggleTheme, locale, toggleLocale }) => {
       children: [
         { key: '/scenes/cards-and-snapshots', id: 'menu.cardsAndSnapshots' },
         { key: '/scenes/parks-and-robots', id: 'menu.parksAndRobots' },
+        { key: '/scenes/robots-tasks', id: 'menu.robotsTasks' },
       ],
     },
     { key: '/map', icon: <MapIcon />, id: 'menu.map' },

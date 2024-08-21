@@ -1,11 +1,8 @@
 import { makeAutoObservable, runInAction } from "mobx";
 import { getParksAndRobots } from "@/servises";
 import { getParksAndRobotsStructuredData } from "@/shared/helpers";
-import { IssueTypes, ParksAndRobotsTypes, ValueTypes } from "@/pages/parks-and-robots/types";
-
-/*Добавить типы*/
-// import { QueryParams, Todo } from "shared/api/todos/model";
-/*Добавить типы*/
+import { ParksAndRobotsTypes } from "@/pages/parks-and-robots/types";
+import { ValueTypes } from "@/shared/types";
 
 class ParksAndRobotsStore {
     parksAndRobots: ParksAndRobotsTypes[] = [];

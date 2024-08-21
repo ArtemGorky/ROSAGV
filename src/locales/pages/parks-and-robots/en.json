@@ -11,5 +11,8 @@
   "page.parksAndRobots.filterDropdown.taskId": "Task ID",
   "page.parksAndRobots.filterDropdown.title": "Filter",
   "page.parksAndRobots.autoComplete.title": "Please, enter the name!",
-  "page.parksAndRobots.checkbox.title": "Checked all"
+  "page.parksAndRobots.checkbox.title": "Checked all",
+  "page.parksAndRobots.checkbox.emptyNameValue": "Without name",
+  "page.parksAndRobots.checkbox.emptyStatusValue": "Without status",
+  "page.parksAndRobots.checkbox.emptyTaskValue": "Without task"
 }
