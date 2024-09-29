@@ -153,3 +153,41 @@ export interface RobotsTasksN23 {
     detail: string
     deps: any[]
 }
+
+
+
+
+
+export interface TasksData {
+    links: Links;
+    total_items: number;
+    total_pages: number;
+    current_page: number;
+    page_size: number;
+    results: RobotsTasks[];
+}
+
+export interface Links {
+    next: string;
+    previous: string;
+}
+
+export interface RobotsTasks {
+    task_id: string;
+    command: string;
+    robot_id: string;
+    targets: string[];
+    name: string;
+    min_start_time: string;
+    wrapping_required: boolean;
+    task_state: TaskState;
+}
+
+export interface TaskState {
+    state: number;
+    timestamp: string;
+    robot_id: string;
+    start_time: string;
+    end_time: string;
+    error_code: string;
+}

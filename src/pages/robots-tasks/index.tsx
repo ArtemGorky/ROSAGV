@@ -2,8 +2,9 @@ import { Fragment } from 'react';
 import { observer } from "mobx-react-lite";
 import { useIntl } from 'react-intl';
 import Title from 'antd/es/typography/Title';
-import { RobotsTasksTable } from './view/robots-tasks-table';
-import { FilterDropdown } from './view/filter-dropdown';
+import { RobotTasksPagination } from './view/robot-tasks-pagination/RobotTasksPagination';
+import { FilterDropdown } from './view/filter-dropdown/FilterDropdown';
+import { WithRobotsTasksTable } from './hoc/WithRobotsTasksTable';
 
 const RobotsTasks = observer(() => {
 
@@ -13,7 +14,8 @@ const RobotsTasks = observer(() => {
     <Fragment>
       <Title>{intl.formatMessage({ id: 'page.robotsTasks.title' })}</Title>
       <FilterDropdown intl={intl} />
-      <RobotsTasksTable intl={intl} />
+      <WithRobotsTasksTable intl={intl} />
+      <RobotTasksPagination intl={intl} />
     </Fragment>
   );
 });

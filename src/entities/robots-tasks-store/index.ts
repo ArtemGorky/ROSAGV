@@ -1,12 +1,12 @@
 import { makeAutoObservable, runInAction } from "mobx";
-import { getRobotsTasks } from "@/servises";
-import { RobotsTasksDataType, RobotsTasksType } from "@/pages/robots-tasks/types";
+import { getRobotsTasks, getRobotsTasksCommand, getRobotsTasksName, getRobotsTasksRobotId } from "@/servises";
+import { RobotsTasks, TasksData } from "@/pages/robots-tasks/types";
 import { getRobotsTasksStructuredData } from "@/shared/helpers/robots-tasks";
 import { ValueTypes } from "@/shared/types";
 
 class robotsTasksStore {
-    robotsTasks: RobotsTasksDataType[] = [];
-    currentTasks: RobotsTasksDataType[] = [];
+    robotsTasks: RobotsTasks[] = [];
+    currentTasks: RobotsTasks[] = [];
 
     isLoading: boolean = false;
     getRobotsTasksError: string = "";
@@ -22,6 +22,25 @@ class robotsTasksStore {
 
     isOpenDropdown: boolean = false;
 
+    tasksCommand: string = "";
+    tasksName: string = "";
+    tasksRobotId: string = "";
+
+    tasksStartDate: string = "";
+    tasksEndDate: string = "";
+
+    isTasksCommandLoading: boolean = false;
+    isTasksNameLoading: boolean = false;
+    isTasksRobotIdLoading: boolean = false;
+
+    tasksCommands: ValueTypes[] = [];
+    tasksNames: ValueTypes[] = [];
+    tasksRobotIds: ValueTypes[] = [];
+
+    tasksTotalPages: number = 0;
+    tasksCurrentPage: number = 1;
+    tasksPageSize: number = 20;
+
     constructor() {
         makeAutoObservable(this);
     }
@@ -30,107 +49,158 @@ class robotsTasksStore {
         this.isOpenDropdown = isOpen;
     }
 
-    filterTasksByCategory = (taskCategory: string[]) => {
 
-        this.currentTaskCategory = taskCategory;
+    setTasksPageSize = (val: number) => {
+        this.tasksPageSize = val
+    };
 
-        if (taskCategory.length) {
+    setTasksCurrentPage = (val: number) => {
+        this.tasksCurrentPage = val;
+    };
 
-            this.currentTasks = this.robotsTasks.filter(task => taskCategory.includes(task.category ?? ""))
-                .filter(task => (this.currentRequester === "∅" && task.requester === null) ||
-                    (task.requester === this.currentRequester) ||
-                    !this.currentRequester)
-                .filter(robot => this.tasksCurrentStatuses.includes(robot.status) || !this.tasksCurrentStatuses.length)
+
+    setTasksCommand = (val: string | null) => {
+        this.tasksCommand = val;
+        this.setTasksCurrentPage(1);
+    };
+
+    setTasksName = (val: string | null) => {
+        this.tasksName = val;
+        this.setTasksCurrentPage(1);
+    };
+
+    setTasksRobotId = (val: string | null) => {
+        this.tasksRobotId = val;
+        this.setTasksCurrentPage(1);
+    };
+
+
+    setRangeDateTasks = (dates: string[]) => {
+        this.tasksStartDate = dates[0] ? `${dates[0]}T00:00:00` : "";
+        this.tasksEndDate = dates[1] ? `${dates[1]}T00:00:00` : "";
+        this.setTasksCurrentPage(1);
+    };
+
+    resetTasksFilterData = () => {
+        this.setTasksCommand("")
+        this.setTasksName("");
+        this.setTasksRobotId("");
+        this.setRangeDateTasks([]);
+        this.setTasksCurrentPage(1);
+    };
+
+
+    getTasksCommand = async () => {
+        try {
+
+            this.isTasksCommandLoading = true;
+
+            const data: string[] = await getRobotsTasksCommand();
+
+            const targetData: ValueTypes[] = data.map((val: string) => ({ value: val }));
+
+            // const structuredData = getRobotsTasksStructuredData(data.results);
+
+            runInAction(() => {
+                this.isTasksCommandLoading = false;
+                this.tasksCommands = targetData
+            });
+
+        } catch (error) {
+
+            if (error instanceof Error) {
+                runInAction(() => {
+                    this.isTasksCommandLoading = false;
+                    this.tasksCommands = [{ value: `Ошибка: ${error.message}` }]
+                });
+            }
 
         }
-        else {
+    };
 
-            this.currentTasks = this.robotsTasks
-                .filter(task => (this.currentRequester === "∅" && task.requester === null) ||
-                    (task.requester === this.currentRequester) ||
-                    !this.currentRequester)
-                .filter(robot => this.tasksCurrentStatuses.includes(robot.status) || !this.tasksCurrentStatuses.length)
+
+    getTasksName = async () => {
+        try {
+
+            this.isTasksNameLoading = true;
+
+            const data: string[] = await getRobotsTasksName();
+
+            const targetData: ValueTypes[] = data.map((val: string) => ({ value: val }));
+
+            // const structuredData = getRobotsTasksStructuredData(data.results);
+
+            runInAction(() => {
+                this.isTasksNameLoading = false;
+                this.tasksNames = targetData
+            });
+
+        } catch (error) {
+
+            if (error instanceof Error) {
+                runInAction(() => {
+                    this.isTasksNameLoading = false;
+                    this.tasksNames = [{ value: `Ошибка: ${error.message}` }]
+                });
+            }
+
         }
+    };
 
-    }
+    getTasksRobotId = async () => {
+        try {
 
-    filterTasksByStatus = (status: string[]) => {
+            this.isTasksRobotIdLoading = true;
 
-        this.tasksCurrentStatuses = status;
+            const data: string[] = await getRobotsTasksRobotId();
 
-        if (status.length) {
+            const targetData: ValueTypes[] = data.map((val: string) => ({ value: val }));
 
-            this.currentTasks = this.robotsTasks.filter(task => status.includes(task.status ?? ""))
-                .filter(task => (this.currentRequester === "∅" && task.requester === null) ||
-                    (task.requester === this.currentRequester) ||
-                    !this.currentRequester)
-                .filter(task => this.currentTaskCategory.includes(task.category ?? "") || !this.currentTaskCategory.length)
+            // const structuredData = getRobotsTasksStructuredData(data.results);
+
+            runInAction(() => {
+                this.isTasksRobotIdLoading = false;
+                this.tasksRobotIds = targetData
+            });
+
+        } catch (error) {
+
+            if (error instanceof Error) {
+                runInAction(() => {
+                    this.isTasksRobotIdLoading = false;
+                    this.tasksRobotIds = [{ value: `Ошибка: ${error.message}` }]
+                });
+            }
 
         }
-        else {
-
-            this.currentTasks = this.robotsTasks
-                .filter(task => (this.currentRequester === "∅" && task.requester === null) ||
-                    (task.requester === this.currentRequester) ||
-                    !this.currentRequester)
-                .filter(task => this.currentTaskCategory.includes(task.category ?? "") || !this.currentTaskCategory.length)
-        }
-
-    }
-
-    filterTasksByRequester = (requester: string | null) => {
-
-        const currentRequester = this.tasksRequester.find(obj => obj.value === requester);
-
-        if (requester === "∅") {
-
-            this.currentTasks = this.robotsTasks.filter(robot => robot.requester === null)
-                .filter(robot => this.tasksCurrentStatuses.includes(robot.status) || !this.tasksCurrentStatuses.length)
-                .filter(robot => this.currentTaskCategory.includes(robot.category ?? "") || !this.currentTaskCategory.length)
-
-            this.currentRequester = "∅";
-        }
-
-        if (requester && currentRequester) {
-
-            this.currentTasks = this.robotsTasks.filter(robot => robot.requester === requester)
-                .filter(robot => this.tasksCurrentStatuses.includes(robot.status) || !this.tasksCurrentStatuses.length)
-                .filter(robot => this.currentTaskCategory.includes(robot.category ?? "") || !this.currentTaskCategory.length)
-
-            this.currentRequester = requester;
-        }
-
-        if (requester === null || requester === "") {
-            this.currentTasks = this.robotsTasks
-                .filter(robot => this.tasksCurrentStatuses.includes(robot.status) || !this.tasksCurrentStatuses.length)
-                .filter(robot => this.currentTaskCategory.includes(robot.category ?? "") || !this.currentTaskCategory.length)
-
-            this.currentRequester = null;
-        }
-    }
+    };
 
     getRobotsTasksData = async () => {
         try {
             this.isLoading = true;
 
-            const data: RobotsTasksType[] = await getRobotsTasks();
+            const pageSizeParam = this.tasksPageSize ? `&page_size=${this.tasksPageSize}` : "";
+            const robotIdParam = this.tasksRobotId ? `&robot_id=${this.tasksRobotId}` : "";
+            const commandParam = this.tasksCommand ? `&command=${this.tasksCommand}` : "";
+            const nameParam = this.tasksName ? `&name=${this.tasksName}` : "";
+            const pageParam = this.tasksCurrentPage ? `&page=${this.tasksCurrentPage}` : "";
 
-            const requesters = data.map(task => ({ value: task.booking.requester ?? "" }));
+            const startTimeAfter = this.tasksStartDate ? `&min_start_time_after=${this.tasksStartDate}` : "";
+            const startTimeBefore = this.tasksEndDate ? `&min_start_time_before=${this.tasksEndDate}` : "";
 
-            const statuses = [...new Set(data.map(task => (task.status)))].map(status => ({ value: status ?? "" }));
+            const queryStr = `${pageParam}${commandParam}${nameParam}${robotIdParam}${startTimeAfter}${startTimeBefore}${pageSizeParam}`;
 
-            const taskCategory = [...new Set(data.map(task => (task.category)))].map(category => ({ value: category ?? "" }));
+            const targetQueryStr = queryStr.replace("&", "?");
 
-            const structuredData = getRobotsTasksStructuredData(data);
+            const data: TasksData = await getRobotsTasks(targetQueryStr);
+
+            const structuredData = getRobotsTasksStructuredData(data.results);
 
             runInAction(() => {
-                this.tasksRequester = requesters;
-                this.tasksStatuses = statuses;
-                this.taskCategory = taskCategory;
-
                 this.isLoading = false;
                 this.robotsTasks = structuredData;
                 this.currentTasks = structuredData;
+                this.tasksTotalPages = data.total_pages;
             });
 
         } catch (error) {
@@ -138,6 +208,8 @@ class robotsTasksStore {
             if (error instanceof Error) {
                 runInAction(() => {
                     this.isLoading = false;
+                    this.robotsTasks = [];
+                    this.currentTasks = [];
                     this.getRobotsTasksError = error.message;
                 });
             }

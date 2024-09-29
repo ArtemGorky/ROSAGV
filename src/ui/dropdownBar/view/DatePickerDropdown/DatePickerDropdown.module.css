@@ -1,4 +1,4 @@
-.popup {
+/* .popup {
   min-height: 275px;
   opacity: 0;
   display: none;
@@ -17,4 +17,23 @@ div:has(.autoComplete):hover+div div.popup {
 .loadingOptions {
   display: flex;
   justify-content: center;
+} */
+
+.popup {
+  opacity: 0;
+  display: none;
+}
+
+.popup:hover {
+  opacity: 1;
+  display: block;
+}
+
+div:has(.rangePicker)+div div.popup {
+  padding: 0;
+}
+
+div:has(.rangePicker):hover+div div.popup {
+  opacity: 1;
+  display: block;
 }

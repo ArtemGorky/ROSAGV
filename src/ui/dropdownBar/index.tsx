@@ -33,7 +33,8 @@ export const DropdownBar = ({ data, dropdownTitle, barItem, openingControl }: Dr
         return { label: barItem(key), key: index + key }
     }
 
-    const items: MenuProps['items'] = loopThroughObjRecurs(data, callbackLoop, 0);
+    const items: MenuProps['items'] = loopThroughObjRecurs(data, callbackLoop, 0).map((item: any) =>
+        item.children.length ? { ...item } : { label: item.label, key: item.key })
 
     return <Dropdown
         overlayStyle={{ minWidth: 0 }}
