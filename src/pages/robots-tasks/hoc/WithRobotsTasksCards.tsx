@@ -2,10 +2,10 @@ import { useEffect } from 'react';
 import { robotsTasksStore } from '@/entities';
 import { observer } from "mobx-react-lite";
 import { IntlProps } from '../types';
-import { RobotsTasksTable } from '../view/robots-tasks-table/RobotsTasksTable';
-import { WithRefetchDataRobotsTasksTable } from './WithRefetchDataRobotsTasksTable';
+import { WithRefetchDataRobotsTasksCards } from './WithRefetchDataRobotsTasksCards';
+import { RobotsTasksCards } from '../view/robot-tasks-cards/RobotTasksCards';
 
-export const WithRobotsTasksTable = observer(({ intl }: IntlProps) => {
+export const WithRobotsTasksCards = observer(({ intl }: IntlProps) => {
 
     const {
         store: {
@@ -22,8 +22,8 @@ export const WithRobotsTasksTable = observer(({ intl }: IntlProps) => {
 
     return (
         tasksRefetchData
-            ? <WithRefetchDataRobotsTasksTable currentTasks={currentTasks} intl={intl} isLoading={isLoading} />
-            : <RobotsTasksTable currentTasks={currentTasks} intl={intl} isLoading={isLoading} />
+            ? <WithRefetchDataRobotsTasksCards currentTasks={currentTasks} intl={intl} isLoading={isLoading} />
+            : <RobotsTasksCards currentTasks={currentTasks} intl={intl} isLoading={isLoading} />
     );
 
 });

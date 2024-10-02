@@ -4,7 +4,9 @@ import { useIntl } from 'react-intl';
 import Title from 'antd/es/typography/Title';
 import { RobotTasksPagination } from './view/robot-tasks-pagination/RobotTasksPagination';
 import { FilterDropdown } from './view/filter-dropdown/FilterDropdown';
-import { WithRobotsTasksTable } from './hoc/WithRobotsTasksTable';
+// import { WithRobotsTasksTable } from './hoc/WithRobotsTasksTable';
+import { RefetchDropdown } from './view/refetch-dropdown/RefetchDropdown';
+import { WithRobotsTasksCards } from './hoc/WithRobotsTasksCards';
 
 const RobotsTasks = observer(() => {
 
@@ -14,8 +16,10 @@ const RobotsTasks = observer(() => {
     <Fragment>
       <Title>{intl.formatMessage({ id: 'page.robotsTasks.title' })}</Title>
       <FilterDropdown intl={intl} />
-      <WithRobotsTasksTable intl={intl} />
+      <RefetchDropdown intl={intl} />
+      {/* <WithRobotsTasksTable intl={intl} /> */}
       <RobotTasksPagination intl={intl} />
+      <WithRobotsTasksCards intl={intl} />
     </Fragment>
   );
 });

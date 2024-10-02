@@ -10,7 +10,8 @@ const changeHandler = (action: (val: string) => void) => (value: string) => acti
 
 const clearHandler = (action: (val: string) => void) => () => action(null);
 
-export const AutoCompleteDropdown = (value: string, title: string, action: (val: string) => void, getOptions: () => void,
+export const AutoCompleteDropdown = (tmpVal: string, value: string, title: string,
+    action: (val: string) => void, getOptions: () => void,
     options: (BaseOptionType | DefaultOptionType)[], emptyValue: string, isLoading: boolean) => {
 
     const loadingOptions = [{
@@ -32,14 +33,14 @@ export const AutoCompleteDropdown = (value: string, title: string, action: (val:
 
     useEffect(() => {
         getOptions();
-    }, []);
+    }, [value]);
 
     return (
         <AutoComplete
             onClick={clickHandler}
             onChange={changeHandler(action)}
             onClear={clearHandler(action)}
-            value={value}
+            value={tmpVal}
             allowClear={true}
             style={{ width: 200 }}
             options={targetOptions}
@@ -47,7 +48,7 @@ export const AutoCompleteDropdown = (value: string, title: string, action: (val:
             filterOption={(inputValue, option) =>
                 (option!.value as string).toUpperCase().indexOf(inputValue.toUpperCase()) !== -1
             }
-            open={true}
+            // open={true}
             className={styles.autoComplete}
             popupClassName={styles.popup}
         />

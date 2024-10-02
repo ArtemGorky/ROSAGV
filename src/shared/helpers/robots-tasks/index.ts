@@ -5,11 +5,11 @@ export const getRobotsTasksStructuredData = (data: RobotsTasks[]) => {
 
     const structuredData = data.map((obj: RobotsTasks, index: number) => {
 
-        const startDate = moment(obj.min_start_time).format("DD.MM.YYYY hh:mm");
+        const startDate = obj.min_start_time ? moment(obj.min_start_time).format("DD.MM.YYYY hh:mm") : null;
 
-        const stateTimestamp = moment(obj.task_state.timestamp).format("DD.MM.YYYY hh:mm");
-        const stateStartTime = moment(obj.task_state.start_time).format("DD.MM.YYYY hh:mm");
-        const stateEndTime = moment(obj.task_state.end_time).format("DD.MM.YYYY hh:mm");
+        const stateTimestamp = obj.task_state.timestamp ? moment(obj.task_state.timestamp).format("DD.MM.YYYY hh:mm") : null;
+        const stateStartTime = obj.task_state.start_time ? moment(obj.task_state.start_time).format("DD.MM.YYYY hh:mm") : null;
+        const stateEndTime = obj.task_state.end_time ? moment(obj.task_state.end_time).format("DD.MM.YYYY hh:mm") : null;
 
         return {
             key: index,

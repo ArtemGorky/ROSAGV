@@ -14,6 +14,16 @@ type RobotsTasksTableProps = {
 
 export const RobotsTasksTable = observer(({ currentTasks, intl, isLoading }: RobotsTasksTableProps) => {
 
+    const statuses = {
+        1: intl.formatMessage({ id: 'page.robotsTasks.status.accepted' }),  // Accepted
+        2: intl.formatMessage({ id: 'page.robotsTasks.status.queued' }),  // "Queued"
+        3: intl.formatMessage({ id: 'page.robotsTasks.status.assigned' }),  // "Assigned"
+        4: intl.formatMessage({ id: 'page.robotsTasks.status.inProgress' }),  // "In Progress"
+        5: intl.formatMessage({ id: 'page.robotsTasks.status.success' }),  // "Success"
+        6: intl.formatMessage({ id: 'page.robotsTasks.status.failed' }),  // "Failed"
+        7: intl.formatMessage({ id: 'page.robotsTasks.status.cancelled' }),  // "Cancelled"
+    }
+
     const columns: TableColumnsType<RobotsTasks> = [
         {
             title: intl.formatMessage({ id: 'page.robotsTasks.table.task_id' }),
@@ -85,33 +95,42 @@ export const RobotsTasksTable = observer(({ currentTasks, intl, isLoading }: Rob
                 if (task) {
                     return <>
                         <div>
-                            <span>Статус: </span>
-                            < span > {task?.state ?? "_____"
-                            } </span>
+                            <Tooltip
+                                color={"rgb(43, 52, 66)"}
+                                title={
+                                    <>
+                                        <span>Статус: </span>
+                                        <span> {task?.state ?? "_____"} </span>
+                                        <div>
+                                            <span>Время: </span>
+                                            < span > {task?.timestamp ?? "_____"
+                                            }</span>
+                                        </div>
+                                        < div >
+                                            <span>ID робота: </span>
+                                            < span > {task?.robot_id ?? "_____"
+                                            } </span>
+                                        </div>
+                                        < div >
+                                            <span>Время начала: </span>
+                                            < span > {task?.start_time ?? "_____"}</span>
+                                        </div>
+                                        < div >
+                                            <span>Время завершения: </span>
+                                            < span > {task?.end_time ?? "_____"}</span>
+                                        </div>
+                                        < div >
+                                            <span>Код ошибки: </span>
+                                            < span > {task?.error_code === "" || !task?.error_code ? "отсутствует" : task?.error_code}</span>
+                                        </div>
+                                    </>
+                                }
+                            >
+                                <span>Статус: </span>
+                                <span>{(statuses && statuses[task?.state]) ?? "_____"}</span>
+                            </Tooltip>
+
                         </div>
-                        < div >
-                            <span>Время: </span>
-                            < span > {task?.timestamp ?? "_____"
-                            }</span>
-                        </div>
-                        < div >
-                            <span>ID робота: </span>
-                            < span > {task?.robot_id ?? "_____"
-                            } </span>
-                        </div>
-                        < div >
-                            <span>Время начала: </span>
-                            < span > {task?.start_time ?? "_____"}</span>
-                        </div>
-                        < div >
-                            <span>Время завершения: </span>
-                            < span > {task?.end_time ?? "_____"}</span>
-                        </div>
-                        < div >
-                            <span>Код ошибки: </span>
-                            < span > {task?.error_code === "" || !task?.error_code ? "отсутствует" : task?.error_code}</span>
-                        </div>
-                        < br />
                     </>
                 }
                 else {

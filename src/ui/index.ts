@@ -5,3 +5,4 @@ export { DatePickerDropdown } from './dropdownBar/view/DatePickerDropdown/DatePi
 export { CheckboxDropdown } from './dropdownBar/view/CheckboxDropdown/CheckboxDropdown';
 export { InputNumDropdown } from './dropdownBar/view/InputNumDropdown/InputNumDropdown';
 export { ResetBtnDropdown } from './dropdownBar/view/ResetBtnDropdown/ResetBtnDropdown';
+export { BtnDropdown } from './dropdownBar/view/BtnDropdown/BtnDropdown';

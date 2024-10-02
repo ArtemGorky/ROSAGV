@@ -20,14 +20,16 @@ export const getRobotsTasks = async (queryStr: string) => {
     }
 };
 
-export const getRobotsTasksCommand = async () => {
+export const getRobotsTasksCommand = async (queryStr: string) => {
     try {
 
-        const resp = { data: newMockTasksCommandData };
+        // const resp = { data: newMockTasksCommandData };
 
-        // await httpClient(robotsTasksReqConfig).get(`tasks/`);
+        // await httpClient(robotsTasksReqConfig).get(`tasks/`);  // http://10.1.242.3:8000/api/tasks/commands/
 
-        return resp.data;
+        const resp = await httpClient(robotsTasksReqConfig).get(`tasks/commands/${queryStr}`);
+
+        return resp.data.commands;
 
     } catch (error) {
         console.error("Error of getting robots tasks command: ", error);
@@ -35,10 +37,12 @@ export const getRobotsTasksCommand = async () => {
     }
 };
 
-export const getRobotsTasksName = async () => {
+export const getRobotsTasksName = async (queryStr: string) => {
     try {
 
-        const resp = { data: newMockTasksNameData };
+        // const resp = { data: newMockTasksNameData };  // http://10.1.242.3:8000/api/tasks/names/?name=В0406812
+
+        const resp = await httpClient(robotsTasksReqConfig).get(`tasks/names/${queryStr}`);
 
         // await httpClient(robotsTasksReqConfig).get(`tasks/`);
 
@@ -58,6 +62,19 @@ export const getRobotsTasksRobotId = async () => {
         // await httpClient(robotsTasksReqConfig).get(`tasks/`);
 
         return resp.data;
+
+    } catch (error) {
+        console.error("Error of getting robots tasks name: ", error);
+        return error
+    }
+};
+
+export const getRobotsTasksStatus = async (queryStr: string) => {
+    try {
+
+        const resp = await httpClient(robotsTasksReqConfig).get(`tasks/statuses/${queryStr}`);
+
+        return resp.data.statuses;
 
     } catch (error) {
         console.error("Error of getting robots tasks name: ", error);

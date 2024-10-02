@@ -20,11 +20,27 @@
   "page.robotsTasks.autoComplete.commandTitle": "Пожалуйста, введите команду!",
   "page.robotsTasks.autoComplete.nameTitle": "Пожалуйста, введите имя!",
   "page.robotsTasks.autoComplete.robotIdTitle": "Пожалуйста, введите ID робота!",
+  "page.robotsTasks.autoComplete.statusTitle": "Пожалуйста, введите статус!",
   "page.robotsTasks.checkbox.emptyCommandValue": "Без команды",
   "page.robotsTasks.checkbox.emptyNameValue": "Без имени",
   "page.robotsTasks.checkbox.emptyRobotIdValue": "Без ID робота",
+  "page.robotsTasks.checkbox.emptyStatusValue": "Без статуса",
 
   "page.robotsTasks.pagination.page": "стр.",
-  "page.robotsTasks.pagination.total": "Всего"
+  "page.robotsTasks.pagination.total": "Всего",
 
+  "page.robotsTasks.filterDropdown.status": "Статус",
+
+  "page.robotsTasks.refetchDropdown.title": "Обновить данные",
+  "page.robotsTasks.refetchDropdown.refetchBtnTitle": "сек.",
+  "page.robotsTasks.refetchDropdown.resetBtnTitle": "Отменить",
+  
+  "page.robotsTasks.status.accepted": "Принято",
+  "page.robotsTasks.status.queued": "В очереди",
+  "page.robotsTasks.status.assigned": "Назначенный",
+  "page.robotsTasks.status.inProgress": "В процессе",
+  "page.robotsTasks.status.success": "Успешно",
+  "page.robotsTasks.status.failed": "Неудачный",
+  "page.robotsTasks.status.cancelled": "Отмененный"
+  
 }

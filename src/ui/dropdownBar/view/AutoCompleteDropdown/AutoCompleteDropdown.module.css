@@ -1,4 +1,4 @@
-.popup {
+/* .popup {
   min-height: 275px;
   opacity: 0;
   display: none;
@@ -12,7 +12,7 @@
 div:has(.autoComplete):hover+div div.popup {
   opacity: 1;
   display: block;
-}
+} */
 
 .loadingOptions {
   display: flex;
