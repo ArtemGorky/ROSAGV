@@ -2,23 +2,22 @@ import { DropdownBar, AutoCompleteDropdown, DatePickerDropdown, ResetBtnDropdown
 import { IntlProps } from "../../types";
 import { robotsTasksStore } from "@/entities";
 import { observer } from "mobx-react-lite";
+import { SelectDropdown } from "@/ui/dropdownBar/view/SelectDropdown/SelectDropdown";
 
 export const FilterDropdown = observer(({ intl }: IntlProps) => {
 
     const dropdownTitle = intl.formatMessage({ id: 'page.robotsTasks.filterDropdown.title' });
-    const autoCompleteCommandTitle = intl.formatMessage({ id: 'page.robotsTasks.autoComplete.commandTitle' });
+    const selectCommandTitle = intl.formatMessage({ id: 'page.robotsTasks.autoComplete.commandTitle' });
     const autoCompleteNameTitle = intl.formatMessage({ id: 'page.robotsTasks.autoComplete.nameTitle' });
     const autoCompleteRobotIdTitle = intl.formatMessage({ id: 'page.robotsTasks.autoComplete.robotIdTitle' });
-    const autoCompleteStatusTitle = intl.formatMessage({ id: 'page.robotsTasks.autoComplete.statusTitle' });
+    const selectStatusTitle = intl.formatMessage({ id: 'page.robotsTasks.autoComplete.statusTitle' });
     const resetBtnTitle = intl.formatMessage({ id: 'page.robotsTasks.filterDropdown.resetBtnTitle' });
-    const emptyCommandValue = intl.formatMessage({ id: 'page.robotsTasks.checkbox.emptyCommandValue' });
     const emptyNameValue = intl.formatMessage({ id: 'page.robotsTasks.checkbox.emptyNameValue' });
     const emptyRobotIdValue = intl.formatMessage({ id: 'page.robotsTasks.checkbox.emptyRobotIdValue' });
-    const emptyStatusValue = intl.formatMessage({ id: 'page.robotsTasks.checkbox.emptyStatusValue' });
 
     const {
         store: {
-            isTasksCommandLoading, tasksCommands, tasksNames, tasksCommand, tasksName, tasksEndDate, tasksStatus,
+            isTasksCommandLoading, tasksCommands, tasksNames, tasksName, tasksEndDate,
             isTasksNameLoading, tasksRobotIds, isTasksRobotIdLoading, tasksRobotId, tasksStartDate, tasksStatuses,
             isTasksStatusLoading, tempTasksCommand, tempTasksName, tempTasksRobotId, tempTasksStatus,
             openingControl, setTasksCommand, getTasksCommand, setTasksName, getTasksName, setTasksStatus,
@@ -66,14 +65,12 @@ export const FilterDropdown = observer(({ intl }: IntlProps) => {
         switch (key) {
 
             case !key.includes(COMMAND) || key:
-                return AutoCompleteDropdown(
+                return SelectDropdown(
                     tempTasksCommand,
-                    tasksCommand,
-                    autoCompleteCommandTitle,
+                    selectCommandTitle,
                     setTasksCommand,
                     getTasksCommand,
                     tasksCommands,
-                    emptyCommandValue,
                     isTasksCommandLoading
                 );
 
@@ -102,14 +99,12 @@ export const FilterDropdown = observer(({ intl }: IntlProps) => {
                 );
 
             case !key.includes(STATUS) || key:
-                return AutoCompleteDropdown(
+                return SelectDropdown(
                     tempTasksStatus,
-                    tasksStatus,
-                    autoCompleteStatusTitle,
+                    selectStatusTitle,
                     setTasksStatus,
                     getTasksStatus,
                     tasksStatuses,
-                    emptyStatusValue,
                     isTasksStatusLoading
                 );
 
@@ -122,14 +117,12 @@ export const FilterDropdown = observer(({ intl }: IntlProps) => {
 
 
             default:
-                return AutoCompleteDropdown(
+                return SelectDropdown(
                     tempTasksCommand,
-                    tasksCommand,
-                    autoCompleteCommandTitle,
+                    selectCommandTitle,
                     setTasksCommand,
                     getTasksCommand,
                     tasksCommands,
-                    emptyCommandValue,
                     isTasksCommandLoading
                 );
         }

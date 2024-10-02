@@ -2,7 +2,7 @@ import { makeAutoObservable, runInAction } from "mobx";
 import { getRobotsTasks, getRobotsTasksCommand, getRobotsTasksName, getRobotsTasksRobotId, getRobotsTasksStatus } from "@/servises";
 import { RobotsTasks, TasksData } from "@/pages/robots-tasks/types";
 import { getRobotsTasksStructuredData } from "@/shared/helpers/robots-tasks";
-import { ValueTypes } from "@/shared/types";
+import { OptionsTypes, ValueTypes } from "@/shared/types";
 import { debounceDelay } from "@/shared/constants";
 import moment from "moment";
 
@@ -25,15 +25,15 @@ class robotsTasksStore {
     isOpenDropdown: boolean = false;
     isOpenRefetchDropdown: boolean = false;
 
-    tasksCommand: string = "";
+    tasksCommand: string | null = null;
     tasksName: string = "";
     tasksRobotId: string = "";
-    tasksStatus: string = "";
+    tasksStatus: string | null = null;
 
-    tempTasksCommand: string = "";
+    tempTasksCommand: string | null = null;
     tempTasksName: string = "";
     tempTasksRobotId: string = "";
-    tempTasksStatus: string = "";
+    tempTasksStatus: string | null = null;
 
 
     // tasksStartDate: string = "";
@@ -48,10 +48,10 @@ class robotsTasksStore {
     isTasksRobotIdLoading: boolean = false;
     isTasksStatusLoading: boolean = false;
 
-    tasksCommands: ValueTypes[] = [];
+    tasksCommands: OptionsTypes[] = [];
     tasksNames: ValueTypes[] = [];
     tasksRobotIds: ValueTypes[] = [];
-    tasksStatuses: ValueTypes[] = [];
+    tasksStatuses: OptionsTypes[] = [];
 
     tasksTotalPages: number = 0;
     tasksCurrentPage: number = 1;
@@ -97,9 +97,9 @@ class robotsTasksStore {
     };
 
 
-    setTasksCommand = (val: string | null) => {
-        this.tempTasksCommand = val;
-        this.handleDebounce(val, 'tasksCommand');
+    setTasksCommand = (option: OptionsTypes) => {
+        this.tempTasksCommand = option?.label;
+        this.handleDebounce(option?.label, 'tasksCommand');
     };
 
     setTasksName = (val: string | null) => {
@@ -112,9 +112,9 @@ class robotsTasksStore {
         this.handleDebounce(val, 'tasksRobotId');
     };
 
-    setTasksStatus = (val: string | null) => {
-        this.tempTasksStatus = val;
-        this.handleDebounce(val, 'tasksStatus');
+    setTasksStatus = (option: OptionsTypes) => {
+        this.tempTasksStatus = option?.value;
+        this.handleDebounce(option?.value, 'tasksStatus');
     };
 
 
@@ -126,15 +126,15 @@ class robotsTasksStore {
 
     resetTasksFilterData = () => {
         runInAction(() => {
-            this.tasksCommand = "";
+            this.tasksCommand = null;
             this.tasksName = "";
             this.tasksRobotId = "";
-            this.tasksStatus = "";
+            this.tasksStatus = null;
 
-            this.tempTasksCommand = "";
+            this.tempTasksCommand = null;
             this.tempTasksName = "";
             this.tempTasksRobotId = "";
-            this.tempTasksStatus = "";
+            this.tempTasksStatus = null;
         });
     };
 
@@ -157,9 +157,7 @@ class robotsTasksStore {
 
             const data: string[] = await getRobotsTasksCommand(targetQueryStr);
 
-            const targetData: ValueTypes[] = data.map((val: string) => ({ value: val }));
-
-            // const structuredData = getRobotsTasksStructuredData(data.results);
+            const targetData: OptionsTypes[] = Object.keys(data).map((key: string) => ({ value: key, label: data[key] }));
 
             runInAction(() => {
                 this.isTasksCommandLoading = false;
@@ -171,7 +169,7 @@ class robotsTasksStore {
             if (error instanceof Error) {
                 runInAction(() => {
                     this.isTasksCommandLoading = false;
-                    this.tasksCommands = [{ value: `Ошибка: ${error.message}` }]
+                    this.tasksCommands = [{ value: "0", label: `Ошибка: ${error.message}` }]
                 });
             }
 
@@ -256,14 +254,14 @@ class robotsTasksStore {
             const targetQueryStr = queryStr.replace("&", "?");
 
 
-            const data: Record<string, string> = await getRobotsTasksStatus(targetQueryStr);
+            const data: Record<string, any> = await getRobotsTasksStatus(targetQueryStr);
 
-            const targetData: ValueTypes[] = Object.values(data).map((val: string) => ({ value: val }));
+            const targetData: OptionsTypes[] = Object.keys(data).map((key: string) => ({ value: key, label: data[key] }));
 
             runInAction(() => {
                 this.statusObj = data;
                 this.isTasksStatusLoading = false;
-                this.tasksStatuses = targetData
+                this.tasksStatuses = targetData;
             });
 
         } catch (error) {
@@ -271,7 +269,7 @@ class robotsTasksStore {
             if (error instanceof Error) {
                 runInAction(() => {
                     this.isTasksStatusLoading = false;
-                    this.tasksStatuses = [{ value: `Ошибка: ${error.message}` }]
+                    this.tasksStatuses = [{ value: "0", label: `Ошибка: ${error.message}` }]
                 });
             }
 

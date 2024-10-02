@@ -1,20 +1,13 @@
-/* .popup {
-  min-height: 275px;
-  opacity: 0;
-  display: none;
-}
-
-.popup:hover {
-  opacity: 1;
-  display: block;
-}
-
-div:has(.autoComplete):hover+div div.popup {
-  opacity: 1;
-  display: block;
-} */
-
 .loadingOptions {
   display: flex;
   justify-content: center;
+}
+
+ul:has(.autoComplete)::after {
+  width: 225px;
+  height: 325px;
+  opacity: 0;
+  content: "";
+  display: block;
+  position: absolute;
 }

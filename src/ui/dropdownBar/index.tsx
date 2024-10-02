@@ -43,6 +43,7 @@ export const DropdownBar = ({ data, dropdownTitle, barItem, openingControl }: Dr
             overlayStyle={{ minWidth: 0 }}
             menu={{ items }}
             onOpenChange={openingControl}
+            trigger={["click"]}
         >
             <MarginBottomWrapper>
                 <Button>

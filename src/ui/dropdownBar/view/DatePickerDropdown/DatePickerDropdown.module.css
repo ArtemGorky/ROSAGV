@@ -1,22 +1,15 @@
-/* .popup {
+.popup {
   opacity: 0;
   display: none;
+  padding: 0;
 }
 
 .popup:hover {
   opacity: 1;
   display: block;
-} */
-
-/* div:has(.rangePicker)+div div.popup {
-  padding: 0;
-} */
-
-.popup {
-  padding: 0;
 }
 
-/* div:has(.rangePicker):hover+div div.popup {
+div:has(.rangePicker):hover+div div.popup {
   opacity: 1;
   display: block;
-} */
+}
