@@ -1,5 +1,6 @@
 import { RobotsTasks } from "@/pages/robots-tasks/types";
 import moment from 'moment';
+import { IntlShape } from "react-intl";
 
 export const getRobotsTasksStructuredData = (data: RobotsTasks[]) => {
 
@@ -30,4 +31,19 @@ export const getRobotsTasksStructuredData = (data: RobotsTasks[]) => {
     });
 
     return structuredData;
+}
+
+export const getTasksStatusLocale = (intl: IntlShape, num: number) => {
+
+    const statuses: Record<number, string> = {
+        1: intl.formatMessage({ id: 'page.robotsTasks.status.accepted' }),  // Accepted
+        2: intl.formatMessage({ id: 'page.robotsTasks.status.queued' }),  // "Queued"
+        3: intl.formatMessage({ id: 'page.robotsTasks.status.assigned' }),  // "Assigned"
+        4: intl.formatMessage({ id: 'page.robotsTasks.status.inProgress' }),  // "In Progress"
+        5: intl.formatMessage({ id: 'page.robotsTasks.status.success' }),  // "Success"
+        6: intl.formatMessage({ id: 'page.robotsTasks.status.failed' }),  // "Failed"
+        7: intl.formatMessage({ id: 'page.robotsTasks.status.cancelled' }),  // "Cancelled"
+    }
+
+    return statuses[num];
 }

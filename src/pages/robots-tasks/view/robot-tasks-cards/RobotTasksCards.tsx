@@ -5,6 +5,8 @@ import { tableScrollX, tableScrollY } from '@/shared';
 import { IntlShape } from 'react-intl';
 
 import styles from "./RobotsTasksCards.module.css";
+import { colors } from '@/shared/constants';
+import { getTasksStatusLocale } from '@/shared/helpers';
 
 type RobotsTasksCardsProps = {
     currentTasks: RobotsTasks[];
@@ -13,16 +15,6 @@ type RobotsTasksCardsProps = {
 }
 
 export const RobotsTasksCards = observer(({ currentTasks, intl, isLoading }: RobotsTasksCardsProps) => {
-
-    const statuses = {
-        1: intl.formatMessage({ id: 'page.robotsTasks.status.accepted' }),  // Accepted
-        2: intl.formatMessage({ id: 'page.robotsTasks.status.queued' }),  // "Queued"
-        3: intl.formatMessage({ id: 'page.robotsTasks.status.assigned' }),  // "Assigned"
-        4: intl.formatMessage({ id: 'page.robotsTasks.status.inProgress' }),  // "In Progress"
-        5: intl.formatMessage({ id: 'page.robotsTasks.status.success' }),  // "Success"
-        6: intl.formatMessage({ id: 'page.robotsTasks.status.failed' }),  // "Failed"
-        7: intl.formatMessage({ id: 'page.robotsTasks.status.cancelled' }),  // "Cancelled"
-    }
 
     if (isLoading) {
         return (
@@ -40,10 +32,7 @@ export const RobotsTasksCards = observer(({ currentTasks, intl, isLoading }: Rob
                         <div className={styles.cardTitle}>{task.name ?? "_____"}</div>
                     }
                     style={{
-                        border: `1px solid #${task?.task_state.state === 6 || task?.task_state.state === 7
-                            ? "f40"
-                            : "0a0b0e"
-                            }`
+                        border: `1px solid #${colors[task?.task_state.state]}`
                     }}
                     className={styles.card}
                     key={index}
@@ -141,7 +130,7 @@ export const RobotsTasksCards = observer(({ currentTasks, intl, isLoading }: Rob
                                     </>
                                 }
                             >
-                                {(statuses && statuses[task?.task_state.state]) ?? "_____"}
+                                {(getTasksStatusLocale(intl, task?.task_state.state ?? 6)) ?? "_____"}
                             </Tooltip>
                         </span>
                     </div>

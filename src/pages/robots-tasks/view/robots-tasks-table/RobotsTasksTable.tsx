@@ -5,6 +5,8 @@ import { tableScrollX, tableScrollY } from '@/shared';
 import { IntlShape } from 'react-intl';
 
 import styles from "./RobotsTasksTable.module.css";
+import { getTasksStatusLocale } from '@/shared/helpers';
+import { colors } from '@/shared/constants';
 
 type RobotsTasksTableProps = {
     currentTasks: RobotsTasks[];
@@ -13,16 +15,6 @@ type RobotsTasksTableProps = {
 }
 
 export const RobotsTasksTable = observer(({ currentTasks, intl, isLoading }: RobotsTasksTableProps) => {
-
-    const statuses = {
-        1: intl.formatMessage({ id: 'page.robotsTasks.status.accepted' }),  // Accepted
-        2: intl.formatMessage({ id: 'page.robotsTasks.status.queued' }),  // "Queued"
-        3: intl.formatMessage({ id: 'page.robotsTasks.status.assigned' }),  // "Assigned"
-        4: intl.formatMessage({ id: 'page.robotsTasks.status.inProgress' }),  // "In Progress"
-        5: intl.formatMessage({ id: 'page.robotsTasks.status.success' }),  // "Success"
-        6: intl.formatMessage({ id: 'page.robotsTasks.status.failed' }),  // "Failed"
-        7: intl.formatMessage({ id: 'page.robotsTasks.status.cancelled' }),  // "Cancelled"
-    }
 
     const columns: TableColumnsType<RobotsTasks> = [
         {
@@ -126,8 +118,15 @@ export const RobotsTasksTable = observer(({ currentTasks, intl, isLoading }: Rob
                                     </>
                                 }
                             >
-                                <span>Статус: </span>
-                                <span>{(statuses && statuses[task?.state]) ?? "_____"}</span>
+                                <span>
+                                    Статус:
+                                    <span
+                                        style={{ backgroundColor: `#${colors[task?.state ?? 6]}` }}
+                                        className={styles.roundIndicator}
+                                    >
+                                    </span>
+                                </span>
+                                <span>{getTasksStatusLocale(intl, task?.state ?? 6) ?? "_____"}</span>
                             </Tooltip>
 
                         </div>

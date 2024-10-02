@@ -12,7 +12,7 @@ const clearHandler = (action: (option: OptionsTypes) => void) => () => action({ 
 
 export const SelectDropdown = (tmpVal: string, title: string,
     action: (val: OptionsTypes) => void, getOptions: () => void,
-    options: OptionsTypes[], isLoading: boolean) => {
+    options: OptionsTypes[], isLoading: boolean, getData?: (num: number) => string) => {
 
     const loadingOptions = [{
         label: <div className={styles.loadingOptions}><Spin /></div>,
@@ -20,6 +20,9 @@ export const SelectDropdown = (tmpVal: string, title: string,
     }];
 
     const targetOptions = isLoading ? loadingOptions : options;
+
+    const localeOptions = getData ? targetOptions.map((targrtOption: OptionsTypes) =>
+        ({ label: getData(Number(targrtOption.value)), value: targrtOption.value })) : targetOptions;
 
     useEffect(() => {
         getOptions();
@@ -34,7 +37,7 @@ export const SelectDropdown = (tmpVal: string, title: string,
             value={tmpVal}
             placeholder={title}
             allowClear
-            options={targetOptions}
+            options={localeOptions}
             open={true}
             className={styles.select}
             popupClassName={styles.popup}

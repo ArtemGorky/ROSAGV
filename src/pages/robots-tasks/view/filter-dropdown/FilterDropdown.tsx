@@ -3,8 +3,13 @@ import { IntlProps } from "../../types";
 import { robotsTasksStore } from "@/entities";
 import { observer } from "mobx-react-lite";
 import { SelectDropdown } from "@/ui/dropdownBar/view/SelectDropdown/SelectDropdown";
+import { getTasksStatusLocale } from "@/shared/helpers";
 
 export const FilterDropdown = observer(({ intl }: IntlProps) => {
+
+    const getCurrentTasksStatus = (num: number) => {
+        return getTasksStatusLocale(intl, num);
+    }
 
     const dropdownTitle = intl.formatMessage({ id: 'page.robotsTasks.filterDropdown.title' });
     const selectCommandTitle = intl.formatMessage({ id: 'page.robotsTasks.autoComplete.commandTitle' });
@@ -105,7 +110,8 @@ export const FilterDropdown = observer(({ intl }: IntlProps) => {
                     setTasksStatus,
                     getTasksStatus,
                     tasksStatuses,
-                    isTasksStatusLoading
+                    isTasksStatusLoading,
+                    getCurrentTasksStatus
                 );
 
             case !key.includes(DATE_RANGE) || key:
