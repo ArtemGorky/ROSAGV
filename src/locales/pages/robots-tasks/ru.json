@@ -44,6 +44,14 @@
   "page.robotsTasks.status.inProgress": "В процессе",
   "page.robotsTasks.status.success": "Успешно",
   "page.robotsTasks.status.failed": "Неудачный",
-  "page.robotsTasks.status.cancelled": "Отмененный"
+  "page.robotsTasks.status.cancelled": "Отмененный",
+
+  "page.robotsTasks.orderDropdown.title": "Упорядочить по",
+  "page.robotsTasks.orderDropdown.name": "Имени",
+  "page.robotsTasks.orderDropdown.taskId": "ID задачи",
+  "page.robotsTasks.orderDropdown.command": "Команде",
+  "page.robotsTasks.orderDropdown.taskState": "Последнему состоянию",
+  "page.robotsTasks.orderDropdown.firstTaskState": "Первому состоянию",
+  "page.robotsTasks.orderDropdown.cancel": "Отменить"
   
 }

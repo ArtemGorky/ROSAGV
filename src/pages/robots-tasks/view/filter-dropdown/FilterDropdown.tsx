@@ -69,10 +69,10 @@ export const FilterDropdown = observer(({ intl }: IntlProps) => {
             label: intl.formatMessage({ id: 'page.robotsTasks.filterDropdown.statuses' }),
             [STATUSES + "_06"]: "statuses",
         },
-        title_07: {
-            label: intl.formatMessage({ id: 'page.robotsTasks.filterDropdown.statusRange' }),
-            [STATUS_RANGE + "_07"]: "statusRange",
-        },
+        // title_07: {
+        //     label: intl.formatMessage({ id: 'page.robotsTasks.filterDropdown.statusRange' }),
+        //     [STATUS_RANGE + "_07"]: "statusRange",
+        // },
         title_08: {
             label: ResetBtnDropdown(
                 resetBtnTitle,
@@ -127,17 +127,17 @@ export const FilterDropdown = observer(({ intl }: IntlProps) => {
                     getCurrentTasksStatus
                 );
 
-            case !key.includes(STATUS_RANGE) || key:
-                return SelectDropdown(
-                    tempTasksRangeStatus,
-                    selectRangeStatusTitle,
-                    setTasksRangeStatus,
-                    tasksStatuses,
-                    isTasksStatusLoading,
-                    null,
-                    getCurrentTasksStatus,
-                    statusRangeMaxCount
-                );
+            // case !key.includes(STATUS_RANGE) || key:
+            //     return SelectDropdown(
+            //         tempTasksRangeStatus,
+            //         selectRangeStatusTitle,
+            //         setTasksRangeStatus,
+            //         tasksStatuses,
+            //         isTasksStatusLoading,
+            //         null,
+            //         getCurrentTasksStatus,
+            //         statusRangeMaxCount
+            //     );
 
             case !key.includes(DATE_RANGE) || key:
                 return DatePickerDropdown(

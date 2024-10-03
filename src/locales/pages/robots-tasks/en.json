@@ -15,12 +15,14 @@
   "page.robotsTasks.filterDropdown.name": "Name",
   "page.robotsTasks.filterDropdown.robotId": "Robot's ID",
   "page.robotsTasks.filterDropdown.dateRange": "Period",
+  "page.robotsTasks.filterDropdown.minStartTime": "Task beginning",
   "page.robotsTasks.filterDropdown.resetBtnTitle": "Reset filter",
   "page.robotsTasks.checkbox.emptyPagesValue": "Without a page number",
   "page.robotsTasks.autoComplete.commandTitle": "Please, enter the command!",
   "page.robotsTasks.autoComplete.nameTitle": "Please, enter a name!",
   "page.robotsTasks.autoComplete.robotIdTitle": "Please, enter the robot's ID!",
   "page.robotsTasks.autoComplete.statusTitle": "Please, enter the status!",
+  "page.robotsTasks.autoComplete.rangeStatusTitle": "Please, the range of statuses!",
   "page.robotsTasks.checkbox.emptyCommandValue": "Without a command",
   "page.robotsTasks.checkbox.emptyNameValue": "Without a name",
   "page.robotsTasks.checkbox.emptyRobotIdValue": "Without a robot ID",
@@ -29,7 +31,8 @@
   "page.robotsTasks.pagination.page": "page",
   "page.robotsTasks.pagination.total": "Total",
 
-  "page.robotsTasks.filterDropdown.status": "Status",
+  "page.robotsTasks.filterDropdown.statuses": "Status",
+  "page.robotsTasks.filterDropdown.statusRange": "Status range",
 
   "page.robotsTasks.refetchDropdown.title": "Update the data",
   "page.robotsTasks.refetchDropdown.refetchBtnTitle": "sec.",
@@ -41,6 +44,14 @@
   "page.robotsTasks.status.inProgress": "In process",
   "page.robotsTasks.status.success": "Successfully",
   "page.robotsTasks.status.failed": "Unsuccessful",
-  "page.robotsTasks.status.cancelled": "Cancelled"
+  "page.robotsTasks.status.cancelled": "Cancelled",
+
+  "page.robotsTasks.orderDropdown.title": "Order by",
+  "page.robotsTasks.orderDropdown.name": "Name",
+  "page.robotsTasks.orderDropdown.taskId": "Task ID",
+  "page.robotsTasks.orderDropdown.command": "Command",
+  "page.robotsTasks.orderDropdown.taskState": "Task state",
+  "page.robotsTasks.orderDropdown.firstTaskState": "First task state",
+  "page.robotsTasks.orderDropdown.cancel": "Отменить"
   
 }

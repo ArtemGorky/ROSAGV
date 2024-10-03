@@ -11,7 +11,7 @@ export const WithRobotsTasksTable = observer(({ intl }: IntlProps) => {
         store: {
             isLoading, currentTasks, tasksCurrentPage, tasksCommand, tasksName, tasksRobotId, tasksStartDate, tasksEndDate,
             tasksPageSize, tasksStatus, tasksRefetchData, tasksRangeStatus, tasksMinStartTimeAfter, tasksMinStartTimeBefore,
-            getRobotsTasksData
+            tasksOrder, getRobotsTasksData
         },
     } = robotsTasksStore;
 
@@ -30,7 +30,8 @@ export const WithRobotsTasksTable = observer(({ intl }: IntlProps) => {
         tasksStatus,
         tasksRangeStatus,
         tasksMinStartTimeAfter,
-        tasksMinStartTimeBefore
+        tasksMinStartTimeBefore,
+        tasksOrder
     ]);
 
     return (

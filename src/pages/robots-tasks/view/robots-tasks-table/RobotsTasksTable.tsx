@@ -22,10 +22,15 @@ export const RobotsTasksTable = observer(({ currentTasks, intl, isLoading }: Rob
             dataIndex: 'task_id',
             key: 'task_id',
             fixed: 'left',
-            width: 150,
             render: text => <Tooltip color={"rgb(43, 52, 66)"} title={text} >
                 <p className={styles.tooltipTableText} > {text} </p>
             </Tooltip> ?? "_____"
+        },
+        {
+            title: intl.formatMessage({ id: 'page.robotsTasks.table.name' }),
+            dataIndex: 'name',
+            key: 'name',
+            render: text => text ?? "_____"
         },
         {
             title: intl.formatMessage({ id: 'page.robotsTasks.table.command' }),
@@ -39,33 +44,27 @@ export const RobotsTasksTable = observer(({ currentTasks, intl, isLoading }: Rob
             key: 'robot_id',
             render: text => text ?? "_____"
         },
-        {
-            title: intl.formatMessage({ id: 'page.robotsTasks.table.targets' }),
-            dataIndex: 'targets',
-            key: 'targets',
-            render: strs => {
-                if (strs?.length) {
-                    return strs.map((str: string, index: number) => {
-                        return <div key={index}>
-                            <div>
-                                <span>{str ?? "_____"
-                                }</span>
-                            </div>
-                            < br />
-                        </div>
-                    })
-                }
-                else {
-                    return "_____"
-                }
-            }
-        },
-        {
-            title: intl.formatMessage({ id: 'page.robotsTasks.table.name' }),
-            dataIndex: 'name',
-            key: 'name',
-            render: text => text ?? "_____"
-        },
+        // {
+        //     title: intl.formatMessage({ id: 'page.robotsTasks.table.targets' }),
+        //     dataIndex: 'targets',
+        //     key: 'targets',
+        //     render: strs => {
+        //         if (strs?.length) {
+        //             return strs.map((str: string, index: number) => {
+        //                 return <div key={index}>
+        //                     <div>
+        //                         <span>{str ?? "_____"
+        //                         }</span>
+        //                     </div>
+        //                     < br />
+        //                 </div>
+        //             })
+        //         }
+        //         else {
+        //             return "_____"
+        //         }
+        //     }
+        // },
         {
             title: intl.formatMessage({ id: 'page.robotsTasks.table.min_start_time' }),
             dataIndex: 'min_start_time',
@@ -140,13 +139,17 @@ export const RobotsTasksTable = observer(({ currentTasks, intl, isLoading }: Rob
     ];
 
     return (
-        <Table<RobotsTasks>
-            dataSource={currentTasks}
-            columns={columns}
-            scroll={{ x: tableScrollX, y: tableScrollY }}
-            loading={isLoading}
-            pagination={false}
-        />
+        <div className={styles.tableContainer}>
+            <Table<RobotsTasks>
+                className={styles.tableRoot}
+                dataSource={currentTasks}
+                columns={columns}
+                scroll={{ x: tableScrollX, y: tableScrollY }}
+                loading={isLoading}
+                pagination={false}
+            />
+        </div>
+
     );
 
 });

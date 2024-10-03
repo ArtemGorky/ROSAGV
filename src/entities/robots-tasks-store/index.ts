@@ -66,9 +66,13 @@ class robotsTasksStore {
 
     timerDebounce: ReturnType<typeof setTimeout> | null = null;
 
-    tasksRefetchData: number | null = null;
+    tasksRefetchData: string | number | null = null;
+
+    tasksOrder: string | number | null = null;
 
     statusRangeMaxCount: number = 2;
+
+    isTableTaskContent: boolean = true;
 
     constructor() {
         makeAutoObservable(this);
@@ -165,7 +169,11 @@ class robotsTasksStore {
     };
 
 
-    setTasksRefetchData = (val: number | null) => this.tasksRefetchData = val;
+    setTasksRefetchData = (val: string | number | null) => this.tasksRefetchData = val;
+
+    setTasksOrder = (val: string | number | null) => this.tasksOrder = val;
+
+    setTasksContent = (val: boolean) => this.isTableTaskContent = val;
 
 
     getTasksCommand = async () => {
@@ -341,7 +349,9 @@ class robotsTasksStore {
             const lastStateGte = this.tasksRangeStatus[0] ? `&last_state__gte=${this.tasksRangeStatus[0].value}` : "";
             const lastStateLte = this.tasksRangeStatus[1] ? `&last_state__lte=${this.tasksRangeStatus[1].value}` : "";
 
-            const queryStr = `${pageParam}${commandParam}${nameParam}${robotIdParam}${startTimeAfter}${startTimeBefore}${pageSizeParam}${statusParam}${lastStateGte}${lastStateLte}${minStartTimeAfter}${minStartTimeBefore}`;
+            const ordering = this.tasksOrder ? `&ordering=${this.tasksOrder}` : "";
+
+            const queryStr = `${pageParam}${commandParam}${nameParam}${robotIdParam}${startTimeAfter}${startTimeBefore}${pageSizeParam}${statusParam}${lastStateGte}${lastStateLte}${minStartTimeAfter}${minStartTimeBefore}${ordering}`;
 
             const targetQueryStr = queryStr.replace("&", "?");
 

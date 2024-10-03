@@ -1,0 +1,23 @@
+.container {
+    width: fit-content;
+    display: inline-block;
+    margin-right: 16px;
+    display: inline-flex;
+}
+
+div.container button.switch span span:first-child, div.container button.switch span span:last-child {
+    font-size: 14px;
+}
+
+/* div.container button.switch {
+    height: 28px;
+    line-height: 28px;
+} */
+
+/* div.container button.switch div {
+    width: 24px;
+    height: 24px;
+}
+div.container button.switch div::before {
+    border-radius: 50%;
+} */

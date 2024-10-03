@@ -1,4 +1,4 @@
-import { DropdownBar, AutoCompleteDropdown, DatePickerDropdown, ResetBtnDropdown, BtnDropdown } from "@/ui"
+import { DropdownBar, BtnDropdown } from "@/ui"
 import { IntlProps } from "../../types";
 import { robotsTasksStore } from "@/entities";
 import { observer } from "mobx-react-lite";
