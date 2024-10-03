@@ -14,18 +14,19 @@ export const FilterDropdown = observer(({ intl }: IntlProps) => {
     const dropdownTitle = intl.formatMessage({ id: 'page.robotsTasks.filterDropdown.title' });
     const selectCommandTitle = intl.formatMessage({ id: 'page.robotsTasks.autoComplete.commandTitle' });
     const autoCompleteNameTitle = intl.formatMessage({ id: 'page.robotsTasks.autoComplete.nameTitle' });
-    const autoCompleteRobotIdTitle = intl.formatMessage({ id: 'page.robotsTasks.autoComplete.robotIdTitle' });
     const selectStatusTitle = intl.formatMessage({ id: 'page.robotsTasks.autoComplete.statusTitle' });
+    const selectRangeStatusTitle = intl.formatMessage({ id: 'page.robotsTasks.autoComplete.rangeStatusTitle' });
     const selectRobotIdTitle = intl.formatMessage({ id: 'page.robotsTasks.autoComplete.robotIdTitle' });
     const resetBtnTitle = intl.formatMessage({ id: 'page.robotsTasks.filterDropdown.resetBtnTitle' });
 
     const {
         store: {
-            isTasksCommandLoading, tasksCommands, tasksNames, tasksName, tasksEndDate,
-            isTasksNameLoading, tasksRobotIds, isTasksRobotIdLoading, tasksRobotId, tasksStartDate, tasksStatuses,
-            isTasksStatusLoading, tempTasksCommand, tempTasksName, tempTasksRobotId, tempTasksStatus,
-            openingControl, setTasksCommand, getTasksCommand, setTasksName, getTasksName, setTasksStatus,
-            setTasksRobotId, getTasksRobotId, setRangeDateTasks, resetTasksFilterData, getTasksStatus
+            isTasksCommandLoading, tasksCommands, tasksNames, tasksName, tasksEndDate, statusRangeMaxCount,
+            isTasksNameLoading, tasksRobotIds, isTasksRobotIdLoading, tasksStartDate, tasksStatuses, tasksMinStartTimeAfter,
+            isTasksStatusLoading, tempTasksCommand, tempTasksName, tempTasksRobotId, tempTasksStatus, tempTasksRangeStatus,
+            tasksMinStartTimeBefore,
+            openingControl, setTasksCommand, getTasksCommand, setTasksName, getTasksName, setTasksStatus, setTasksRangeStatus,
+            setTasksRobotId, getTasksRobotId, setRangeDateTasks, resetTasksFilterData, getTasksStatus, setMinStartTimeTasks
         },
     } = robotsTasksStore;
 
@@ -33,7 +34,9 @@ export const FilterDropdown = observer(({ intl }: IntlProps) => {
     const NAME = "name";
     const ROBOT_ID = "robotId";
     const DATE_RANGE = "dateRange";
-    const STATUS = "status";
+    const MIN_START_TIME = "minStartTime";
+    const STATUSES = "statuses";
+    const STATUS_RANGE = "statusRange";
 
     const dataObj = {
         title_01: {
@@ -53,10 +56,18 @@ export const FilterDropdown = observer(({ intl }: IntlProps) => {
             [DATE_RANGE + "_04"]: "dateRange",
         },
         title_05: {
-            label: intl.formatMessage({ id: 'page.robotsTasks.filterDropdown.status' }),
-            [STATUS + "_05"]: "status",
+            label: intl.formatMessage({ id: 'page.robotsTasks.filterDropdown.minStartTime' }),
+            [MIN_START_TIME + "_05"]: "minStartTime",
         },
         title_06: {
+            label: intl.formatMessage({ id: 'page.robotsTasks.filterDropdown.statuses' }),
+            [STATUSES + "_06"]: "statuses",
+        },
+        title_07: {
+            label: intl.formatMessage({ id: 'page.robotsTasks.filterDropdown.statusRange' }),
+            [STATUS_RANGE + "_07"]: "statusRange",
+        },
+        title_08: {
             label: ResetBtnDropdown(
                 resetBtnTitle,
                 resetTasksFilterData
@@ -73,9 +84,9 @@ export const FilterDropdown = observer(({ intl }: IntlProps) => {
                     tempTasksCommand,
                     selectCommandTitle,
                     setTasksCommand,
-                    getTasksCommand,
                     tasksCommands,
-                    isTasksCommandLoading
+                    isTasksCommandLoading,
+                    getTasksCommand
                 );
 
             case !key.includes(NAME) || key:
@@ -94,20 +105,32 @@ export const FilterDropdown = observer(({ intl }: IntlProps) => {
                     tempTasksRobotId,
                     selectRobotIdTitle,
                     setTasksRobotId,
-                    getTasksRobotId,
                     tasksRobotIds,
-                    isTasksRobotIdLoading
+                    isTasksRobotIdLoading,
+                    getTasksRobotId,
                 );
 
-            case !key.includes(STATUS) || key:
+            case !key.includes(STATUSES) || key:
                 return SelectDropdown(
                     tempTasksStatus,
                     selectStatusTitle,
                     setTasksStatus,
-                    getTasksStatus,
                     tasksStatuses,
                     isTasksStatusLoading,
+                    getTasksStatus,
                     getCurrentTasksStatus
+                );
+
+            case !key.includes(STATUS_RANGE) || key:
+                return SelectDropdown(
+                    tempTasksRangeStatus,
+                    selectRangeStatusTitle,
+                    setTasksRangeStatus,
+                    tasksStatuses,
+                    isTasksStatusLoading,
+                    null,
+                    getCurrentTasksStatus,
+                    statusRangeMaxCount
                 );
 
             case !key.includes(DATE_RANGE) || key:
@@ -117,15 +140,22 @@ export const FilterDropdown = observer(({ intl }: IntlProps) => {
                     tasksEndDate
                 );
 
+            case !key.includes(MIN_START_TIME) || key:
+                return DatePickerDropdown(
+                    setMinStartTimeTasks,
+                    tasksMinStartTimeAfter,
+                    tasksMinStartTimeBefore
+                );
+
 
             default:
                 return SelectDropdown(
                     tempTasksCommand,
                     selectCommandTitle,
                     setTasksCommand,
-                    getTasksCommand,
                     tasksCommands,
-                    isTasksCommandLoading
+                    isTasksCommandLoading,
+                    getTasksCommand,
                 );
         }
     };

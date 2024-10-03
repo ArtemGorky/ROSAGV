@@ -10,7 +10,8 @@ export const WithRobotsTasksCards = observer(({ intl }: IntlProps) => {
     const {
         store: {
             isLoading, currentTasks, tasksCurrentPage, tasksCommand, tasksName, tasksRobotId, tasksStartDate, tasksEndDate,
-            tasksPageSize, tasksStatus, tasksRefetchData, getRobotsTasksData
+            tasksPageSize, tasksStatus, tasksRefetchData, tasksRangeStatus, tasksMinStartTimeAfter, tasksMinStartTimeBefore,
+            getRobotsTasksData
         },
     } = robotsTasksStore;
 
@@ -18,7 +19,19 @@ export const WithRobotsTasksCards = observer(({ intl }: IntlProps) => {
 
         getRobotsTasksData();
 
-    }, [tasksCurrentPage, tasksCommand, tasksName, tasksRobotId, tasksStartDate, tasksEndDate, tasksPageSize, tasksStatus]);
+    }, [
+        tasksCurrentPage,
+        tasksCommand,
+        tasksName,
+        tasksRobotId,
+        tasksStartDate,
+        tasksEndDate,
+        tasksPageSize,
+        tasksStatus,
+        tasksRangeStatus,
+        tasksMinStartTimeAfter,
+        tasksMinStartTimeBefore
+    ]);
 
     return (
         tasksRefetchData

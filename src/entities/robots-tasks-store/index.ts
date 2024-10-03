@@ -29,15 +29,19 @@ class robotsTasksStore {
     tasksName: string = "";
     tasksRobotId: OptionsTypes[] = [];
     tasksStatus: OptionsTypes[] = [];
+    tasksRangeStatus: OptionsTypes[] = [];
 
     tempTasksCommand: OptionsTypes[] = [];
     tempTasksName: string = "";
     tempTasksRobotId: OptionsTypes[] = [];
     tempTasksStatus: OptionsTypes[] = [];
+    tempTasksRangeStatus: OptionsTypes[] = [];
 
 
     // tasksStartDate: string = "";
     // tasksEndDate: string = "";
+    tasksMinStartTimeAfter: string = "";
+    tasksMinStartTimeBefore: string = "";
 
     tasksStartDate: string = moment().subtract(1, 'days').format().split("+")[0];
     tasksEndDate: string = moment().format().split("+")[0];
@@ -62,6 +66,8 @@ class robotsTasksStore {
     timerDebounce: ReturnType<typeof setTimeout> | null = null;
 
     tasksRefetchData: number | null = null;
+
+    statusRangeMaxCount: number = 2;
 
     constructor() {
         makeAutoObservable(this);
@@ -117,10 +123,21 @@ class robotsTasksStore {
         this.handleDebounce(option, 'tasksStatus');
     };
 
+    setTasksRangeStatus = (option: OptionsTypes[]) => {
+        this.tempTasksRangeStatus = option;
+        this.handleDebounce(option, 'tasksRangeStatus');
+    };
+
 
     setRangeDateTasks = (dates: string[]) => {
         this.tasksStartDate = dates[0] ? `${dates[0]}T00:00:00` : "";
         this.tasksEndDate = dates[1] ? `${dates[1]}T00:00:00` : "";
+        this.setTasksCurrentPage(1);
+    };
+
+    setMinStartTimeTasks = (dates: string[]) => {
+        this.tasksMinStartTimeAfter = dates[0] ? `${dates[0]}T00:00:00` : "";
+        this.tasksMinStartTimeBefore = dates[1] ? `${dates[1]}T00:00:00` : "";
         this.setTasksCurrentPage(1);
     };
 
@@ -130,11 +147,19 @@ class robotsTasksStore {
             this.tasksName = "";
             this.tasksRobotId = [];
             this.tasksStatus = [];
+            this.tasksRangeStatus = [];
 
             this.tempTasksCommand = [];
             this.tempTasksName = "";
             this.tempTasksRobotId = [];
             this.tempTasksStatus = [];
+            this.tempTasksRangeStatus = [];
+
+            this.tasksMinStartTimeAfter = "";
+            this.tasksMinStartTimeBefore = "";
+
+            this.tasksStartDate = moment().subtract(1, 'days').format().split("+")[0];
+            this.tasksEndDate = moment().format().split("+")[0];
         });
     };
 
@@ -306,8 +331,13 @@ class robotsTasksStore {
             const startTimeAfter = this.tasksStartDate ? `&taskstate_timestamp_after=${this.tasksStartDate}` : "";
             const startTimeBefore = this.tasksEndDate ? `&taskstate_timestamp_before=${this.tasksEndDate}` : "";
 
+            const minStartTimeAfter = this.tasksMinStartTimeAfter ? `&min_start_time_after=${this.tasksMinStartTimeAfter}` : "";
+            const minStartTimeBefore = this.tasksMinStartTimeBefore ? `&min_start_time_before=${this.tasksMinStartTimeBefore}` : "";
 
-            const queryStr = `${pageParam}${commandParam}${nameParam}${robotIdParam}${startTimeAfter}${startTimeBefore}${pageSizeParam}${statusParam}`;
+            const lastStateGte = this.tasksRangeStatus[0] ? `&last_state__gte=${this.tasksRangeStatus[0].value}` : "";
+            const lastStateLte = this.tasksRangeStatus[1] ? `&last_state__lte=${this.tasksRangeStatus[1].value}` : "";
+
+            const queryStr = `${pageParam}${commandParam}${nameParam}${robotIdParam}${startTimeAfter}${startTimeBefore}${pageSizeParam}${statusParam}${lastStateGte}${lastStateLte}${minStartTimeAfter}${minStartTimeBefore}`;
 
             const targetQueryStr = queryStr.replace("&", "?");
 

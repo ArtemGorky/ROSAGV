@@ -9,7 +9,7 @@ const { RangePicker } = DatePicker.generatePicker<Moment>(momentGenerateConfig);
 
 const clickHandler = (evt: MouseEvent<HTMLDivElement>) => evt.stopPropagation();
 
-const calendarChangeHandler = (action: (val: string[]) => void) => (dateObject: any, dateString: string[]) => action(dateString);
+const calendarChangeHandler = (action: (val: string[]) => void) => (_: any, dateString: string[]) => action(dateString);
 
 export const DatePickerDropdown = (action: (val: string[]) => void, startDate: string, endDate: string) => {
 

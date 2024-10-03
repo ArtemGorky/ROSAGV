@@ -10,9 +10,10 @@ const changeHandler = (action: (option: OptionsTypes[]) => void) => (_: any, opt
 
 const clearHandler = (action: (option: OptionsTypes[]) => void) => () => action([]);
 
-export const SelectDropdown = (tmpVal: OptionsTypes[], title: string,
-    action: (val: OptionsTypes[]) => void, getOptions: () => void,
-    options: OptionsTypes[], isLoading: boolean, getData?: (num: number) => string) => {
+export const SelectDropdown = (
+    tmpVal: OptionsTypes[], title: string, action: (val: OptionsTypes[]) => void,
+    options: OptionsTypes[], isLoading: boolean, getOptions?: () => void, getData?: (num: number) => string, maxCount?: number
+) => {
 
     const loadingOptions = [{
         label: <div className={styles.loadingOptions}><Spin /></div>,
@@ -25,7 +26,7 @@ export const SelectDropdown = (tmpVal: OptionsTypes[], title: string,
         ({ label: getData(Number(targrtOption.value)), value: targrtOption.value })) : targetOptions;
 
     useEffect(() => {
-        getOptions();
+        getOptions && getOptions();
     }, []);
 
     return (
@@ -37,6 +38,7 @@ export const SelectDropdown = (tmpVal: OptionsTypes[], title: string,
             onClick={clickHandler}
             value={tmpVal}
             placeholder={title}
+            maxCount={maxCount}
             allowClear
             options={localeOptions}
             open={true}
