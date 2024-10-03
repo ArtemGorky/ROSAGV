@@ -1,10 +1,11 @@
-import { MouseEvent, useEffect } from "react";
+import { KeyboardEvent, MouseEvent, useEffect } from "react";
 import { Spin } from 'antd';
 import styles from './SelectDropdown.module.css';
 import Select from "antd/es/select";
 import { OptionsTypes } from "@/shared/types";
 
 const clickHandler = (evt: MouseEvent<HTMLDivElement>) => evt.stopPropagation();
+const keyDownHandler = (evt: KeyboardEvent<HTMLDivElement>) => evt.stopPropagation();
 
 const changeHandler = (action: (option: OptionsTypes[]) => void) => (_: any, option: OptionsTypes[]) => action(option);
 
@@ -12,18 +13,19 @@ const clearHandler = (action: (option: OptionsTypes[]) => void) => () => action(
 
 export const SelectDropdown = (
     tmpVal: OptionsTypes[], title: string, action: (val: OptionsTypes[]) => void,
-    options: OptionsTypes[], isLoading: boolean, getOptions?: () => void, getData?: (num: number) => string, maxCount?: number
+    options: OptionsTypes[], isLoading: boolean, getOptions?: () => void, getData?: (num: string) => string, maxCount?: number
 ) => {
 
     const loadingOptions = [{
         label: <div className={styles.loadingOptions}><Spin /></div>,
-        value: ""
+        value: "",
+        id: 0
     }];
 
     const targetOptions = isLoading ? loadingOptions : options;
 
     const localeOptions = getData ? targetOptions.map((targrtOption: OptionsTypes) =>
-        ({ label: getData(Number(targrtOption.value)), value: targrtOption.value })) : targetOptions;
+        ({ label: getData(targrtOption.value), value: targrtOption.value, id: targrtOption.id })) : targetOptions;
 
     useEffect(() => {
         getOptions && getOptions();
@@ -35,6 +37,7 @@ export const SelectDropdown = (
             style={{ width: 250 }}
             onChange={changeHandler(action)}
             onClear={clearHandler(action)}
+            onKeyDown={keyDownHandler}
             onClick={clickHandler}
             value={tmpVal}
             placeholder={title}

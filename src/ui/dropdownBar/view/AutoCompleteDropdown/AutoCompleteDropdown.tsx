@@ -1,9 +1,10 @@
-import { MouseEvent, useEffect } from "react";
+import { KeyboardEvent, MouseEvent, useEffect } from "react";
 import { AutoComplete, Spin } from 'antd';
 import styles from './AutoCompleteDropdown.module.css';
 import { OptionsTypes } from "@/shared/types";
 
 const clickHandler = (evt: MouseEvent<HTMLDivElement>) => evt.stopPropagation();
+const keyDownHandler = (evt: KeyboardEvent<HTMLDivElement>) => evt.stopPropagation();
 
 const changeHandler = (action: (val: string) => void) => (value: string) => action(value);
 
@@ -36,6 +37,7 @@ export const AutoCompleteDropdown = (tmpVal: string, value: string, title: strin
             onClick={clickHandler}
             onChange={changeHandler(action)}
             onClear={clearHandler(action)}
+            onKeyDown={keyDownHandler}
             value={tmpVal}
             allowClear={true}
             style={{ width: 200 }}

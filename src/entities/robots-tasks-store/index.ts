@@ -1,10 +1,11 @@
 import { makeAutoObservable, runInAction } from "mobx";
 import { getRobotsTasks, getRobotsTasksCommand, getRobotsTasksName, getRobotsTasksRobotId, getRobotsTasksStatus } from "@/servises";
 import { RobotsTasks, TasksData } from "@/pages/robots-tasks/types";
-import { getRobotsTasksStructuredData } from "@/shared/helpers/robots-tasks";
+import { getRobotsTasksStructuredData, getTasksStatusName } from "@/shared/helpers/robots-tasks";
 import { FleetData, FleetResult, OptionsTypes, ValueTypes } from "@/shared/types";
 import { debounceDelay } from "@/shared/constants";
 import moment from "moment";
+import { IntlShape } from "react-intl";
 
 class robotsTasksStore {
     robotsTasks: RobotsTasks[] = [];
@@ -120,12 +121,12 @@ class robotsTasksStore {
 
     setTasksStatus = (option: OptionsTypes[]) => {
         this.tempTasksStatus = option;
-        this.handleDebounce(option, 'tasksStatus');
+        this.handleDebounce(option.map(obj => ({ label: obj.id, value: String(obj.id), id: obj.id })), 'tasksStatus');
     };
 
     setTasksRangeStatus = (option: OptionsTypes[]) => {
         this.tempTasksRangeStatus = option;
-        this.handleDebounce(option, 'tasksRangeStatus');
+        this.handleDebounce(option.map(obj => ({ label: obj.id, value: String(obj.id), id: obj.id })), 'tasksRangeStatus');
     };
 
 
@@ -174,7 +175,8 @@ class robotsTasksStore {
 
             const data: string[] = await getRobotsTasksCommand();
 
-            const targetData: OptionsTypes[] = Object.keys(data).map((key: string) => ({ value: key, label: data[key] }));
+            const targetData: OptionsTypes[] = data.map((comand: string, index: number) =>
+                ({ value: comand, label: comand, id: index }));
 
             runInAction(() => {
                 this.isTasksCommandLoading = false;
@@ -186,7 +188,7 @@ class robotsTasksStore {
             if (error instanceof Error) {
                 runInAction(() => {
                     this.isTasksCommandLoading = false;
-                    this.tasksCommands = [{ value: "0", label: `Ошибка: ${error.message}` }]
+                    this.tasksCommands = [{ value: "0", label: `Ошибка: ${error.message}`, id: 0 }]
                 });
             }
 
@@ -209,7 +211,8 @@ class robotsTasksStore {
 
             const data: string[] = await getRobotsTasksName(targetQueryStr);
 
-            const targetData: OptionsTypes[] = data.map((val: string) => ({ value: val, label: val }));
+            const targetData: OptionsTypes[] = data.map((val: string, index: number) =>
+                ({ value: val, label: val, id: index }));
 
             runInAction(() => {
                 this.isTasksNameLoading = false;
@@ -221,7 +224,7 @@ class robotsTasksStore {
             if (error instanceof Error) {
                 runInAction(() => {
                     this.isTasksNameLoading = false;
-                    this.tasksNames = [{ value: "0", label: `Ошибка: ${error.message}` }];
+                    this.tasksNames = [{ value: "0", label: `Ошибка: ${error.message}`, id: 0 }];
                 });
             }
 
@@ -236,8 +239,8 @@ class robotsTasksStore {
 
             const data: FleetData = await getRobotsTasksRobotId();
 
-            const targetData: OptionsTypes[] = data.results.map((res: FleetResult) =>
-                ({ value: res.robot_id, label: res.robot_id }));
+            const targetData: OptionsTypes[] = data.results.map((res: FleetResult, index: number) =>
+                ({ value: res.robot_id, label: res.robot_id, id: index }));
 
             runInAction(() => {
                 this.isTasksRobotIdLoading = false;
@@ -249,21 +252,22 @@ class robotsTasksStore {
             if (error instanceof Error) {
                 runInAction(() => {
                     this.isTasksRobotIdLoading = false;
-                    this.tasksRobotIds = [{ value: "0", label: `Ошибка: ${error.message}` }]
+                    this.tasksRobotIds = [{ value: "0", label: `Ошибка: ${error.message}`, id: 0 }]
                 });
             }
 
         }
     };
 
-    getTasksStatus = async () => {
+    getTasksStatus = async (intl: IntlShape) => {
         try {
 
             this.isTasksStatusLoading = true;
 
             const data: Record<string, any> = await getRobotsTasksStatus();
 
-            const targetData: OptionsTypes[] = Object.keys(data).map((key: string) => ({ value: key, label: data[key] }));
+            const targetData: OptionsTypes[] = Object.keys(data).map((key: string) =>
+                ({ value: getTasksStatusName(intl, data[key]), label: getTasksStatusName(intl, data[key]), id: Number(key) }));
 
             runInAction(() => {
                 this.statusObj = data;
@@ -276,7 +280,7 @@ class robotsTasksStore {
             if (error instanceof Error) {
                 runInAction(() => {
                     this.isTasksStatusLoading = false;
-                    this.tasksStatuses = [{ value: "0", label: `Ошибка: ${error.message}` }]
+                    this.tasksStatuses = [{ value: "0", label: `Ошибка: ${error.message}`, id: 0 }]
                 });
             }
 

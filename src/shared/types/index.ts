@@ -4,6 +4,7 @@ export type ValueTypes = {
 export type OptionsTypes = {
     label: any;
     value: string;
+    id: number;
 }
 
 

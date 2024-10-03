@@ -3,13 +3,15 @@ import { IntlProps } from "../../types";
 import { robotsTasksStore } from "@/entities";
 import { observer } from "mobx-react-lite";
 import { SelectDropdown } from "@/ui/dropdownBar/view/SelectDropdown/SelectDropdown";
-import { getTasksStatusLocale } from "@/shared/helpers";
+import { getTasksStatusName } from "@/shared/helpers/robots-tasks";
 
 export const FilterDropdown = observer(({ intl }: IntlProps) => {
 
-    const getCurrentTasksStatus = (num: number) => {
-        return getTasksStatusLocale(intl, num);
+    const getCurrentTasksStatus = (num: string) => {
+        return getTasksStatusName(intl, num);
     }
+
+
 
     const dropdownTitle = intl.formatMessage({ id: 'page.robotsTasks.filterDropdown.title' });
     const selectCommandTitle = intl.formatMessage({ id: 'page.robotsTasks.autoComplete.commandTitle' });
@@ -29,6 +31,10 @@ export const FilterDropdown = observer(({ intl }: IntlProps) => {
             setTasksRobotId, getTasksRobotId, setRangeDateTasks, resetTasksFilterData, getTasksStatus, setMinStartTimeTasks
         },
     } = robotsTasksStore;
+
+    const getTasksStatusLocale = () => {
+        return getTasksStatus(intl);
+    }
 
     const COMMAND = "command";
     const NAME = "name";
@@ -117,7 +123,7 @@ export const FilterDropdown = observer(({ intl }: IntlProps) => {
                     setTasksStatus,
                     tasksStatuses,
                     isTasksStatusLoading,
-                    getTasksStatus,
+                    getTasksStatusLocale,
                     getCurrentTasksStatus
                 );
 

@@ -47,3 +47,18 @@ export const getTasksStatusLocale = (intl: IntlShape, num: number) => {
 
     return statuses[num];
 }
+
+export const getTasksStatusName = (intl: IntlShape, num: string) => {
+
+    const statuses: Record<string, string> = {
+        "Accepted": intl.formatMessage({ id: 'page.robotsTasks.status.accepted' }),  // Accepted
+        "Queued": intl.formatMessage({ id: 'page.robotsTasks.status.queued' }),  // "Queued"
+        "Assigned": intl.formatMessage({ id: 'page.robotsTasks.status.assigned' }),  // "Assigned"
+        "In Progress": intl.formatMessage({ id: 'page.robotsTasks.status.inProgress' }),  // "In Progress"
+        "Success": intl.formatMessage({ id: 'page.robotsTasks.status.success' }),  // "Success"
+        "Failed": intl.formatMessage({ id: 'page.robotsTasks.status.failed' }),  // "Failed"
+        "Cancelled": intl.formatMessage({ id: 'page.robotsTasks.status.cancelled' }),  // "Cancelled"
+    }
+
+    return statuses[num];
+}
