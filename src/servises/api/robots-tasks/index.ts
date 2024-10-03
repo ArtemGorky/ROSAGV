@@ -1,4 +1,4 @@
-import { newMockTasksCommandData, newMockTasksNameData, newMockTasksRobotIdData, robotsTasksReqConfig } from "@/shared";
+import { newMockTasksCommandData, newMockTasksNameData, newMockTasksRobotIdData, robotsFleetReqConfig, robotsTasksReqConfig } from "@/shared";
 import { httpClient } from "../http-client";
 
 // import { newMockTasksData } from "@/shared/mock-data/new-robots-tasks";
@@ -20,14 +20,14 @@ export const getRobotsTasks = async (queryStr: string) => {
     }
 };
 
-export const getRobotsTasksCommand = async (queryStr: string) => {
+export const getRobotsTasksCommand = async () => {
     try {
 
         // const resp = { data: newMockTasksCommandData };
 
         // await httpClient(robotsTasksReqConfig).get(`tasks/`);  // http://10.1.242.3:8000/api/tasks/commands/
 
-        const resp = await httpClient(robotsTasksReqConfig).get(`tasks/commands/${queryStr}`);
+        const resp = await httpClient(robotsTasksReqConfig).get(`tasks/commands/`);
 
         return resp.data.commands;
 
@@ -57,7 +57,9 @@ export const getRobotsTasksName = async (queryStr: string) => {
 export const getRobotsTasksRobotId = async () => {
     try {
 
-        const resp = { data: newMockTasksRobotIdData };
+        // const resp = { data: newMockTasksRobotIdData };  // robotsFleetReqConfig
+
+        const resp = await httpClient(robotsFleetReqConfig).get(`robots/`);
 
         // await httpClient(robotsTasksReqConfig).get(`tasks/`);
 
@@ -69,10 +71,10 @@ export const getRobotsTasksRobotId = async () => {
     }
 };
 
-export const getRobotsTasksStatus = async (queryStr: string) => {
+export const getRobotsTasksStatus = async () => {
     try {
 
-        const resp = await httpClient(robotsTasksReqConfig).get(`tasks/statuses/${queryStr}`);
+        const resp = await httpClient(robotsTasksReqConfig).get(`tasks/statuses/`);
 
         return resp.data.statuses;
 

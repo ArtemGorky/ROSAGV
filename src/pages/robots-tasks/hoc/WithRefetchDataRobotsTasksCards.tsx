@@ -1,5 +1,5 @@
 import { robotsTasksStore } from '@/entities';
-import { RobotsTasksTable } from '../view/robots-tasks-table/RobotsTasksTable';
+import { RobotsTasksCards } from '../view/robot-tasks-cards/RobotTasksCards';
 import { observer } from 'mobx-react-lite';
 import { RobotsTasks } from '../types';
 import { useInterval } from 'usehooks-ts';
@@ -21,6 +21,6 @@ export const WithRefetchDataRobotsTasksCards = observer(({ currentTasks, intl, i
 
     useInterval(() => getRobotsTasksData(), tasksRefetchData * 1000);
 
-    return <RobotsTasksTable currentTasks={currentTasks} intl={intl} isLoading={isLoading} />
+    return <RobotsTasksCards currentTasks={currentTasks} intl={intl} isLoading={isLoading} />
 
 });

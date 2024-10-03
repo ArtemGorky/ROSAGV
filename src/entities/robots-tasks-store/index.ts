@@ -2,7 +2,7 @@ import { makeAutoObservable, runInAction } from "mobx";
 import { getRobotsTasks, getRobotsTasksCommand, getRobotsTasksName, getRobotsTasksRobotId, getRobotsTasksStatus } from "@/servises";
 import { RobotsTasks, TasksData } from "@/pages/robots-tasks/types";
 import { getRobotsTasksStructuredData } from "@/shared/helpers/robots-tasks";
-import { OptionsTypes, ValueTypes } from "@/shared/types";
+import { FleetData, FleetResult, OptionsTypes, ValueTypes } from "@/shared/types";
 import { debounceDelay } from "@/shared/constants";
 import moment from "moment";
 
@@ -25,15 +25,15 @@ class robotsTasksStore {
     isOpenDropdown: boolean = false;
     isOpenRefetchDropdown: boolean = false;
 
-    tasksCommand: string | null = null;
+    tasksCommand: OptionsTypes[] = [];
     tasksName: string = "";
-    tasksRobotId: string = "";
-    tasksStatus: string | null = null;
+    tasksRobotId: OptionsTypes[] = [];
+    tasksStatus: OptionsTypes[] = [];
 
-    tempTasksCommand: string | null = null;
+    tempTasksCommand: OptionsTypes[] = [];
     tempTasksName: string = "";
-    tempTasksRobotId: string = "";
-    tempTasksStatus: string | null = null;
+    tempTasksRobotId: OptionsTypes[] = [];
+    tempTasksStatus: OptionsTypes[] = [];
 
 
     // tasksStartDate: string = "";
@@ -49,8 +49,8 @@ class robotsTasksStore {
     isTasksStatusLoading: boolean = false;
 
     tasksCommands: OptionsTypes[] = [];
-    tasksNames: ValueTypes[] = [];
-    tasksRobotIds: ValueTypes[] = [];
+    tasksNames: OptionsTypes[] = [];
+    tasksRobotIds: OptionsTypes[] = [];
     tasksStatuses: OptionsTypes[] = [];
 
     tasksTotalPages: number = 0;
@@ -67,7 +67,7 @@ class robotsTasksStore {
         makeAutoObservable(this);
     }
 
-    handleDebounce = (val: string, key: string) => {
+    handleDebounce = (val: string | OptionsTypes[], key: string) => {
 
         this.timerDebounce && clearTimeout(this.timerDebounce);
 
@@ -97,24 +97,24 @@ class robotsTasksStore {
     };
 
 
-    setTasksCommand = (option: OptionsTypes) => {
-        this.tempTasksCommand = option?.label;
-        this.handleDebounce(option?.label, 'tasksCommand');
+    setTasksCommand = (option: OptionsTypes[]) => {
+        this.tempTasksCommand = option;
+        this.handleDebounce(option, 'tasksCommand');
     };
 
-    setTasksName = (val: string | null) => {
+    setTasksName = (val: string) => {
         this.tempTasksName = val;
         this.handleDebounce(val, 'tasksName');
     };
 
-    setTasksRobotId = (val: string | null) => {
-        this.tempTasksRobotId = val;
-        this.handleDebounce(val, 'tasksRobotId');
+    setTasksRobotId = (option: OptionsTypes[]) => {
+        this.tempTasksRobotId = option;
+        this.handleDebounce(option, 'tasksRobotId');
     };
 
-    setTasksStatus = (option: OptionsTypes) => {
-        this.tempTasksStatus = option?.value;
-        this.handleDebounce(option?.value, 'tasksStatus');
+    setTasksStatus = (option: OptionsTypes[]) => {
+        this.tempTasksStatus = option;
+        this.handleDebounce(option, 'tasksStatus');
     };
 
 
@@ -126,15 +126,15 @@ class robotsTasksStore {
 
     resetTasksFilterData = () => {
         runInAction(() => {
-            this.tasksCommand = null;
+            this.tasksCommand = [];
             this.tasksName = "";
-            this.tasksRobotId = "";
-            this.tasksStatus = null;
+            this.tasksRobotId = [];
+            this.tasksStatus = [];
 
-            this.tempTasksCommand = null;
+            this.tempTasksCommand = [];
             this.tempTasksName = "";
-            this.tempTasksRobotId = "";
-            this.tempTasksStatus = null;
+            this.tempTasksRobotId = [];
+            this.tempTasksStatus = [];
         });
     };
 
@@ -147,15 +147,7 @@ class robotsTasksStore {
 
             this.isTasksCommandLoading = true;
 
-
-            const commandParam = this.tasksCommand ? `&commands=${this.tasksCommand}` : "";
-
-            const queryStr = `${commandParam}`;
-
-            const targetQueryStr = queryStr.replace("&", "?");
-
-
-            const data: string[] = await getRobotsTasksCommand(targetQueryStr);
+            const data: string[] = await getRobotsTasksCommand();
 
             const targetData: OptionsTypes[] = Object.keys(data).map((key: string) => ({ value: key, label: data[key] }));
 
@@ -192,9 +184,7 @@ class robotsTasksStore {
 
             const data: string[] = await getRobotsTasksName(targetQueryStr);
 
-            const targetData: ValueTypes[] = data.map((val: string) => ({ value: val }));
-
-            // const structuredData = getRobotsTasksStructuredData(data.results);
+            const targetData: OptionsTypes[] = data.map((val: string) => ({ value: val, label: val }));
 
             runInAction(() => {
                 this.isTasksNameLoading = false;
@@ -206,27 +196,27 @@ class robotsTasksStore {
             if (error instanceof Error) {
                 runInAction(() => {
                     this.isTasksNameLoading = false;
-                    this.tasksNames = [{ value: `Ошибка: ${error.message}` }]
+                    this.tasksNames = [{ value: "0", label: `Ошибка: ${error.message}` }];
                 });
             }
 
         }
     };
 
+
     getTasksRobotId = async () => {
         try {
 
             this.isTasksRobotIdLoading = true;
 
-            const data: string[] = await getRobotsTasksRobotId();
+            const data: FleetData = await getRobotsTasksRobotId();
 
-            const targetData: ValueTypes[] = data.map((val: string) => ({ value: val }));
-
-            // const structuredData = getRobotsTasksStructuredData(data.results);
+            const targetData: OptionsTypes[] = data.results.map((res: FleetResult) =>
+                ({ value: res.robot_id, label: res.robot_id }));
 
             runInAction(() => {
                 this.isTasksRobotIdLoading = false;
-                this.tasksRobotIds = targetData
+                this.tasksRobotIds = targetData;
             });
 
         } catch (error) {
@@ -234,7 +224,7 @@ class robotsTasksStore {
             if (error instanceof Error) {
                 runInAction(() => {
                     this.isTasksRobotIdLoading = false;
-                    this.tasksRobotIds = [{ value: `Ошибка: ${error.message}` }]
+                    this.tasksRobotIds = [{ value: "0", label: `Ошибка: ${error.message}` }]
                 });
             }
 
@@ -246,15 +236,7 @@ class robotsTasksStore {
 
             this.isTasksStatusLoading = true;
 
-
-            const statusParam = this.tasksStatus ? `&status=${this.tasksStatus}` : "";
-
-            const queryStr = `${statusParam}`;
-
-            const targetQueryStr = queryStr.replace("&", "?");
-
-
-            const data: Record<string, any> = await getRobotsTasksStatus(targetQueryStr);
+            const data: Record<string, any> = await getRobotsTasksStatus();
 
             const targetData: OptionsTypes[] = Object.keys(data).map((key: string) => ({ value: key, label: data[key] }));
 
@@ -281,17 +263,51 @@ class robotsTasksStore {
             this.isLoading = true;
 
             const pageSizeParam = this.tasksPageSize ? `&page_size=${this.tasksPageSize}` : "";
-            const robotIdParam = this.tasksRobotId ? `&robot_id=${this.tasksRobotId}` : "";
-            const commandParam = this.tasksCommand ? `&command=${this.tasksCommand}` : "";
+
+            const robotIdParam = this.tasksRobotId.length
+                ? this.tasksRobotId.reduce((accum: string, option: OptionsTypes, index: number) => {
+                    if (index === this.tasksRobotId.length - 1) {
+                        accum = `${accum}${option.label}`
+                    }
+                    else {
+                        accum = `${accum}${option.label},`
+                    }
+                    return accum
+                }, "&robot_id=")
+                : "";
+
+            const commandParam = this.tasksCommand.length
+                ? this.tasksCommand.reduce((accum: string, option: OptionsTypes, index: number) => {
+                    if (index === this.tasksCommand.length - 1) {
+                        accum = `${accum}${option.label}`
+                    }
+                    else {
+                        accum = `${accum}${option.label},`
+                    }
+                    return accum
+                }, "&command=")
+                : "";
+
+            const statusParam = this.tasksStatus.length
+                ? this.tasksStatus.reduce((accum: string, option: OptionsTypes, index: number) => {
+                    if (index === this.tasksStatus.length - 1) {
+                        accum = `${accum}${option.value}`
+                    }
+                    else {
+                        accum = `${accum}${option.value},`
+                    }
+                    return accum
+                }, "&last_state__in=")
+                : "";
+
             const nameParam = this.tasksName ? `&name=${this.tasksName}` : "";
             const pageParam = this.tasksCurrentPage ? `&page=${this.tasksCurrentPage}` : "";
 
             const startTimeAfter = this.tasksStartDate ? `&taskstate_timestamp_after=${this.tasksStartDate}` : "";
             const startTimeBefore = this.tasksEndDate ? `&taskstate_timestamp_before=${this.tasksEndDate}` : "";
 
-            const status = this.tasksStatus ? `&last_state=${this.tasksStatus}` : "";
 
-            const queryStr = `${pageParam}${commandParam}${nameParam}${robotIdParam}${startTimeAfter}${startTimeBefore}${pageSizeParam}${status}`;
+            const queryStr = `${pageParam}${commandParam}${nameParam}${robotIdParam}${startTimeAfter}${startTimeBefore}${pageSizeParam}${statusParam}`;
 
             const targetQueryStr = queryStr.replace("&", "?");
 

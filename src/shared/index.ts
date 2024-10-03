@@ -1,4 +1,4 @@
-export { parksAndRobotsReqConfig, robotsTasksReqConfig } from './configs';
+export { parksAndRobotsReqConfig, robotsTasksReqConfig, robotsFleetReqConfig } from './configs';
 
 export { parksAndRobotsMockData } from './mock-data';
 

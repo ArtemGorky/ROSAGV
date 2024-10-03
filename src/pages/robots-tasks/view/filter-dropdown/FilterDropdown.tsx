@@ -16,9 +16,8 @@ export const FilterDropdown = observer(({ intl }: IntlProps) => {
     const autoCompleteNameTitle = intl.formatMessage({ id: 'page.robotsTasks.autoComplete.nameTitle' });
     const autoCompleteRobotIdTitle = intl.formatMessage({ id: 'page.robotsTasks.autoComplete.robotIdTitle' });
     const selectStatusTitle = intl.formatMessage({ id: 'page.robotsTasks.autoComplete.statusTitle' });
+    const selectRobotIdTitle = intl.formatMessage({ id: 'page.robotsTasks.autoComplete.robotIdTitle' });
     const resetBtnTitle = intl.formatMessage({ id: 'page.robotsTasks.filterDropdown.resetBtnTitle' });
-    const emptyNameValue = intl.formatMessage({ id: 'page.robotsTasks.checkbox.emptyNameValue' });
-    const emptyRobotIdValue = intl.formatMessage({ id: 'page.robotsTasks.checkbox.emptyRobotIdValue' });
 
     const {
         store: {
@@ -87,19 +86,16 @@ export const FilterDropdown = observer(({ intl }: IntlProps) => {
                     setTasksName,
                     getTasksName,
                     tasksNames,
-                    emptyNameValue,
                     isTasksNameLoading
                 );
 
             case !key.includes(ROBOT_ID) || key:
-                return AutoCompleteDropdown(
+                return SelectDropdown(
                     tempTasksRobotId,
-                    tasksRobotId,
-                    autoCompleteRobotIdTitle,
+                    selectRobotIdTitle,
                     setTasksRobotId,
                     getTasksRobotId,
                     tasksRobotIds,
-                    emptyRobotIdValue,
                     isTasksRobotIdLoading
                 );
 

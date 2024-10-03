@@ -6,12 +6,12 @@ import { OptionsTypes } from "@/shared/types";
 
 const clickHandler = (evt: MouseEvent<HTMLDivElement>) => evt.stopPropagation();
 
-const changeHandler = (action: (option: OptionsTypes) => void) => (_: any, option: OptionsTypes) => action(option);
+const changeHandler = (action: (option: OptionsTypes[]) => void) => (_: any, option: OptionsTypes[]) => action(option);
 
-const clearHandler = (action: (option: OptionsTypes) => void) => () => action({ value: "0", label: null });
+const clearHandler = (action: (option: OptionsTypes[]) => void) => () => action([]);
 
-export const SelectDropdown = (tmpVal: string, title: string,
-    action: (val: OptionsTypes) => void, getOptions: () => void,
+export const SelectDropdown = (tmpVal: OptionsTypes[], title: string,
+    action: (val: OptionsTypes[]) => void, getOptions: () => void,
     options: OptionsTypes[], isLoading: boolean, getData?: (num: number) => string) => {
 
     const loadingOptions = [{
@@ -30,7 +30,8 @@ export const SelectDropdown = (tmpVal: string, title: string,
 
     return (
         <Select
-            style={{ width: 120 }}
+            mode="multiple"
+            style={{ width: 250 }}
             onChange={changeHandler(action)}
             onClear={clearHandler(action)}
             onClick={clickHandler}
