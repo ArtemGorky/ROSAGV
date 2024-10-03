@@ -2,6 +2,8 @@ import { Button, Dropdown, MenuProps, Space } from 'antd';
 import { DownOutlined } from '@ant-design/icons';
 import { MarginBottomWrapper } from '@/shared';
 
+import styles from "./index.module.css";
+
 type DropdownBarProps = {
     data: any;
     barItem: (key: string) => JSX.Element;
@@ -33,20 +35,24 @@ export const DropdownBar = ({ data, dropdownTitle, barItem, openingControl }: Dr
         return { label: barItem(key), key: index + key }
     }
 
-    const items: MenuProps['items'] = loopThroughObjRecurs(data, callbackLoop, 0);
+    const items: MenuProps['items'] = loopThroughObjRecurs(data, callbackLoop, 0).map((item: any) =>
+        item.children.length ? { ...item } : { label: item.label, key: item.key })
 
-    return <Dropdown
-        overlayStyle={{ minWidth: 0 }}
-        menu={{ items }}
-        onOpenChange={openingControl}
-    >
-        <MarginBottomWrapper>
-            <Button>
-                <Space>
-                    {dropdownTitle}
-                    <DownOutlined />
-                </Space>
-            </Button>
-        </MarginBottomWrapper>
-    </Dropdown>
+    return <div className={styles.container}>
+        <Dropdown
+            overlayStyle={{ minWidth: 0 }}
+            menu={{ items }}
+            onOpenChange={openingControl}
+            trigger={["click"]}
+        >
+            <MarginBottomWrapper>
+                <Button>
+                    <Space>
+                        {dropdownTitle}
+                        <DownOutlined />
+                    </Space>
+                </Button>
+            </MarginBottomWrapper>
+        </Dropdown>
+    </div>
 }

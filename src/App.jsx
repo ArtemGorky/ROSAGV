@@ -22,6 +22,9 @@ import { lightTheme, darkTheme, ThemeProvider } from './themes';
 import './App.css';
 import ErrorBoundary from './ErrorBoundary'; // Импортируем компонент границы ошибок
 
+import ruRU from 'antd/locale/ru_RU';
+import enGB from 'antd/locale/en_GB';
+
 const { Content } = Layout;
 
 const AppContent = React.memo(({ collapsed }) => {
@@ -119,11 +122,10 @@ function App() {
     color: theme.token.colorTextBase,
   }), [collapsed, theme.token.colorBgBase, theme.token.colorTextBase]);
   
-
   return (
     <I18nProvider locale={locale}>
       <ThemeProvider value={theme}>
-        <ConfigProvider theme={theme}>
+        <ConfigProvider theme={theme} locale={locale === "ru" ? ruRU : enGB}>
           <Router>
             <Layout style={{ minHeight: '100vh', overflow: 'hidden', backgroundColor: theme.token.colorBgBase }}>
               <Sidebar

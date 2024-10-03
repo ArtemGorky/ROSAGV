@@ -1,0 +1,30 @@
+.tooltipTableText {
+    overflow: hidden;
+    width: 100px;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.spin {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 70vh;
+}
+
+.roundIndicator {
+    width: 8px;
+    height: 8px;
+    margin-left: 5px;
+    margin-right: 5px;
+    border-radius: 50%;
+    display: inline-block;
+}
+
+.tableRoot {
+    width: fit-content;
+}
+
+.tableContainer {
+    width: 100%;
+}

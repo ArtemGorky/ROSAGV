@@ -1,0 +1,15 @@
+.popup {
+  opacity: 0;
+  display: none;
+  padding: 0;
+}
+
+.popup:hover {
+  opacity: 1;
+  display: block;
+}
+
+div:has(.rangePicker):hover+div div.popup {
+  opacity: 1;
+  display: block;
+}

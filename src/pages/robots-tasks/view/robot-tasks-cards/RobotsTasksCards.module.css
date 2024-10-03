@@ -1,0 +1,32 @@
+.tooltipCardTitle,
+.tooltipCardTaskId {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.tooltipCardTitle {
+    width: 250px;
+}
+
+.tooltipCardTaskId {
+    width: 100px;
+}
+
+.spin {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 70vh;
+}
+
+.cardTitle {
+    white-space: normal;
+}
+
+.card {
+    width: 300px;
+    display: inline-block;
+    margin-right: 16px;
+    margin-bottom: 16px;
+}

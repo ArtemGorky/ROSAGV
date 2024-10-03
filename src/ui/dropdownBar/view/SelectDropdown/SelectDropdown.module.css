@@ -1,0 +1,14 @@
+.popup {
+    opacity: 0;
+    display: none;
+}
+
+.popup:hover {
+    opacity: 1;
+    display: block;
+}
+
+div:has(.select):hover+div div.popup {
+    opacity: 1;
+    display: block;
+}
