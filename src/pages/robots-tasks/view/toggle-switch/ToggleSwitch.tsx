@@ -21,8 +21,9 @@ export const ToggleSwitch = observer(({ intl }: IntlProps) => {
         <Switch
             onChange={onChangeHandler}
             className={styles.switch}
-            checkedChildren="Таблица"
-            unCheckedChildren="Карточки" defaultChecked
+            checkedChildren={intl.formatMessage({ id: 'page.robotsTasksSwitchButton.table' })}
+            unCheckedChildren={intl.formatMessage({ id: 'page.robotsTasksSwitchButton.cards' })}
+            defaultChecked
         />
     </div>
 });

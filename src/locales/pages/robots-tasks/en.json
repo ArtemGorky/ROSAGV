@@ -52,6 +52,9 @@
   "page.robotsTasks.orderDropdown.command": "Command",
   "page.robotsTasks.orderDropdown.taskState": "Task state",
   "page.robotsTasks.orderDropdown.firstTaskState": "First task state",
-  "page.robotsTasks.orderDropdown.cancel": "Отменить"
+  "page.robotsTasks.orderDropdown.cancel": "Отменить",
+
+  "page.robotsTasksSwitchButton.table": "Table",
+  "page.robotsTasksSwitchButton.cards": "Cards"
   
 }

@@ -52,6 +52,9 @@
   "page.robotsTasks.orderDropdown.command": "Команде",
   "page.robotsTasks.orderDropdown.taskState": "Последнему состоянию",
   "page.robotsTasks.orderDropdown.firstTaskState": "Первому состоянию",
-  "page.robotsTasks.orderDropdown.cancel": "Отменить"
+  "page.robotsTasks.orderDropdown.cancel": "Отменить",
+
+  "page.robotsTasksSwitchButton.table": "Таблица",
+  "page.robotsTasksSwitchButton.cards": "Карточки"
   
 }
