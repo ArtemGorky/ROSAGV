@@ -10,6 +10,7 @@ import Notifications from './pages/notifications';
 import CardsAndSnapshots from './pages/cards-and-snapchots';
 import ParksAndRobots from './pages/parks-and-robots';
 import RobotsTasks from './pages/robots-tasks';
+import RobotsTargetTask from './pages/robots-target-task';
 import Settings from './pages/settings';
 import Help from './pages/help';
 import BugReport from './pages/bug-report';
@@ -49,6 +50,7 @@ const AppContent = React.memo(({ collapsed }) => {
         <Route path="/scenes/cards-and-snapshots" element={<CardsAndSnapshots />} />
         <Route path="/scenes/parks-and-robots" element={<ParksAndRobots />} />
         <Route path="/scenes/robots-tasks" element={<RobotsTasks />} />
+        <Route path="/scenes/robots-tasks/task" element={<RobotsTargetTask />} />
         <Route path="/map" element={<Map collapsed={collapsed} />} />
         <Route path="/reports" element={<Reports />} />
         <Route path="/notifications" element={<Notifications />} />

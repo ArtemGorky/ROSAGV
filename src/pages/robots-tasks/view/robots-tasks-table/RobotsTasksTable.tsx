@@ -8,6 +8,8 @@ import styles from "./RobotsTasksTable.module.css";
 import { getTasksStatusLocale } from '@/shared/helpers';
 import { colors } from '@/shared/constants';
 
+import { useNavigate } from "react-router-dom";
+
 type RobotsTasksTableProps = {
     currentTasks: RobotsTasks[];
     isLoading: boolean;
@@ -16,15 +18,17 @@ type RobotsTasksTableProps = {
 
 export const RobotsTasksTable = observer(({ currentTasks, intl, isLoading }: RobotsTasksTableProps) => {
 
+    const navigate = useNavigate();
+
     const columns: TableColumnsType<RobotsTasks> = [
         {
             title: intl.formatMessage({ id: 'page.robotsTasks.table.task_id' }),
             dataIndex: 'task_id',
             key: 'task_id',
             fixed: 'left',
-            render: text => <Tooltip color={"rgb(43, 52, 66)"} title={text} >
+            render: text => text ? <Tooltip color={"rgb(43, 52, 66)"} title={text} >
                 <p className={styles.tooltipTableText} > {text} </p>
-            </Tooltip> ?? "_____"
+            </Tooltip> : "_____"
         },
         {
             title: intl.formatMessage({ id: 'page.robotsTasks.table.name' }),
@@ -138,9 +142,18 @@ export const RobotsTasksTable = observer(({ currentTasks, intl, isLoading }: Rob
         },
     ];
 
+    const rowClickHandler = (taskId: string) => navigate("/scenes/robots-tasks/task", { state: { id: taskId } });
+
     return (
         <div className={styles.tableContainer}>
             <Table<RobotsTasks>
+                onRow={(record) => {
+                    return {
+                        onClick: () => {
+                            rowClickHandler(record.task_id);
+                        },
+                    };
+                }}
                 className={styles.tableRoot}
                 dataSource={currentTasks}
                 columns={columns}

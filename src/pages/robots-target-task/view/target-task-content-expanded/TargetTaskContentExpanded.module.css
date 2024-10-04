@@ -1,0 +1,9 @@
+.content {
+    width: 100%;
+    justify-content: space-around;
+    align-items: start;
+}
+
+.title {
+    text-align: center;
+}
