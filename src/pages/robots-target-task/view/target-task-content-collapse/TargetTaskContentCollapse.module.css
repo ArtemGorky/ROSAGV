@@ -1,0 +1,8 @@
+.title {
+    text-align: center;
+    margin: 0;
+}
+
+.collapse .title {
+    margin: 0;
+}

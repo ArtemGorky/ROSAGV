@@ -4,10 +4,13 @@ import { RobotTasksPagination } from "../robot-tasks-pagination/RobotTasksPagina
 import { WithRobotsTasksCards } from "../../hoc/WithRobotsTasksCards";
 import { WithRobotsTasksTable } from "../../hoc/WithRobotsTasksTable";
 import { robotsTasksStore } from "@/entities";
+import { useDeviceDetect } from "@/hooks";
 
 // import styles from "./TasksContent.module.css";
 
 export const TasksContent = observer(({ intl }: IntlProps) => {
+
+    const { isMobile } = useDeviceDetect();
 
     const {
         store: {
@@ -19,8 +22,10 @@ export const TasksContent = observer(({ intl }: IntlProps) => {
         {
             isTableTaskContent
                 ? <>
+                    {isMobile && <RobotTasksPagination intl={intl} />}
                     <WithRobotsTasksTable intl={intl} />
-                    <RobotTasksPagination intl={intl} />
+                    {!isMobile && <RobotTasksPagination intl={intl} />}
+
                 </>
                 : <>
                     <RobotTasksPagination intl={intl} />

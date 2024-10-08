@@ -1,8 +1,8 @@
 import React from 'react';
 import { Layout, Menu, Button } from 'antd';
 import { Link, useLocation } from 'react-router-dom';
-import logo from '../../../assets/AKLogo.svg';
-import userPhoto from '../../../assets/userPhoto.png';
+import logo from '@/shared/assets/AKLogo.svg';
+import userPhoto from '@/shared/assets/userPhoto.png';
 import { useIntl } from 'react-intl';
 import UsageGuidePanel from './view/usage-guide-panel';
 import {
@@ -126,7 +126,7 @@ const Sidebar = ({ collapsed, toggle, toggleTheme, locale, toggleLocale }) => {
           textAlign: 'center',
           display: 'flex',
           flexDirection: 'column',
-          alignItems: collapsed ? 'center' : 'flex-start',
+          alignItems: 'center',
         }}
       >
         {!collapsed ? (

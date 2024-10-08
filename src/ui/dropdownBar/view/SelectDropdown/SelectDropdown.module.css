@@ -1,9 +1,15 @@
-.popup {
+.popup,
+.popupMobile {
     opacity: 0;
     display: none;
 }
 
 .popup:hover {
+    opacity: 1;
+    display: block;
+}
+
+div:has(.selectMobile input:focus)+div div.popupMobile {
     opacity: 1;
     display: block;
 }

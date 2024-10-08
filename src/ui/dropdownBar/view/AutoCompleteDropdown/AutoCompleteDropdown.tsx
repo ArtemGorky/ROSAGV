@@ -2,6 +2,7 @@ import { KeyboardEvent, MouseEvent, useEffect } from "react";
 import { AutoComplete, Spin } from 'antd';
 import styles from './AutoCompleteDropdown.module.css';
 import { OptionsTypes } from "@/shared/types";
+import { useDeviceDetect } from "@/hooks";
 
 const clickHandler = (evt: MouseEvent<HTMLDivElement>) => evt.stopPropagation();
 const keyDownHandler = (evt: KeyboardEvent<HTMLDivElement>) => evt.stopPropagation();
@@ -13,6 +14,8 @@ const clearHandler = (action: (val: string) => void) => () => action(null);
 export const AutoCompleteDropdown = (tmpVal: string, value: string, title: string,
     action: (val: string) => void, getOptions: () => void,
     options: OptionsTypes[], isLoading: boolean) => {
+
+    const { isMobile } = useDeviceDetect();
 
     const loadingOptions = [{
         label: <div className={styles.loadingOptions}><Spin /></div>,
@@ -40,14 +43,14 @@ export const AutoCompleteDropdown = (tmpVal: string, value: string, title: strin
             onKeyDown={keyDownHandler}
             value={tmpVal}
             allowClear={true}
-            style={{ width: 200 }}
+            style={{ width: 200, marginLeft: isMobile ? "-100px" : "0" }}
             options={uniqueOptions}
             placeholder={title}
             filterOption={(inputValue, option) =>
                 (option!.value as string).toUpperCase().indexOf(inputValue.toUpperCase()) !== -1
             }
             // open={true}
-            className={styles.autoComplete}
+            className={isMobile ? styles.autoCompleteMobile : styles.autoComplete}
             popupClassName={styles.popup}
         />
     );

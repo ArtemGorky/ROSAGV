@@ -3,6 +3,7 @@ import { Spin } from 'antd';
 import styles from './SelectDropdown.module.css';
 import Select from "antd/es/select";
 import { OptionsTypes } from "@/shared/types";
+import { useDeviceDetect } from "@/hooks";
 
 const clickHandler = (evt: MouseEvent<HTMLDivElement>) => evt.stopPropagation();
 const keyDownHandler = (evt: KeyboardEvent<HTMLDivElement>) => evt.stopPropagation();
@@ -15,6 +16,8 @@ export const SelectDropdown = (
     tmpVal: OptionsTypes[], title: string, action: (val: OptionsTypes[]) => void,
     options: OptionsTypes[], isLoading: boolean, getOptions?: () => void, getData?: (num: string) => string, maxCount?: number
 ) => {
+
+    const { isMobile } = useDeviceDetect();
 
     const loadingOptions = [{
         label: <div className={styles.loadingOptions}><Spin /></div>,
@@ -34,7 +37,7 @@ export const SelectDropdown = (
     return (
         <Select
             mode="multiple"
-            style={{ width: 250 }}
+            style={{ width: 240, marginLeft: isMobile ? "-100px" : "0" }}
             onChange={changeHandler(action)}
             onClear={clearHandler(action)}
             onKeyDown={keyDownHandler}
@@ -45,8 +48,8 @@ export const SelectDropdown = (
             allowClear
             options={localeOptions}
             open={true}
-            className={styles.select}
-            popupClassName={styles.popup}
+            className={isMobile ? styles.selectMobile : styles.select}
+            popupClassName={isMobile ? styles.popupMobile : styles.popup}
         />
     );
 }

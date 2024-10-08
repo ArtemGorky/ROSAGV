@@ -1,0 +1,15 @@
+.content {
+    width: 100%;
+    justify-content: space-around;
+    align-items: baseline;
+}
+
+.container {
+    display: flex;
+    justify-content: center;
+}
+
+.titleSkeleton div ul  {
+    display: flex;
+    justify-content: center;
+}

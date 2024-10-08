@@ -44,7 +44,7 @@ class robotsTasksStore {
     tasksMinStartTimeAfter: string = "";
     tasksMinStartTimeBefore: string = "";
 
-    tasksStartDate: string = moment().subtract(1, 'days').format().split("+")[0];
+    tasksStartDate: string = moment().subtract(365, 'days').format().split("+")[0];
     tasksEndDate: string = moment().format().split("+")[0];
 
 

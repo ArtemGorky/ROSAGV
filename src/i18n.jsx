@@ -9,16 +9,21 @@ import ruMessagesParksAndRobots from './locales/pages/parks-and-robots/ru.json';
 import enMessagesRobotsTasks from './locales/pages/robots-tasks/en.json';
 import ruMessagesRobotsTasks from './locales/pages/robots-tasks/ru.json';
 
+import enMessagesRobotsTargetTask from './locales/pages/robots-target-task/en.json';
+import ruMessagesRobotsTargetTask from './locales/pages/robots-target-task/ru.json';
+
 const messages = {
   en: {
     ...enMessages,
     ...enMessagesParksAndRobots,
-    ...enMessagesRobotsTasks
+    ...enMessagesRobotsTasks,
+    ...enMessagesRobotsTargetTask
   },
   ru: {
     ...ruMessages,
     ...ruMessagesParksAndRobots,
-    ...ruMessagesRobotsTasks
+    ...ruMessagesRobotsTasks,
+    ...ruMessagesRobotsTargetTask
   },
 };
 

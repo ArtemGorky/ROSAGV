@@ -19,7 +19,7 @@ const UsageGuidePanel = () => {
     height: '60px',
     padding: '4px',
     textDecoration: 'none',
-    marginLeft: '10px',
+    // marginLeft: '10px',
     marginBottom: '15px'
   };
 

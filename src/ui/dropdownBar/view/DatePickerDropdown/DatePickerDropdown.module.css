@@ -4,6 +4,10 @@
   padding: 0;
 }
 
+.popupMobile {
+  padding: 0;
+}
+
 .popup:hover {
   opacity: 1;
   display: block;
@@ -13,3 +17,27 @@ div:has(.rangePicker):hover+div div.popup {
   opacity: 1;
   display: block;
 }
+
+.popupMobile>div>div:last-child>div>div {
+  height: 300px;
+  overflow-y: auto;
+}
+
+.popupMobile>div>div:last-child>div>div>div {
+  flex-direction: column;
+  height: 600px;
+}
+
+.rangePickerMobile {
+  margin-left: -100px;
+}
+
+/* div:has(.rangePicker input:focus)+div div.popupMobile {
+  opacity: 1;
+  display: block;
+} */
+
+/* .rangePickerContainer {
+  width: 300px;
+  overflow: hidden;
+} */
