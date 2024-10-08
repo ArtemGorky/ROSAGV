@@ -1,4 +1,27 @@
 {
     "breadcrumb.task": "Задача",
-    "page.robotsTargetTask.title": "Задача"
+    "page.robotsTargetTask.title": "Задача",
+
+    "page.robotsTargetTask.baseTitle": "Основная информация",
+    "page.robotsTargetTask.historyTitle": "История выполнения",
+
+    "page.robotsTargetTask.historyTable.status": "Статус",
+    "page.robotsTargetTask.historyTable.date": "Дата",
+    "page.robotsTargetTask.historyTable.errorCode": "Код ошибки",
+    "page.robotsTargetTask.historyTable.robotId": "ID робота",
+    
+    "page.robotsTargetTask.baseDescription.taskId": "ID задачи",
+    "page.robotsTargetTask.baseDescription.command": "Команда",
+    "page.robotsTargetTask.baseDescription.startPoint": "Начальная точка",
+    "page.robotsTargetTask.baseDescription.endPoint": "Конечная точка",
+    "page.robotsTargetTask.baseDescription.startTime": "Время начала",
+    "page.robotsTargetTask.baseDescription.packagingRequired": "Требуется упаковка",
+    "page.robotsTargetTask.baseDescription.currentStatus": "Текущий статус",
+
+    "page.robotsTargetTask.baseBtn.restart": "Перевыполнить",
+    "page.robotsTargetTask.baseBtn.cancel": "Отменить",
+    "page.robotsTargetTask.baseBtn.continue": "Продолжить",
+
+    "page.robotsTargetTask.baseModal.restart": "Первыполнить задачу?",
+    "page.robotsTargetTask.baseModal.cancel": "Отменить задачу?"
 }

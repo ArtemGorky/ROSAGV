@@ -176,12 +176,14 @@ class robotsTasksStore {
     setTasksContent = (val: boolean) => this.isTableTaskContent = val;
 
 
-    getTasksCommand = async () => {
+    getTasksCommand = async (locale: string) => {
         try {
 
             this.isTasksCommandLoading = true;
 
-            const data: string[] = await getRobotsTasksCommand();
+            const targetQueryStr = `?lang=${locale}`;
+
+            const data: string[] = await getRobotsTasksCommand(targetQueryStr);
 
             const targetData: OptionsTypes[] = data.map((comand: string, index: number) =>
                 ({ value: comand, label: comand, id: index }));
@@ -204,7 +206,7 @@ class robotsTasksStore {
     };
 
 
-    getTasksName = async () => {
+    getTasksName = async (locale: string) => {
         try {
 
             this.isTasksNameLoading = true;
@@ -212,7 +214,9 @@ class robotsTasksStore {
 
             const nameParam = this.tasksName ? `&name=${this.tasksName}` : "";
 
-            const queryStr = `${nameParam}`;
+            const localeParam = `&lang=${locale}`;
+
+            const queryStr = `${localeParam}${nameParam}`;
 
             const targetQueryStr = queryStr.replace("&", "?");
 
@@ -240,12 +244,14 @@ class robotsTasksStore {
     };
 
 
-    getTasksRobotId = async () => {
+    getTasksRobotId = async (locale: string) => {
         try {
 
             this.isTasksRobotIdLoading = true;
 
-            const data: FleetData = await getRobotsTasksRobotId();
+            const targetQueryStr = `?lang=${locale}`;
+
+            const data: FleetData = await getRobotsTasksRobotId(targetQueryStr);
 
             const targetData: OptionsTypes[] = data.results.map((res: FleetResult, index: number) =>
                 ({ value: res.robot_id, label: res.robot_id, id: index }));
@@ -272,7 +278,9 @@ class robotsTasksStore {
 
             this.isTasksStatusLoading = true;
 
-            const data: Record<string, any> = await getRobotsTasksStatus();
+            const targetQueryStr = `?lang=${intl.locale}`;
+
+            const data: Record<string, any> = await getRobotsTasksStatus(targetQueryStr);
 
             const targetData: OptionsTypes[] = Object.keys(data).map((key: string) =>
                 ({ value: getTasksStatusName(intl, data[key]), label: getTasksStatusName(intl, data[key]), id: Number(key) }));
@@ -295,7 +303,7 @@ class robotsTasksStore {
         }
     };
 
-    getRobotsTasksData = async () => {
+    getRobotsTasksData = async (locale: string) => {
         try {
             this.isLoading = true;
 
@@ -349,9 +357,11 @@ class robotsTasksStore {
             const lastStateGte = this.tasksRangeStatus[0] ? `&last_state__gte=${this.tasksRangeStatus[0].value}` : "";
             const lastStateLte = this.tasksRangeStatus[1] ? `&last_state__lte=${this.tasksRangeStatus[1].value}` : "";
 
-            const ordering = this.tasksOrder ? `&ordering=${this.tasksOrder}` : "";
+            const orderingParam = this.tasksOrder ? `&ordering=${this.tasksOrder}` : "";
 
-            const queryStr = `${pageParam}${commandParam}${nameParam}${robotIdParam}${startTimeAfter}${startTimeBefore}${pageSizeParam}${statusParam}${lastStateGte}${lastStateLte}${minStartTimeAfter}${minStartTimeBefore}${ordering}`;
+            const localeParam = `&lang=${locale}`;
+
+            const queryStr = `${localeParam}${pageParam}${commandParam}${nameParam}${robotIdParam}${startTimeAfter}${startTimeBefore}${pageSizeParam}${statusParam}${lastStateGte}${lastStateLte}${minStartTimeAfter}${minStartTimeBefore}${orderingParam}`;
 
             const targetQueryStr = queryStr.replace("&", "?");
 

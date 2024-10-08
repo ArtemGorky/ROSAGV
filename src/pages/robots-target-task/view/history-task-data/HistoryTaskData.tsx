@@ -34,7 +34,7 @@ export const HistoryTaskData = observer(({ intl }: Props) => {
     const columns = isMobile
         ? [
             {
-                title: 'Статус',
+                title: intl.formatMessage({ id: 'page.robotsTargetTask.historyTable.status' }),
                 dataIndex: 'state',
                 key: 'state',
                 render: (num: number) => {
@@ -50,13 +50,13 @@ export const HistoryTaskData = observer(({ intl }: Props) => {
                 }
             },
             {
-                title: 'Дата',
+                title: intl.formatMessage({ id: 'page.robotsTargetTask.historyTable.date' }),
                 dataIndex: 'timestamp',
                 key: 'timestamp',
                 render: (text: string) => text ?? "_____"
             },
             {
-                title: 'Код ошибки',
+                title: intl.formatMessage({ id: 'page.robotsTargetTask.historyTable.errorCode' }),
                 dataIndex: 'error_code',
                 key: 'error_code',
                 render: (text: string) => text !== "" && text !== null
@@ -66,13 +66,13 @@ export const HistoryTaskData = observer(({ intl }: Props) => {
         ]
         : [
             {
-                title: 'Дата',
+                title: intl.formatMessage({ id: 'page.robotsTargetTask.historyTable.date' }),
                 dataIndex: 'timestamp',
                 key: 'timestamp',
                 render: (text: string) => text ?? "_____"
             },
             {
-                title: 'Статус',
+                title: intl.formatMessage({ id: 'page.robotsTargetTask.historyTable.status' }),
                 dataIndex: 'state',
                 key: 'state',
                 render: (num: number) => {
@@ -88,13 +88,13 @@ export const HistoryTaskData = observer(({ intl }: Props) => {
                 }
             },
             {
-                title: 'ID робота',
+                title: intl.formatMessage({ id: 'page.robotsTargetTask.historyTable.robotId' }),
                 dataIndex: 'robot_id',
                 key: 'robot_id',
                 render: (text: string) => text ?? "_____"
             },
             {
-                title: 'Код ошибки',
+                title: intl.formatMessage({ id: 'page.robotsTargetTask.historyTable.errorCode' }),
                 dataIndex: 'error_code',
                 key: 'error_code',
                 render: (text: string) => text !== "" && text !== null

@@ -52,9 +52,20 @@
   "page.robotsTasks.orderDropdown.command": "Command",
   "page.robotsTasks.orderDropdown.taskState": "Task state",
   "page.robotsTasks.orderDropdown.firstTaskState": "First task state",
-  "page.robotsTasks.orderDropdown.cancel": "Отменить",
+  "page.robotsTasks.orderDropdown.cancel": "Cancel",
 
   "page.robotsTasksSwitchButton.table": "Table",
-  "page.robotsTasksSwitchButton.cards": "Cards"
+  "page.robotsTasksSwitchButton.cards": "Cards",
+
+  "page.robotsTasks.cardTooltip.status": "Status",
+  "page.robotsTasks.cardTooltip.time": "Time",
+  "page.robotsTasks.cardTooltip.robotId": "Robot ID",
+  "page.robotsTasks.cardTooltip.startTime": "Start time",
+  "page.robotsTasks.cardTooltip.endTime": "End time",
+  "page.robotsTasks.cardTooltip.errorCode": "Error code",
+  "page.robotsTasks.cardTooltip.missingErrorCode": "missing",
+
+  "page.robotsTasks.card.packagingRequired.packagingRequired": "Yes",
+  "page.robotsTasks.card.packagingRequired.noPackagingRequired": "No"
   
 }

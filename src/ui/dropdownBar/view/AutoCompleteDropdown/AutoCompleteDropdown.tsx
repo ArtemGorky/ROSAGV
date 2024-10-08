@@ -13,7 +13,7 @@ const clearHandler = (action: (val: string) => void) => () => action(null);
 
 export const AutoCompleteDropdown = (tmpVal: string, value: string, title: string,
     action: (val: string) => void, getOptions: () => void,
-    options: OptionsTypes[], isLoading: boolean) => {
+    options: OptionsTypes[], isLoading: boolean, locale: string) => {
 
     const { isMobile } = useDeviceDetect();
 
@@ -33,7 +33,7 @@ export const AutoCompleteDropdown = (tmpVal: string, value: string, title: strin
 
     useEffect(() => {
         getOptions();
-    }, [value]);
+    }, [value, locale]);
 
     return (
         <AutoComplete

@@ -96,7 +96,11 @@ export const RobotsTasksCards = observer(({ currentTasks, intl, isLoading }: Rob
                                     {intl.formatMessage({ id: 'page.robotsTasks.table.wrapping_required' })}:
                                 </span>
                                 <span>
-                                    {task.wrapping_required ? "Да" : "Нет"}
+                                    {
+                                        task.wrapping_required
+                                            ? intl.formatMessage({ id: 'page.robotsTasks.card.packagingRequired.packagingRequired' })
+                                            : intl.formatMessage({ id: 'page.robotsTasks.card.packagingRequired.noPackagingRequired' })
+                                    }
                                 </span>
                             </div>
                             <div style={{ display: "flex", gap: "10px" }}>
@@ -108,31 +112,31 @@ export const RobotsTasksCards = observer(({ currentTasks, intl, isLoading }: Rob
                                         color={"rgb(43, 52, 66)"}
                                         title={
                                             <>
-                                                <span>Статус: </span>
+                                                <span>{intl.formatMessage({ id: 'page.robotsTasks.cardTooltip.status' })}: </span>
                                                 <span> {task.task_state?.state ?? "_____"} </span>
                                                 <div>
-                                                    <span>Время: </span>
+                                                    <span>{intl.formatMessage({ id: 'page.robotsTasks.cardTooltip.time' })}: </span>
                                                     < span > {task.task_state?.timestamp ?? "_____"
                                                     }</span>
                                                 </div>
                                                 < div >
-                                                    <span>ID робота: </span>
+                                                    <span>{intl.formatMessage({ id: 'page.robotsTasks.cardTooltip.robotId' })}: </span>
                                                     < span > {task?.robot_id ?? "_____"
                                                     } </span>
                                                 </div>
                                                 < div >
-                                                    <span>Время начала: </span>
+                                                    <span>{intl.formatMessage({ id: 'page.robotsTasks.cardTooltip.startTime' })}: </span>
                                                     < span > {task.task_state?.start_time ?? "_____"}</span>
                                                 </div>
                                                 < div >
-                                                    <span>Время завершения: </span>
+                                                    <span>{intl.formatMessage({ id: 'page.robotsTasks.cardTooltip.endTime' })}: </span>
                                                     < span > {task.task_state?.end_time ?? "_____"}</span>
                                                 </div>
                                                 < div >
-                                                    <span>Код ошибки: </span>
+                                                    <span>{intl.formatMessage({ id: 'page.robotsTasks.cardTooltip.errorCode' })}: </span>
                                                     < span >
                                                         {task.task_state?.error_code === "" || !task.task_state?.error_code
-                                                            ? "отсутствует"
+                                                            ? intl.formatMessage({ id: 'page.robotsTasks.cardTooltip.missingErrorCode' })
                                                             : task.task_state?.error_code}</span>
                                                 </div>
                                             </>

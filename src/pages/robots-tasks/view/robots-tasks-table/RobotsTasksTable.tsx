@@ -139,7 +139,9 @@ export const RobotsTasksTable = observer(({ currentTasks, intl, isLoading }: Rob
                 title: intl.formatMessage({ id: 'page.robotsTasks.table.wrapping_required' }),
                 dataIndex: 'wrapping_required',
                 key: 'wrapping_required',
-                render: text => text ? "Да" : "Нет"
+                render: text => text
+                    ? intl.formatMessage({ id: 'page.robotsTasks.card.packagingRequired.packagingRequired' })
+                    : intl.formatMessage({ id: 'page.robotsTasks.card.packagingRequired.noPackagingRequired' })
             },
             {
                 title: intl.formatMessage({ id: 'page.robotsTasks.table.task_state' }),
@@ -154,29 +156,31 @@ export const RobotsTasksTable = observer(({ currentTasks, intl, isLoading }: Rob
                                     color={"rgb(43, 52, 66)"}
                                     title={
                                         <>
-                                            <span>Статус: </span>
+                                            <span>{intl.formatMessage({ id: 'page.robotsTasks.cardTooltip.status' })}: </span>
                                             <span> {task?.state ?? "_____"} </span>
                                             <div>
-                                                <span>Время: </span>
+                                                <span>{intl.formatMessage({ id: 'page.robotsTasks.cardTooltip.time' })}: </span>
                                                 < span > {task?.timestamp ?? "_____"
                                                 }</span>
                                             </div>
                                             < div >
-                                                <span>ID робота: </span>
+                                                <span>{intl.formatMessage({ id: 'page.robotsTasks.cardTooltip.robotId' })}: </span>
                                                 < span > {task?.robot_id ?? "_____"
                                                 } </span>
                                             </div>
                                             < div >
-                                                <span>Время начала: </span>
+                                                <span>{intl.formatMessage({ id: 'page.robotsTasks.cardTooltip.startTime' })}: </span>
                                                 < span > {task?.start_time ?? "_____"}</span>
                                             </div>
                                             < div >
-                                                <span>Время завершения: </span>
+                                                <span>{intl.formatMessage({ id: 'page.robotsTasks.cardTooltip.endTime' })}: </span>
                                                 < span > {task?.end_time ?? "_____"}</span>
                                             </div>
                                             < div >
-                                                <span>Код ошибки: </span>
-                                                < span > {task?.error_code === "" || !task?.error_code ? "отсутствует" : task?.error_code}</span>
+                                                <span>{intl.formatMessage({ id: 'page.robotsTasks.cardTooltip.errorCode' })}: </span>
+                                                < span > {task?.error_code === "" || !task?.error_code
+                                                    ? intl.formatMessage({ id: 'page.robotsTasks.cardTooltip.missingErrorCode' })
+                                                    : task?.error_code}</span>
                                             </div>
                                         </>
                                     }

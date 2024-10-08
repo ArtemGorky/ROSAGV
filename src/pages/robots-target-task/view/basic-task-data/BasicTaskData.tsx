@@ -35,12 +35,12 @@ export const BasicTaskData = observer(({ intl, isMobile }: Props) => {
 
     useEffect(() => {
         robotTaskResponseMessage && success();
-    }, [robotTaskResponseMessage]);
+    }, [robotTaskResponseMessage, intl.locale]);
 
     const items: DescriptionsProps['items'] = [
         {
             key: '1',
-            label: 'ID задачи',
+            label: intl.formatMessage({ id: 'page.robotsTargetTask.baseDescription.taskId' }),
             children: robotsTargetTask?.task_id
                 ? <Tooltip color={"rgb(43, 52, 66)"} title={robotsTargetTask?.task_id} >
                     <div className={styles.taskIdTitle}>{robotsTargetTask?.task_id}</div>
@@ -49,32 +49,32 @@ export const BasicTaskData = observer(({ intl, isMobile }: Props) => {
         },
         {
             key: '2',
-            label: 'Команда',
+            label: intl.formatMessage({ id: 'page.robotsTargetTask.baseDescription.command' }),
             children: robotsTargetTask?.command ?? "_____",
         },
         {
             key: '3',
-            label: 'Начальная точка',
+            label: intl.formatMessage({ id: 'page.robotsTargetTask.baseDescription.startPoint' }),
             children: robotsTargetTask?.targets[0] ?? "_____",
         },
         {
             key: '4',
-            label: 'Конечная точка',
+            label: intl.formatMessage({ id: 'page.robotsTargetTask.baseDescription.endPoint' }),
             children: robotsTargetTask?.targets[1] ?? "_____",
         },
         {
             key: '5',
-            label: 'Время начала',
+            label: intl.formatMessage({ id: 'page.robotsTargetTask.baseDescription.startTime' }),
             children: robotsTargetTask?.min_start_time ?? "_____",
         },
         {
             key: '6',
-            label: 'Требуется упаковка',
+            label: intl.formatMessage({ id: 'page.robotsTargetTask.baseDescription.packagingRequired' }),
             children: robotsTargetTask?.wrapping_required ? "Да" : "Нет",
         },
         {
             key: '7',
-            label: 'Текущий статус',
+            label: intl.formatMessage({ id: 'page.robotsTargetTask.baseDescription.currentStatus' }),
             children: <div>
                 <span
                     style={{ backgroundColor: `#${colors[robotsTargetTask?.task_state.state ?? 6]}` }}
@@ -91,7 +91,7 @@ export const BasicTaskData = observer(({ intl, isMobile }: Props) => {
         setIsOpenRetryTaskModal(true);
     }
     const clickOkBasicModalHandler = () => {
-        robotsTargetTask?.task_id && robotTargetTaskRetry(robotsTargetTask?.task_id);
+        robotsTargetTask?.task_id && robotTargetTaskRetry(robotsTargetTask?.task_id, intl.locale);
         setIsOpenRetryTaskModal(false);
     }
     const clickCancelBasicModalHandler = () => {
@@ -104,7 +104,7 @@ export const BasicTaskData = observer(({ intl, isMobile }: Props) => {
         setIsOpenCancelTaskModal(true);
     }
     const clickOkCancelModalHandler = () => {
-        robotsTargetTask?.task_id && robotTargetTaskCancel(robotsTargetTask?.task_id);
+        robotsTargetTask?.task_id && robotTargetTaskCancel(robotsTargetTask?.task_id, intl.locale);
         setIsOpenCancelTaskModal(false);
     }
     const clickCancelModalHandler = () => {
@@ -137,23 +137,27 @@ export const BasicTaskData = observer(({ intl, isMobile }: Props) => {
                     disabled={Number(robotsTargetTask?.task_state.state) !== 6 && Number(robotsTargetTask?.task_state.state) !== 7}
                     onClick={clickRetryHandler}
                 >
-                    Перевыполнить
+                    {intl.formatMessage({ id: 'page.robotsTargetTask.baseBtn.restart' })}
                 </Button>
-                <Button onClick={clickTaskCancelHandler}>Отменить</Button>
-                <Button>Продолжить</Button>
+                <Button onClick={clickTaskCancelHandler}>
+                    {intl.formatMessage({ id: 'page.robotsTargetTask.baseBtn.cancel' })}
+                </Button>
+                <Button>
+                    {intl.formatMessage({ id: 'page.robotsTargetTask.baseBtn.continue' })}
+                </Button>
             </Space>
 
 
             <BasicModal
                 title={robotsTargetTask?.name ?? ""}
-                content={"Первыполнить задачу?"}
+                content={intl.formatMessage({ id: 'page.robotsTargetTask.baseModal.restart' })}
                 isOpen={isOpenRetryTaskModal}
                 handleOk={clickOkBasicModalHandler}
                 handleCancel={clickCancelBasicModalHandler}
             />
             <BasicModal
                 title={robotsTargetTask?.name ?? ""}
-                content={"Отменить задачу?"}
+                content={intl.formatMessage({ id: 'page.robotsTargetTask.baseModal.cancel' })}
                 isOpen={isOpenCancelTaskModal}
                 handleOk={clickOkCancelModalHandler}
                 handleCancel={clickCancelModalHandler}

@@ -17,7 +17,7 @@ export const WithRobotsTasksCards = observer(({ intl }: IntlProps) => {
 
     useEffect(() => {
 
-        getRobotsTasksData();
+        getRobotsTasksData(intl.locale);
 
     }, [
         tasksCurrentPage,
@@ -31,7 +31,8 @@ export const WithRobotsTasksCards = observer(({ intl }: IntlProps) => {
         tasksRangeStatus,
         tasksMinStartTimeAfter,
         tasksMinStartTimeBefore,
-        tasksOrder
+        tasksOrder,
+        intl.locale
     ]);
 
     return (
