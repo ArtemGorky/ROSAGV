@@ -1,6 +1,6 @@
 import { IntlShape } from "react-intl";
 
-import { Button, Descriptions, DescriptionsProps, message, Skeleton, Space } from 'antd';
+import { Button, Descriptions, DescriptionsProps, message, Skeleton, Space, Tooltip } from 'antd';
 
 import styles from "./BasicTaskData.module.css"
 import { RobotsTargetTaskStore } from "@/entities";
@@ -41,7 +41,11 @@ export const BasicTaskData = observer(({ intl, isMobile }: Props) => {
         {
             key: '1',
             label: 'ID задачи',
-            children: robotsTargetTask?.task_id ?? "_____",
+            children: robotsTargetTask?.task_id
+                ? <Tooltip color={"rgb(43, 52, 66)"} title={robotsTargetTask?.task_id} >
+                    <div className={styles.taskIdTitle}>{robotsTargetTask?.task_id}</div>
+                </Tooltip>
+                : "_____",
         },
         {
             key: '2',

@@ -1,20 +1,21 @@
 import { IntlShape } from "react-intl";
-import { Skeleton, Table, Typography } from 'antd';
+import { Skeleton, Table } from 'antd';
 
 import styles from "./HistoryTaskData.module.css"
-import { RobotsTargetTaskState } from "../../types";
 import { colors } from "@/shared/constants";
 import { getTasksStatusLocale } from "@/shared/helpers";
 import { RobotsTargetTaskStore } from "@/entities";
 import { observer } from "mobx-react-lite";
-
-const { Title } = Typography;
+import { useDeviceDetect } from "@/hooks";
+import { Link } from "react-router-dom";
 
 type Props = {
     intl: IntlShape;
 }
 
 export const HistoryTaskData = observer(({ intl }: Props) => {
+
+    const { isMobile } = useDeviceDetect();
 
     const {
         store: {
@@ -30,43 +31,78 @@ export const HistoryTaskData = observer(({ intl }: Props) => {
         error_code: obj.error_code
     }));
 
-    const columns = [
-        {
-            title: 'Дата',
-            dataIndex: 'timestamp',
-            key: 'timestamp',
-            render: (text: string) => text ?? "_____"
-        },
-        {
-            title: 'Статус',
-            dataIndex: 'state',
-            key: 'state',
-            render: (num: number) => {
+    const columns = isMobile
+        ? [
+            {
+                title: 'Статус',
+                dataIndex: 'state',
+                key: 'state',
+                render: (num: number) => {
 
-                return <div>
-                    <span
-                        style={{ backgroundColor: `#${colors[num ?? 6]}` }}
-                        className={styles.roundIndicator}
-                    ></span>
-                    <span>{getTasksStatusLocale(intl, num ?? 6) ?? "_____"}</span>
-                </div>
+                    return <div className={styles.statusBlock}>
+                        <span
+                            style={{ backgroundColor: `#${colors[num ?? 6]}` }}
+                            className={styles.roundIndicator}
+                        ></span>
+                        <span >{getTasksStatusLocale(intl, num ?? 6) ?? "_____"}</span>
+                    </div>
 
-            }
-        },
-        {
-            title: 'ID робота',
-            dataIndex: 'robot_id',
-            key: 'robot_id',
-            render: (text: string) => text ?? "_____"
-        },
-        {
-            title: 'Код ошибки',
-            dataIndex: 'error_code',
-            key: 'error_code',
-            render: (text: string) => text !== "" && text !== null ? text : "_____"
+                }
+            },
+            {
+                title: 'Дата',
+                dataIndex: 'timestamp',
+                key: 'timestamp',
+                render: (text: string) => text ?? "_____"
+            },
+            {
+                title: 'Код ошибки',
+                dataIndex: 'error_code',
+                key: 'error_code',
+                render: (text: string) => text !== "" && text !== null
+                    ? <Link to={"/scenes/tasks-errors"}>{text}</Link>
+                    : "_____"
+            },
+        ]
+        : [
+            {
+                title: 'Дата',
+                dataIndex: 'timestamp',
+                key: 'timestamp',
+                render: (text: string) => text ?? "_____"
+            },
+            {
+                title: 'Статус',
+                dataIndex: 'state',
+                key: 'state',
+                render: (num: number) => {
 
-        },
-    ];
+                    return <div>
+                        <span
+                            style={{ backgroundColor: `#${colors[num ?? 6]}` }}
+                            className={styles.roundIndicator}
+                        ></span>
+                        <span>{getTasksStatusLocale(intl, num ?? 6) ?? "_____"}</span>
+                    </div>
+
+                }
+            },
+            {
+                title: 'ID робота',
+                dataIndex: 'robot_id',
+                key: 'robot_id',
+                render: (text: string) => text ?? "_____"
+            },
+            {
+                title: 'Код ошибки',
+                dataIndex: 'error_code',
+                key: 'error_code',
+                render: (text: string) => text !== "" && text !== null
+                    ? <Link to={"/scenes/tasks-errors"}>{text}</Link>
+                    : "_____"
+
+            },
+        ];
 
 
     return <>

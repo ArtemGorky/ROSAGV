@@ -9,7 +9,7 @@ import { useEffect } from "react";
 import { observer } from "mobx-react-lite";
 import { TargetTaskContentCollapse } from "../target-task-content-collapse/TargetTaskContentCollapse";
 import { TargetTaskContentExpanded } from "../target-task-content-expanded/TargetTaskContentExpanded";
-import {isMobile} from 'react-device-detect';
+import { useDeviceDetect } from "@/hooks";
 
 const { Title } = Typography;
 
@@ -18,6 +18,8 @@ type Props = {
 }
 
 export const TargetTaskContent = observer(({ intl }: Props) => {
+
+    const { isMobile } = useDeviceDetect();
 
     const {
         store: {

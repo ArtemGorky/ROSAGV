@@ -18,6 +18,7 @@
         "src",
         "**/*.ts",
         "**/*.tsx",
+        "ts-custom.d.ts",
     ],
     "exclude": [
         "node_modules"

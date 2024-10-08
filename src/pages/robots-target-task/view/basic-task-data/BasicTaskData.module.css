@@ -24,6 +24,15 @@
  .spaceMobile {
      display: flex;
      justify-content: center;
+     flex-direction: column;
+ }
+
+ .spaceMobile div {
+     width: 100%;
+ }
+
+ .spaceMobile div button {
+     width: 100%;
  }
 
  .title {
@@ -48,8 +57,11 @@
      display: none;
  }
 
- /* @media (min-width: 1500px) {
-     .descriptions {
-         width: 485px;
+ @media (max-width: 500px) {
+     .taskIdTitle {
+         width: 100px;
+         overflow: hidden;
+         text-overflow: ellipsis;
+         white-space: nowrap;
      }
- } */
+ }

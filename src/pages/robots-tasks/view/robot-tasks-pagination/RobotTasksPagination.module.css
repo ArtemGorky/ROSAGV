@@ -1,5 +1,4 @@
 .container {
     display: flex;
-    justify-content: right;
     margin: 16px 0;
 }

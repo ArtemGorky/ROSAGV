@@ -42,8 +42,22 @@ export const FilterDropdown = observer(({ intl }: IntlProps) => {
     const getBarItem = (key: string) => {
 
         switch (key) {
-            case !key.includes(NAME) || key:
-                return AutoCompleteDropdown(autoCompleteTitle, filterRobotsByName, robotsName, emptyNameValue);
+            // case !key.includes(NAME) || key:
+            //     return AutoCompleteDropdown(
+            //         tempTasksName,
+            //         tasksName,
+            //         autoCompleteNameTitle,
+            //         setTasksName,
+            //         getTasksName,
+            //         tasksNames,
+            //         isTasksNameLoading
+            //     );
+            //     // return AutoCompleteDropdown(
+            //     //     autoCompleteTitle,
+            //     //     filterRobotsByName,
+            //     //     robotsName,
+            //     //     emptyNameValue
+            //     // );
 
             case !key.includes(STATUS) || key:
                 return CheckboxDropdown(

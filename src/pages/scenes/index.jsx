@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Card, Modal, Input } from 'antd';
 import { SettingOutlined, EditOutlined } from '@ant-design/icons';
 import { useIntl } from 'react-intl';
-import initialSceneImage from '../../../assets/initial-scene.svg';
+import initialSceneImage from '@/shared/assets/initial-scene.svg';
 
 const { Meta } = Card;
 

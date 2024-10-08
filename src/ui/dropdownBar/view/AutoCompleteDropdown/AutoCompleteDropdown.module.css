@@ -11,3 +11,13 @@ ul:has(.autoComplete)::after {
   display: block;
   position: absolute;
 }
+
+ul:has(.autoCompleteMobile)::after {
+  width: 225px;
+  height: 325px;
+  opacity: 0;
+  content: "";
+  display: block;
+  position: absolute;
+  margin-left: -80px;
+}

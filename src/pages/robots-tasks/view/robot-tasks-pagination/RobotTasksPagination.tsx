@@ -4,8 +4,11 @@ import { IntlProps } from "../../types";
 import styles from "./RobotTasksPagination.module.css";
 import { robotsTasksStore } from "@/entities";
 import { observer } from "mobx-react-lite";
+import { useDeviceDetect } from "@/hooks";
 
 export const RobotTasksPagination = observer(({ intl }: IntlProps) => {
+
+    const { isMobile } = useDeviceDetect();
 
     const {
         store: {
@@ -27,12 +30,12 @@ export const RobotTasksPagination = observer(({ intl }: IntlProps) => {
     }
 
     return (
-        <div className={styles.container}>
+        <div style={{ justifyContent: isMobile ? 'center' : 'right' }} className={styles.container}>
             <Pagination
                 total={tasksTotalPages * tasksPageSize}
-                showSizeChanger
-                showQuickJumper
-                showTotal={() => `${titleTotal} ${tasksTotalPages} ${titlePage}`}
+                showSizeChanger={!isMobile}
+                showQuickJumper={!isMobile}
+                showTotal={!isMobile ? () => `${titleTotal} ${tasksTotalPages} ${titlePage}` : null}
                 current={tasksCurrentPage}
                 pageSize={tasksPageSize}
                 onShowSizeChange={sizeChangeHandler}

@@ -23,3 +23,15 @@
 .skeletonNode svg {
     display: none;
 }
+
+.statusBlock {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+@media (max-width: 400px) {
+    .statusBlock {
+        width: 80px;
+    }
+}

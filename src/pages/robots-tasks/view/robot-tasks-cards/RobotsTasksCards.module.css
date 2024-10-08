@@ -30,3 +30,14 @@
     margin-right: 16px;
     margin-bottom: 16px;
 }
+
+.cardsContainer {
+    width: 100%;
+    text-align: center;
+}
+
+@media (max-width: 500px) {
+    .card {
+        margin-right: 0;
+    }
+}
