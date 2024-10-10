@@ -2,6 +2,7 @@
   "page.robotsTasks.title": "Задачи",
   "page.robotsTasks.table.task_id": "ID задачи",
   "page.robotsTasks.table.command": "Команда",
+  "page.robotsTasks.table.video": "Видео",
   "page.robotsTasks.table.robot_id": "ID робота",
   "page.robotsTasks.table.targets": "Точки",
   "page.robotsTasks.table.name": "Имя",
@@ -55,6 +56,17 @@
   "page.robotsTasks.orderDropdown.cancel": "Отменить",
 
   "page.robotsTasksSwitchButton.table": "Таблица",
-  "page.robotsTasksSwitchButton.cards": "Карточки"
+  "page.robotsTasksSwitchButton.cards": "Карточки",
+
+  "page.robotsTasks.cardTooltip.status": "Статус",
+  "page.robotsTasks.cardTooltip.time": "Время",
+  "page.robotsTasks.cardTooltip.robotId": "ID робота",
+  "page.robotsTasks.cardTooltip.startTime": "Время начала",
+  "page.robotsTasks.cardTooltip.endTime": "Время завершения",
+  "page.robotsTasks.cardTooltip.errorCode": "Код ошибки",
+  "page.robotsTasks.cardTooltip.missingErrorCode": "отсутствует",
+
+  "page.robotsTasks.card.packagingRequired.packagingRequired": "Да",
+  "page.robotsTasks.card.packagingRequired.noPackagingRequired": "Нет"
   
 }

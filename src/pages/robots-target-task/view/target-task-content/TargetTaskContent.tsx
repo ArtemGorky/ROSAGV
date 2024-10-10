@@ -30,9 +30,9 @@ export const TargetTaskContent = observer(({ intl }: Props) => {
     const location = useLocation();
 
     useEffect(() => {
-        location.state?.id && getRobotsTargetTaskData(location.state?.id);
-        location.state?.id && getRobotsTargetTaskHistoryData(location.state?.id);
-    }, []);
+        location.state?.id && getRobotsTargetTaskData(location.state?.id, intl.locale);
+        location.state?.id && getRobotsTargetTaskHistoryData(location.state?.id, intl.locale);
+    }, [intl.locale]);
 
     if (isMobile) {
         return (

@@ -11,13 +11,10 @@ export const FilterDropdown = observer(({ intl }: IntlProps) => {
         return getTasksStatusName(intl, num);
     }
 
-
-
     const dropdownTitle = intl.formatMessage({ id: 'page.robotsTasks.filterDropdown.title' });
     const selectCommandTitle = intl.formatMessage({ id: 'page.robotsTasks.autoComplete.commandTitle' });
     const autoCompleteNameTitle = intl.formatMessage({ id: 'page.robotsTasks.autoComplete.nameTitle' });
     const selectStatusTitle = intl.formatMessage({ id: 'page.robotsTasks.autoComplete.statusTitle' });
-    const selectRangeStatusTitle = intl.formatMessage({ id: 'page.robotsTasks.autoComplete.rangeStatusTitle' });
     const selectRobotIdTitle = intl.formatMessage({ id: 'page.robotsTasks.autoComplete.robotIdTitle' });
     const resetBtnTitle = intl.formatMessage({ id: 'page.robotsTasks.filterDropdown.resetBtnTitle' });
 
@@ -36,13 +33,24 @@ export const FilterDropdown = observer(({ intl }: IntlProps) => {
         return getTasksStatus(intl);
     }
 
+    const getTasksCommandLocale = () => {
+        getTasksCommand(intl.locale);
+    }
+
+    const getTasksNameLocale = () => {
+        getTasksName(intl.locale);
+    }
+
+    const getTasksRobotIdLocale = () => {
+        getTasksRobotId(intl.locale);
+    }
+
     const COMMAND = "command";
     const NAME = "name";
     const ROBOT_ID = "robotId";
     const DATE_RANGE = "dateRange";
     const MIN_START_TIME = "minStartTime";
     const STATUSES = "statuses";
-    const STATUS_RANGE = "statusRange";
 
     const dataObj = {
         title_01: {
@@ -69,10 +77,6 @@ export const FilterDropdown = observer(({ intl }: IntlProps) => {
             label: intl.formatMessage({ id: 'page.robotsTasks.filterDropdown.statuses' }),
             [STATUSES + "_06"]: "statuses",
         },
-        // title_07: {
-        //     label: intl.formatMessage({ id: 'page.robotsTasks.filterDropdown.statusRange' }),
-        //     [STATUS_RANGE + "_07"]: "statusRange",
-        // },
         title_08: {
             label: ResetBtnDropdown(
                 resetBtnTitle,
@@ -92,7 +96,8 @@ export const FilterDropdown = observer(({ intl }: IntlProps) => {
                     setTasksCommand,
                     tasksCommands,
                     isTasksCommandLoading,
-                    getTasksCommand
+                    intl.locale,
+                    getTasksCommandLocale
                 );
 
             case !key.includes(NAME) || key:
@@ -101,9 +106,10 @@ export const FilterDropdown = observer(({ intl }: IntlProps) => {
                     tasksName,
                     autoCompleteNameTitle,
                     setTasksName,
-                    getTasksName,
+                    getTasksNameLocale,
                     tasksNames,
-                    isTasksNameLoading
+                    isTasksNameLoading,
+                    intl.locale
                 );
 
             case !key.includes(ROBOT_ID) || key:
@@ -113,7 +119,8 @@ export const FilterDropdown = observer(({ intl }: IntlProps) => {
                     setTasksRobotId,
                     tasksRobotIds,
                     isTasksRobotIdLoading,
-                    getTasksRobotId,
+                    intl.locale,
+                    getTasksRobotIdLocale,
                 );
 
             case !key.includes(STATUSES) || key:
@@ -123,21 +130,10 @@ export const FilterDropdown = observer(({ intl }: IntlProps) => {
                     setTasksStatus,
                     tasksStatuses,
                     isTasksStatusLoading,
+                    intl.locale,
                     getTasksStatusLocale,
                     getCurrentTasksStatus
                 );
-
-            // case !key.includes(STATUS_RANGE) || key:
-            //     return SelectDropdown(
-            //         tempTasksRangeStatus,
-            //         selectRangeStatusTitle,
-            //         setTasksRangeStatus,
-            //         tasksStatuses,
-            //         isTasksStatusLoading,
-            //         null,
-            //         getCurrentTasksStatus,
-            //         statusRangeMaxCount
-            //     );
 
             case !key.includes(DATE_RANGE) || key:
                 return DatePickerDropdown(
@@ -161,7 +157,8 @@ export const FilterDropdown = observer(({ intl }: IntlProps) => {
                     setTasksCommand,
                     tasksCommands,
                     isTasksCommandLoading,
-                    getTasksCommand,
+                    intl.locale,
+                    getTasksCommandLocale,
                 );
         }
     };

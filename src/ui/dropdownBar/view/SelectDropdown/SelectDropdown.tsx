@@ -14,7 +14,8 @@ const clearHandler = (action: (option: OptionsTypes[]) => void) => () => action(
 
 export const SelectDropdown = (
     tmpVal: OptionsTypes[], title: string, action: (val: OptionsTypes[]) => void,
-    options: OptionsTypes[], isLoading: boolean, getOptions?: () => void, getData?: (num: string) => string, maxCount?: number
+    options: OptionsTypes[], isLoading: boolean, locale: string, getOptions?: () => void,
+    getData?: (num: string) => string, maxCount?: number
 ) => {
 
     const { isMobile } = useDeviceDetect();
@@ -32,7 +33,7 @@ export const SelectDropdown = (
 
     useEffect(() => {
         getOptions && getOptions();
-    }, []);
+    }, [locale]);
 
     return (
         <Select

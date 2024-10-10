@@ -1,7 +1,5 @@
 import { useIntl } from 'react-intl';
 import Title from 'antd/es/typography/Title';
-import { BasicTaskData } from './view/basic-task-data/BasicTaskData';
-import { HistoryTaskData } from './view/history-task-data/HistoryTaskData';
 import { TargetTaskContent } from './view/target-task-content/TargetTaskContent';
 
 const RobotsTargetTask = () => {

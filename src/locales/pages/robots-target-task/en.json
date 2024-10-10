@@ -1,4 +1,27 @@
 {
     "breadcrumb.task": "Task",
-    "page.robotsTargetTask.title": "Task"
+    "page.robotsTargetTask.title": "Task",
+
+    "page.robotsTargetTask.baseTitle": "Basic information",
+    "page.robotsTargetTask.historyTitle": "Execution history",
+
+    "page.robotsTargetTask.historyTable.status": "Status",
+    "page.robotsTargetTask.historyTable.date": "Date",
+    "page.robotsTargetTask.historyTable.errorCode": "Error code",
+    "page.robotsTargetTask.historyTable.robotId": "Robot ID",
+
+    "page.robotsTargetTask.baseDescription.taskId": "Task ID",
+    "page.robotsTargetTask.baseDescription.command": "Command",
+    "page.robotsTargetTask.baseDescription.startPoint": "Start point",
+    "page.robotsTargetTask.baseDescription.endPoint": "End point",
+    "page.robotsTargetTask.baseDescription.startTime": "Start time",
+    "page.robotsTargetTask.baseDescription.packagingRequired": "Packaging required",
+    "page.robotsTargetTask.baseDescription.currentStatus": "Current status",
+
+    "page.robotsTargetTask.baseBtn.restart": "Restart",
+    "page.robotsTargetTask.baseBtn.cancel": "Cancel",
+    "page.robotsTargetTask.baseBtn.continue": "Continue",
+
+    "page.robotsTargetTask.baseModal.restart": "Reatart task?",
+    "page.robotsTargetTask.baseModal.cancel": "Cancel task?"
 }

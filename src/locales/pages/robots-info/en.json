@@ -1,0 +1,20 @@
+{
+  "breadcrumb.robots-info": "Robots",
+  "page.robotsInfo.title": "Robots",
+
+  "page.robotsInfo.table.robot_id": "Robot ID",
+  "page.robotsInfo.table.state": "State",
+  "page.robotsInfo.table.charge_threshold": "Max. charge",
+
+  "page.robotsInfo.pagination.page": "page",
+  "page.robotsInfo.pagination.total": "Total",
+
+  "page.robotsInfo.tabletFilterList.connected": "Connected",
+  "page.robotsInfo.tabletFilterList.manual": "Manual",
+  "page.robotsInfo.tabletFilterList.active_task": "Active task",
+  "page.robotsInfo.tabletFilterList.obstacle": "Obstacle",
+  "page.robotsInfo.tabletFilterList.traffic": "Stopped by traffic control",
+  "page.robotsInfo.tabletFilterList.forks_up": "Forks up",
+  "page.robotsInfo.tabletFilterList.pedal_pressed": "Pedal pressed",
+  "page.robotsInfo.tabletFilterList.battery_charging": "Battery charging"
+}

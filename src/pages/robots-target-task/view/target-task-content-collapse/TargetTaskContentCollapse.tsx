@@ -10,22 +10,16 @@ import { HistoryTaskData } from '../history-task-data/HistoryTaskData';
 
 const { Title } = Typography;
 
-const text = `
-  A dog is a type of domesticated animal.
-  Known for its loyalty and faithfulness,
-  it can be found as a welcome guest in many households across the world.
-`;
-
 const getItems: (panelStyle: CSSProperties, intl: IntlShape) => CollapseProps['items'] = (panelStyle, intl) => [
     {
         key: '1',
-        label: <Title className={styles.title} level={4}>Основная информация</Title>,
+        label: <Title className={styles.title} level={4}>{intl.formatMessage({ id: 'page.robotsTargetTask.baseTitle' })}</Title>,
         children: <BasicTaskData intl={intl} isMobile={true} />,
         style: panelStyle,
     },
     {
         key: '2',
-        label: <Title className={styles.title} level={4}>История выполнения</Title>,
+        label: <Title className={styles.title} level={4}>{intl.formatMessage({ id: 'page.robotsTargetTask.historyTitle' })}</Title>,
         children: <HistoryTaskData intl={intl} />,
         style: panelStyle,
     }

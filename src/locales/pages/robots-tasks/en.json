@@ -2,6 +2,7 @@
   "page.robotsTasks.title": "Tasks",
   "page.robotsTasks.table.task_id": "Task ID",
   "page.robotsTasks.table.command": "Command",
+  "page.robotsTasks.table.video": "Video",
   "page.robotsTasks.table.robot_id": "Robot's ID",
   "page.robotsTasks.table.targets": "Points",
   "page.robotsTasks.table.name": "Name",
@@ -42,7 +43,7 @@
   "page.robotsTasks.status.queued": "In the queue",
   "page.robotsTasks.status.assigned": "Assigned",
   "page.robotsTasks.status.inProgress": "In process",
-  "page.robotsTasks.status.success": "Successfully",
+  "page.robotsTasks.status.success": "Successful",
   "page.robotsTasks.status.failed": "Unsuccessful",
   "page.robotsTasks.status.cancelled": "Cancelled",
 
@@ -52,9 +53,20 @@
   "page.robotsTasks.orderDropdown.command": "Command",
   "page.robotsTasks.orderDropdown.taskState": "Task state",
   "page.robotsTasks.orderDropdown.firstTaskState": "First task state",
-  "page.robotsTasks.orderDropdown.cancel": "Отменить",
+  "page.robotsTasks.orderDropdown.cancel": "Cancel",
 
   "page.robotsTasksSwitchButton.table": "Table",
-  "page.robotsTasksSwitchButton.cards": "Cards"
+  "page.robotsTasksSwitchButton.cards": "Cards",
+
+  "page.robotsTasks.cardTooltip.status": "Status",
+  "page.robotsTasks.cardTooltip.time": "Time",
+  "page.robotsTasks.cardTooltip.robotId": "Robot ID",
+  "page.robotsTasks.cardTooltip.startTime": "Start time",
+  "page.robotsTasks.cardTooltip.endTime": "End time",
+  "page.robotsTasks.cardTooltip.errorCode": "Error code",
+  "page.robotsTasks.cardTooltip.missingErrorCode": "missing",
+
+  "page.robotsTasks.card.packagingRequired.packagingRequired": "Yes",
+  "page.robotsTasks.card.packagingRequired.noPackagingRequired": "No"
   
 }

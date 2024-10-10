@@ -17,11 +17,11 @@ export const TargetTaskContentExpanded = ({ intl }: Props) => {
     return (
         <Space className={styles.content}>
             <div style={{ display: "inline-block" }}>
-                <Title className={styles.title} level={4}>Основная информация</Title>
+                <Title className={styles.title} level={4}>{intl.formatMessage({ id: 'page.robotsTargetTask.baseTitle' })}</Title>
                 <BasicTaskData intl={intl} />
             </div>
             <div style={{ display: "inline-block" }}>
-                <Title className={styles.title} level={4}>История выполнения</Title>
+                <Title className={styles.title} level={4}>{intl.formatMessage({ id: 'page.robotsTargetTask.historyTitle' })}</Title>
                 <HistoryTaskData intl={intl} />
             </div>
         </Space>

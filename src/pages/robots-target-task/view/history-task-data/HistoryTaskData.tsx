@@ -19,7 +19,7 @@ export const HistoryTaskData = observer(({ intl }: Props) => {
 
     const {
         store: {
-            robotsTargetTaskHistory
+            robotsTargetTaskHistory, robotsTargetTask
         },
     } = RobotsTargetTaskStore;
 
@@ -34,7 +34,7 @@ export const HistoryTaskData = observer(({ intl }: Props) => {
     const columns = isMobile
         ? [
             {
-                title: 'Статус',
+                title: intl.formatMessage({ id: 'page.robotsTargetTask.historyTable.status' }),
                 dataIndex: 'state',
                 key: 'state',
                 render: (num: number) => {
@@ -50,29 +50,29 @@ export const HistoryTaskData = observer(({ intl }: Props) => {
                 }
             },
             {
-                title: 'Дата',
+                title: intl.formatMessage({ id: 'page.robotsTargetTask.historyTable.date' }),
                 dataIndex: 'timestamp',
                 key: 'timestamp',
                 render: (text: string) => text ?? "_____"
             },
             {
-                title: 'Код ошибки',
+                title: intl.formatMessage({ id: 'page.robotsTargetTask.historyTable.errorCode' }),
                 dataIndex: 'error_code',
                 key: 'error_code',
                 render: (text: string) => text !== "" && text !== null
-                    ? <Link to={"/scenes/tasks-errors"}>{text}</Link>
+                    ? <Link to={"/scenes/tasks-errors"} state={{ id: robotsTargetTask?.task_id }}>{text}</Link>
                     : "_____"
             },
         ]
         : [
             {
-                title: 'Дата',
+                title: intl.formatMessage({ id: 'page.robotsTargetTask.historyTable.date' }),
                 dataIndex: 'timestamp',
                 key: 'timestamp',
                 render: (text: string) => text ?? "_____"
             },
             {
-                title: 'Статус',
+                title: intl.formatMessage({ id: 'page.robotsTargetTask.historyTable.status' }),
                 dataIndex: 'state',
                 key: 'state',
                 render: (num: number) => {
@@ -88,17 +88,17 @@ export const HistoryTaskData = observer(({ intl }: Props) => {
                 }
             },
             {
-                title: 'ID робота',
+                title: intl.formatMessage({ id: 'page.robotsTargetTask.historyTable.robotId' }),
                 dataIndex: 'robot_id',
                 key: 'robot_id',
                 render: (text: string) => text ?? "_____"
             },
             {
-                title: 'Код ошибки',
+                title: intl.formatMessage({ id: 'page.robotsTargetTask.historyTable.errorCode' }),
                 dataIndex: 'error_code',
                 key: 'error_code',
                 render: (text: string) => text !== "" && text !== null
-                    ? <Link to={"/scenes/tasks-errors"}>{text}</Link>
+                    ? <Link to={"/scenes/tasks-errors"} state={{ id: robotsTargetTask?.task_id }}>{text}</Link>
                     : "_____"
 
             },
@@ -111,7 +111,10 @@ export const HistoryTaskData = observer(({ intl }: Props) => {
                 ? <Table rootClassName={styles.rootTable} pagination={false} dataSource={dataSource} columns={columns} />
                 : <Skeleton.Node
                     rootClassName={styles.skeletonNode}
-                    style={{ width: "485px", height: "35vh" }}
+                    style={{
+                        width: isMobile ? "300px" : "485px",
+                        height: "45vh"
+                    }}
                     active={true}
                 />
         }

@@ -1,0 +1,42 @@
+.tableContainer {
+    width: 100%;
+    padding-bottom: 16px;
+}
+
+.roundIndicator {
+    width: 8px;
+    height: 8px;
+    margin-left: 5px;
+    margin-right: 5px;
+    border-radius: 50%;
+    display: inline-block;
+}
+
+.stateIcon {
+    font-size: 36px;
+    padding: 4px;
+}
+
+
+.stateIconHidden {
+    opacity: 0;
+}
+
+
+.progressBlock {
+    position: relative;
+}
+
+.normalProgress,
+.exceptionProgress {
+    position: absolute;
+    top: -80%;
+    left: 0;
+}
+
+.exceptionProgress svg {
+    fill: #f40;
+}
+.normalProgress svg {
+    fill: #4f0;
+}

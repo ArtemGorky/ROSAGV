@@ -18,3 +18,10 @@ export const robotsFleetReqConfig = {
         "Content-type": "application/json",
     }
 }
+
+export const robotsInfoReqConfig = {
+    baseURL: import.meta.env.VITE_AGV_ROBOTS_INFO_SOCKET,
+    headers: {
+        "Content-type": "application/json",
+    }
+}

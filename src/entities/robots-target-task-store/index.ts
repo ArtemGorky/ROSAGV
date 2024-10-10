@@ -38,11 +38,11 @@ class RobotsTargetTaskStore {
     }
 
 
-    getRobotsTargetTaskData = async (queryStr: string) => {
+    getRobotsTargetTaskData = async (queryStr: string, locale: string) => {
         try {
             this.isLoadingTargetTaskData = true;
 
-            const data: RobotsTargetTask = await getRobotsTargetTask(queryStr);
+            const data: RobotsTargetTask = await getRobotsTargetTask(queryStr, locale);
 
             runInAction(() => {
                 this.isLoadingTargetTaskData = false;
@@ -61,11 +61,11 @@ class RobotsTargetTaskStore {
         }
     };
 
-    getRobotsTargetTaskHistoryData = async (queryStr: string) => {
+    getRobotsTargetTaskHistoryData = async (queryStr: string, locale: string) => {
         try {
             this.isLoadingTargetTaskHistoryData = true;
 
-            const data: RobotsTargetTaskState[] = await getRobotsTargetTaskHistory(queryStr);
+            const data: RobotsTargetTaskState[] = await getRobotsTargetTaskHistory(queryStr, locale);
 
             const targetData = data.map(obj => ({ ...obj, timestamp: moment(obj.timestamp).format("DD.MM.YYYY hh:mm") }));
 
@@ -86,10 +86,10 @@ class RobotsTargetTaskStore {
         }
     };
 
-    robotTargetTaskRetry = async (queryStr: string) => {
+    robotTargetTaskRetry = async (queryStr: string, locale: string) => {
         try {
 
-            const data: RobotTaskResponseMessage[] = await robotTaskRetry(queryStr);
+            const data: RobotTaskResponseMessage[] = await robotTaskRetry(queryStr, locale);
 
             runInAction(() => {
                 this.robotTaskResponseMessage = data[0].status;
@@ -107,10 +107,10 @@ class RobotsTargetTaskStore {
     };
 
 
-    robotTargetTaskCancel = async (queryStr: string) => {
+    robotTargetTaskCancel = async (queryStr: string, locale: string) => {
         try {
 
-            const data: RobotTaskResponseMessage[] = await robotTaskCancel(queryStr);
+            const data: RobotTaskResponseMessage[] = await robotTaskCancel(queryStr, locale);
 
             runInAction(() => {
                 this.robotTaskResponseMessage = data[0].status;

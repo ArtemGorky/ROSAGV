@@ -19,7 +19,7 @@ export const WithRefetchDataRobotsTasksCards = observer(({ currentTasks, intl, i
         },
     } = robotsTasksStore;
 
-    useInterval(() => getRobotsTasksData(), tasksRefetchData * 1000);
+    useInterval(() => getRobotsTasksData(intl.locale), Number(tasksRefetchData) * 1000);
 
     return <RobotsTasksCards currentTasks={currentTasks} intl={intl} isLoading={isLoading} />
 

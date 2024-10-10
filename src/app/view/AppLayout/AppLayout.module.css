@@ -1,0 +1,12 @@
+/* Необходимо для предания одинакового цвета скролбарам на странице, особенно, в меню фильтрации по имени
+и статусам на странице роботов (<Table /> .../scenes/robots-info)*/
+
+body:has(.darkLayout) * {
+    scrollbar-color: #3e4144 #0a0b0e;
+}
+
+/* Нужно для цвета фона подсказок */
+
+body:has(.darkLayout) div[role=tooltip] {
+    background: rgb(43, 52, 66);
+}
