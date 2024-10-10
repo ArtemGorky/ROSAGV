@@ -12,6 +12,8 @@ import CardsAndSnapshots from '@/pages/cards-and-snapchots';
 import ParksAndRobots from '@/pages/parks-and-robots';
 import RobotsTasks from '@/pages/robots-tasks';
 import RobotsTargetTask from '@/pages/robots-target-task';
+import TasksErrors from '@/pages/tasks-errors';
+import RobotsInfo from '@/pages/robots-info';
 import Settings from '@/pages/settings';
 import Help from '@/pages/help';
 import BugReport from '@/pages/bug-report';
@@ -30,7 +32,7 @@ export const AppContent = memo(({ collapsed }: { collapsed: boolean }) => {
 
     return (
         <Content
-            className={styles["site-layout-background"]}    
+            className={styles["site-layout-background"]}
             style={{
                 padding: isMapPage ? '0' : '16px',
                 backgroundColor: isMapPage ? 'inherit' : 'transparent',
@@ -45,7 +47,8 @@ export const AppContent = memo(({ collapsed }: { collapsed: boolean }) => {
                 <Route path="/scenes/parks-and-robots" element={<ParksAndRobots />} />
                 <Route path="/scenes/robots-tasks" element={<RobotsTasks />} />
                 <Route path="/scenes/robots-tasks/task" element={<RobotsTargetTask />} />
-                <Route path="/scenes/tasks-errors" element={<RobotsTargetTask />} />
+                <Route path="/scenes/tasks-errors" element={<TasksErrors />} />
+                <Route path="/scenes/robots-info" element={<RobotsInfo />} />
                 <Route path="/map" element={<Map collapsed={collapsed} />} />
                 <Route path="/reports" element={<Reports />} />
                 <Route path="/notifications" element={<Notifications />} />

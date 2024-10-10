@@ -22,6 +22,8 @@ export const AppLayout = (
 
     const { isMobile } = useDeviceDetect();
 
+    const savedTheme = localStorage.getItem('theme');
+
     const themeStyles = useMemo(() => ({
         marginLeft: collapsed ? 80 : 200,
         transition: 'margin-left 0.2s',
@@ -43,7 +45,10 @@ export const AppLayout = (
             >
                 {children}
             </MobileDrawer>
-            : <Layout className={styles.layout} style={{ backgroundColor: theme.token.colorBgBase }}>
+            : <Layout
+                className={savedTheme === 'dark' ? styles.darkLayout : styles.layout}
+                style={{ backgroundColor: theme.token.colorBgBase }}
+            >
                 <Sidebar
                     collapsed={collapsed}
                     toggle={toggle}

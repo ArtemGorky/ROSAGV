@@ -39,6 +39,8 @@ const Sidebar = ({ collapsed, toggle, toggleTheme, locale, toggleLocale }) => {
         { key: '/scenes/cards-and-snapshots', id: 'menu.cardsAndSnapshots' },
         { key: '/scenes/parks-and-robots', id: 'menu.parksAndRobots' },
         { key: '/scenes/robots-tasks', id: 'menu.robotsTasks' },
+        { key: '/scenes/robots-info', id: 'menu.robotsInfo' },
+        // { key: '/scenes/tasks-errors', id: 'menu.tasksErrors' },
       ],
     },
     { key: '/map', icon: <MapIcon />, id: 'menu.map' },

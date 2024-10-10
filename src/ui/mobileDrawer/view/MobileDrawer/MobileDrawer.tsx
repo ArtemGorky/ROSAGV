@@ -43,6 +43,8 @@ export const MobileDrawer = ({ children, collapsed, theme, toggleTheme, toggleLo
 
     const [open, setOpen] = useState(false);
 
+    const savedTheme = localStorage.getItem('theme');
+
     const showDrawer = () => {
         setOpen(true);
     };
@@ -68,6 +70,8 @@ export const MobileDrawer = ({ children, collapsed, theme, toggleTheme, toggleLo
                 { key: '/scenes/cards-and-snapshots', id: 'menu.cardsAndSnapshots' },
                 { key: '/scenes/parks-and-robots', id: 'menu.parksAndRobots' },
                 { key: '/scenes/robots-tasks', id: 'menu.robotsTasks' },
+                { key: '/scenes/robots-info', id: 'menu.robotsInfo' },
+                // { key: '/scenes/tasks-errors', id: 'menu.tasksErrors' },
             ],
         },
         { key: '/map', icon: <MapIcon />, id: 'menu.map' },
@@ -76,7 +80,14 @@ export const MobileDrawer = ({ children, collapsed, theme, toggleTheme, toggleLo
     ];
 
     return (
-        <Layout className={styles.layout} style={{ backgroundColor: theme.token.colorBgBase }}>
+        <Layout
+            className={
+                savedTheme === 'dark'
+                    ? styles.darkLayout
+                    : styles.layout
+            }
+            style={{ backgroundColor: theme.token.colorBgBase }}
+        >
             <Button
                 type="text"
                 icon={collapsed ? <SidebarOpenIcon /> : <SidebarCloseIcon />}
@@ -142,7 +153,7 @@ export const MobileDrawer = ({ children, collapsed, theme, toggleTheme, toggleLo
                             textAlign: 'center',
                             display: 'flex',
                             flexDirection: 'column',
-                            alignItems:  'center',
+                            alignItems: 'center',
                             justifyContent: "center",
                             marginTop: "16px"
                         }}

@@ -5,6 +5,8 @@
   "menu.cardsAndSnapshots": "Карты и снимки",
   "menu.parksAndRobots": "Парки и роботы",
   "menu.robotsTasks": "Задачи",
+  "menu.robotsInfo": "Роботы",
+  "menu.tasksErrors": "Ошибки",
   "menu.map": "Карта",
   "menu.reports": "Отчеты",
   "menu.notifications": "Уведомления",
@@ -111,7 +113,7 @@
   "event.moving_robot": "Перемещение робота из [место:{from}] в [место:{to}]",
   "event.move_to_place_through_points": "Переместиться в [место:{place}] через {points} точек",
   "event.move_to_graph_wp_through_points": "Переместиться в точку [graph-wp:{place}] через {points} точек",
-  "event.dock_robot_to": "Пристыковать робота к dock_{dock}", 
+  "event.dock_robot_to": "Пристыковать робота к dock_{dock}",
   "event.perform_action": "Пользовательская задача",
-  "event.wait for traffic": "Ожидание трафика"  
+  "event.wait for traffic": "Ожидание трафика"
 }

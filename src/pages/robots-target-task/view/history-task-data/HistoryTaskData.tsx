@@ -19,7 +19,7 @@ export const HistoryTaskData = observer(({ intl }: Props) => {
 
     const {
         store: {
-            robotsTargetTaskHistory
+            robotsTargetTaskHistory, robotsTargetTask
         },
     } = RobotsTargetTaskStore;
 
@@ -60,7 +60,7 @@ export const HistoryTaskData = observer(({ intl }: Props) => {
                 dataIndex: 'error_code',
                 key: 'error_code',
                 render: (text: string) => text !== "" && text !== null
-                    ? <Link to={"/scenes/tasks-errors"}>{text}</Link>
+                    ? <Link to={"/scenes/tasks-errors"} state={{ id: robotsTargetTask?.task_id }}>{text}</Link>
                     : "_____"
             },
         ]
@@ -98,7 +98,7 @@ export const HistoryTaskData = observer(({ intl }: Props) => {
                 dataIndex: 'error_code',
                 key: 'error_code',
                 render: (text: string) => text !== "" && text !== null
-                    ? <Link to={"/scenes/tasks-errors"}>{text}</Link>
+                    ? <Link to={"/scenes/tasks-errors"} state={{ id: robotsTargetTask?.task_id }}>{text}</Link>
                     : "_____"
 
             },
@@ -111,7 +111,10 @@ export const HistoryTaskData = observer(({ intl }: Props) => {
                 ? <Table rootClassName={styles.rootTable} pagination={false} dataSource={dataSource} columns={columns} />
                 : <Skeleton.Node
                     rootClassName={styles.skeletonNode}
-                    style={{ width: "485px", height: "35vh" }}
+                    style={{
+                        width: isMobile ? "300px" : "485px",
+                        height: "45vh"
+                    }}
                     active={true}
                 />
         }

@@ -13,3 +13,7 @@ export {
     robotTaskRetry,
     robotTaskCancel
 } from './api/robots-target-task';
+
+export {
+    getRobotsInfo
+} from './api/robots-info';

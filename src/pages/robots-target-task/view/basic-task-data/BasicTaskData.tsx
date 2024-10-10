@@ -125,7 +125,10 @@ export const BasicTaskData = observer(({ intl, isMobile }: Props) => {
                         ? <Descriptions className={styles.descriptions} column={1} items={items} />
                         : <Skeleton.Node
                             rootClassName={styles.skeletonNode}
-                            style={{ width: "485px", height: "35vh" }}
+                            style={{
+                                width: isMobile ? "300px" : "485px",
+                                height: "45vh"
+                            }}
                             active={true}
                         />
                 }

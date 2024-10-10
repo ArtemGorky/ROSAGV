@@ -1,0 +1,20 @@
+{
+  "breadcrumb.robots-info": "Роботы",
+  "page.robotsInfo.title": "Роботы",
+
+  "page.robotsInfo.table.robot_id": "ID робота",
+  "page.robotsInfo.table.state": "Состояние",
+  "page.robotsInfo.table.charge_threshold": "Макс. заряд",
+
+  "page.robotsInfo.pagination.page": "стр.",
+  "page.robotsInfo.pagination.total": "Всего",
+
+  "page.robotsInfo.tabletFilterList.connected": "Подключен к сети",
+  "page.robotsInfo.tabletFilterList.manual": "Ручное управление",
+  "page.robotsInfo.tabletFilterList.active_task": "Активная задача",
+  "page.robotsInfo.tabletFilterList.obstacle": "Препятствие",
+  "page.robotsInfo.tabletFilterList.traffic": "Остановлен трафик контролем",
+  "page.robotsInfo.tabletFilterList.forks_up": "Вилы подняты",
+  "page.robotsInfo.tabletFilterList.pedal_pressed": "Педаль зажата",
+  "page.robotsInfo.tabletFilterList.battery_charging": "Заряжается"
+}

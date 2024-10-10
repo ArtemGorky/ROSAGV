@@ -2,6 +2,7 @@
   "page.robotsTasks.title": "Задачи",
   "page.robotsTasks.table.task_id": "ID задачи",
   "page.robotsTasks.table.command": "Команда",
+  "page.robotsTasks.table.video": "Видео",
   "page.robotsTasks.table.robot_id": "ID робота",
   "page.robotsTasks.table.targets": "Точки",
   "page.robotsTasks.table.name": "Имя",

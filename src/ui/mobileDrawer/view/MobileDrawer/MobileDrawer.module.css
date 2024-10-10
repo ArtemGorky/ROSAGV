@@ -1,0 +1,5 @@
+/* Нужно для цвета фона подсказок */
+
+body:has(.darkLayout) div[role=tooltip] {
+    background: rgb(43, 52, 66);
+}

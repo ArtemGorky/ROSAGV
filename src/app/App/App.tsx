@@ -1,14 +1,12 @@
 import './App.css';
-import styles from './App.module.css';
 import { useState, useEffect, useMemo, useCallback } from 'react';
-import { Layout, ConfigProvider } from 'antd';
+import { ConfigProvider } from 'antd';
 import { BrowserRouter as Router } from 'react-router-dom';
-import Sidebar from '../../ui/sidebar';
 import I18nProvider from '../../i18n';
 import { lightTheme, darkTheme, ThemeProvider } from '../../themes';
 import ErrorBoundary from '../../ErrorBoundary'; // Импортируем компонент границы ошибок
 
-import { AppContent } from "../view/AppContent/AppContent";
+import { AppContent } from '../view/AppContent/AppContent';
 import { AppLayout } from '../view/AppLayout/AppLayout';
 
 import * as deviceDetect from 'react-device-detect';
