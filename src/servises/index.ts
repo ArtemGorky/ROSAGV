@@ -17,3 +17,7 @@ export {
 export {
     getRobotsInfo
 } from './api/robots-info';
+
+export {
+    getTargetRobotInfo
+} from './api/target-robot-info';

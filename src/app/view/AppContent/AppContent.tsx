@@ -14,6 +14,8 @@ import RobotsTasks from '@/pages/robots-tasks';
 import RobotsTargetTask from '@/pages/robots-target-task';
 import TasksErrors from '@/pages/tasks-errors';
 import RobotsInfo from '@/pages/robots-info';
+import RobotsHistory from '@/pages/robots-history';
+import TargetRobotInfo from '@/pages/target-robot-info';
 import Settings from '@/pages/settings';
 import Help from '@/pages/help';
 import BugReport from '@/pages/bug-report';
@@ -49,6 +51,8 @@ export const AppContent = memo(({ collapsed }: { collapsed: boolean }) => {
                 <Route path="/scenes/robots-tasks/task" element={<RobotsTargetTask />} />
                 <Route path="/scenes/tasks-errors" element={<TasksErrors />} />
                 <Route path="/scenes/robots-info" element={<RobotsInfo />} />
+                <Route path="/scenes/robots-history" element={<RobotsHistory />} />
+                <Route path="/scenes/robots-info/robot" element={<TargetRobotInfo />} />
                 <Route path="/map" element={<Map collapsed={collapsed} />} />
                 <Route path="/reports" element={<Reports />} />
                 <Route path="/notifications" element={<Notifications />} />

@@ -9,6 +9,8 @@ import {
     AlertOutlined,
     ApiOutlined,
     ArrowUpOutlined,
+    CheckOutlined,
+    CloseOutlined,
     ExclamationCircleOutlined,
     HeatMapOutlined,
     ThunderboltOutlined,
@@ -17,20 +19,24 @@ import {
     WifiOutlined
 } from "@ant-design/icons";
 
+import { useNavigate } from "react-router-dom";
+
 type RobotsInfoTableProps = {
     intl: IntlShape;
     currentInfo: RobotsInfo[];
     isMobile: boolean;
-    isLoading: boolean;
+    isLoading?: boolean;
 }
 
-export const RobotsInfoTable = observer(({ intl, isMobile, currentInfo, isLoading }: RobotsInfoTableProps) => {
+export const RobotsInfoTable = observer(({ intl, isMobile, currentInfo, isLoading = false }: RobotsInfoTableProps) => {
 
     const {
         store: {
-            robotsInfoPageSize, setRobotsInfoPageSize
+            robotsInfoPageSize, setRobotsInfoPageSize, setCurrentRobotId
         },
     } = RobotsInfoStore;
+
+    const navigate = useNavigate();
 
     const columns: TableColumnsType<RobotsInfo> = [
         {
@@ -64,6 +70,16 @@ export const RobotsInfoTable = observer(({ intl, isMobile, currentInfo, isLoadin
             filters: getFilterListRobotsInfo(intl).map(obj => ({
                 text: obj.text,
                 value: obj.value,
+                children: [
+                    {
+                        text: <CheckOutlined />,
+                        value: `${obj.value}-true`,
+                    },
+                    {
+                        text: <CloseOutlined />,
+                        value: `${obj.value}-false`,
+                    },
+                ],
             })),
             render: obj => {
 
@@ -95,7 +111,12 @@ export const RobotsInfoTable = observer(({ intl, isMobile, currentInfo, isLoadin
                     {obj.active_task && <AlertOutlined title={"Имеет активную задачу"} className={styles.stateIcon} />}
                 </>
             },
-            onFilter: (value: string, record) => record.latest_status[value]
+            onFilter: (value: string, record) => {
+
+                const key = value.split("-")[0];
+
+                return value.includes("true") ? record.latest_status[key] : !record.latest_status[key]
+            }
         },
         {
             title: intl.formatMessage({ id: 'page.robotsInfo.table.charge_threshold' }),
@@ -124,12 +145,24 @@ export const RobotsInfoTable = observer(({ intl, isMobile, currentInfo, isLoadin
         pagination.pageSize !== robotsInfoPageSize && setRobotsInfoPageSize(pagination.pageSize);
     };
 
+    const rowClickHandler = (id: string) => {
+        setCurrentRobotId(id);
+        navigate("/scenes/robots-info/robot", { state: { id } });
+    }
+
     return <div className={styles.tableContainer}>
         <Table<RobotsInfo>
+            onRow={(record) => {
+                return {
+                    onClick: () => {
+                        rowClickHandler(record.robot.robot_id);
+                    },
+                };
+            }}
             dataSource={currentInfo}
             columns={columns}
             scroll={{ y: tableScrollY }}
-            loading={isLoading}
+            loading={!currentInfo.length}
             onChange={onChange}
             pagination={paginationParams}
             showSorterTooltip={{ target: 'sorter-icon' }}

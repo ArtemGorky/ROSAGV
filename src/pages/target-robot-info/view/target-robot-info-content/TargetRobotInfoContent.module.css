@@ -1,0 +1,112 @@
+.title {
+    text-align: center;
+}
+
+.roundIndicator {
+    width: 8px;
+    height: 8px;
+    margin-left: 5px;
+    margin-right: 5px;
+    border-radius: 50%;
+    display: inline-block;
+}
+
+.titleBlock {
+    display: flex;
+    justify-content: center;
+}
+
+.titleIdicator {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.stateBlock,
+.batteryLevelBlock,
+.descriptionsBlock,
+.btnsBlock {
+    display: flex;
+    justify-content: center;
+}
+
+.btnsBlock {
+    padding-bottom: 16px;
+}
+
+.btnsWrapper {
+    width: 30vw;
+    max-width: 485px;
+    min-width: 300px;
+    flex-direction: column;
+    gap: 16px;
+    display: flex;
+    justify-content: center;
+}
+
+.stateIcon {
+    font-size: 36px;
+    padding: 4px;
+    color: #fff
+}
+
+
+.stateIconHidden {
+    opacity: 0;
+}
+
+
+.progressBlock {
+    position: relative;
+}
+
+.exceptionProgress svg {
+    fill: #f40;
+}
+
+.normalProgress svg {
+    fill: #4f0;
+}
+
+
+.descriptions {
+    width: 30vw;
+    max-width: 485px;
+    min-width: 300px;
+}
+
+
+.titleSkeleton div ul {
+    display: flex;
+    justify-content: center;
+}
+
+.titleSkeleton div ul li {
+    width: 30vw;
+    max-width: 485px;
+    min-width: 300px;
+}
+
+.descriptionSkeleton {
+    display: flex;
+}
+
+.descriptionSkeleton div ul {
+    margin: 0;
+}
+
+div.card div.descriptions span:has(div.descriptionSkeleton) {
+    align-items: center;
+}
+
+.card {
+    width: 30vw;
+    max-width: 485px;
+    min-width: 300px;
+    text-align: center;
+}
+
+.descriptionName {
+    width: 85%;
+    text-align: left;
+}

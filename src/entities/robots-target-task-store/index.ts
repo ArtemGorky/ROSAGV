@@ -1,5 +1,6 @@
-import { RobotsTargetTask, RobotsTargetTaskState, RobotTaskResponseMessage } from "@/pages/robots-target-task/types";
+import { RobotTaskResponseMessage } from "@/pages/robots-target-task/types";
 import { getRobotsTargetTask, getRobotsTargetTaskHistory, robotTaskCancel, robotTaskRetry } from "@/servises";
+import { RobotsTargetTask, RobotsTargetTaskState } from "@/shared/types";
 import { makeAutoObservable, runInAction } from "mobx";
 import moment from "moment";
 

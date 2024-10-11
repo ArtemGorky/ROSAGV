@@ -21,9 +21,9 @@ export const robotsInfo: RobotsInfo[] = [
             battery_level: 100,
             battery_charging: true,
             mark_id: 0,
-            current_task_id: null,
+            current_task_id: "b90a5429-dbcb-443c-bfea-239c13875516",
             current_mission_id: null,
-            current_mission: null,
+            current_mission: "[None, None]",
             current_action: null,
             current_action_type: null,
             timestamp: "1970-01-01T03:00:00+03:00"
@@ -64,7 +64,7 @@ export const robotsInfo: RobotsInfo[] = [
             mark_id: 0,
             current_task_id: null,
             current_mission_id: null,
-            current_mission: null,
+            current_mission: "[None, None]",
             current_action: null,
             current_action_type: null,
             timestamp: "1970-01-02T03:00:00+03:00"
@@ -105,7 +105,7 @@ export const robotsInfo: RobotsInfo[] = [
             mark_id: 0,
             current_task_id: null,
             current_mission_id: null,
-            current_mission: null,
+            current_mission: "[None, None]",
             current_action: null,
             current_action_type: null,
             timestamp: "1970-01-02T03:00:00+03:00"
