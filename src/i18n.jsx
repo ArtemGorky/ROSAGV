@@ -18,6 +18,12 @@ import ruMessagesRobotsInfo from './locales/pages/robots-info/ru.json';
 import enMessagesTasksErrors from './locales/pages/tasks-errors/en.json';
 import ruMessagesTasksErrors from './locales/pages/tasks-errors/ru.json';
 
+import enMessagesTargetRobotInfo from './locales/pages/target-robot-info/en.json';
+import ruMessagesTargetRobotInfo from './locales/pages/target-robot-info/ru.json';
+
+import enMessagesRobotsHistory from './locales/pages/robots-history/en.json';
+import ruMessagesRobotsHistory from './locales/pages/robots-history/ru.json';
+
 const messages = {
   en: {
     ...enMessages,
@@ -25,7 +31,9 @@ const messages = {
     ...enMessagesRobotsTasks,
     ...enMessagesRobotsTargetTask,
     ...enMessagesRobotsInfo,
-    ...enMessagesTasksErrors
+    ...enMessagesTasksErrors,
+    ...enMessagesTargetRobotInfo,
+    ...enMessagesRobotsHistory
   },
   ru: {
     ...ruMessages,
@@ -33,7 +41,9 @@ const messages = {
     ...ruMessagesRobotsTasks,
     ...ruMessagesRobotsTargetTask,
     ...ruMessagesRobotsInfo,
-    ...ruMessagesTasksErrors
+    ...ruMessagesTasksErrors,
+    ...ruMessagesTargetRobotInfo,
+    ...ruMessagesRobotsHistory
   },
 };
 

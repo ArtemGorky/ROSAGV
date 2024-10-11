@@ -71,6 +71,7 @@ export const MobileDrawer = ({ children, collapsed, theme, toggleTheme, toggleLo
                 { key: '/scenes/parks-and-robots', id: 'menu.parksAndRobots' },
                 { key: '/scenes/robots-tasks', id: 'menu.robotsTasks' },
                 { key: '/scenes/robots-info', id: 'menu.robotsInfo' },
+                { key: '/scenes/robots-history', id: 'menu.robotsHistory' },
                 // { key: '/scenes/tasks-errors', id: 'menu.tasksErrors' },
             ],
         },

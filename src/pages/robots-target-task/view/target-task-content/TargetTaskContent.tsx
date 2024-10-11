@@ -29,6 +29,8 @@ export const TargetTaskContent = observer(({ intl }: Props) => {
 
     const location = useLocation();
 
+    console.log(location.state?.id);
+
     useEffect(() => {
         location.state?.id && getRobotsTargetTaskData(location.state?.id, intl.locale);
         location.state?.id && getRobotsTargetTaskHistoryData(location.state?.id, intl.locale);

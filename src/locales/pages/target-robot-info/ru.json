@@ -1,0 +1,16 @@
+{
+  "breadcrumb.robot": "Робот",
+  "page.targetRobotInfo.title": "Робот",
+
+  "page.targetRobotInfo.stateTitle": "Состояние",
+  "page.targetRobotInfo.batteryLevelTitle": "Уровень заряда",
+  "page.targetRobotInfo.currentTaskTitle": "Текущая задача",
+  "page.targetRobotInfo.currentTaskName": "Текущая задача",
+  "page.targetRobotInfo.currentActionName": "Текущее действие",
+  "page.targetRobotInfo.actionsTitle": "Действия",
+  "page.targetRobotInfo.disableTasksBtn": "Отключить выдачу задач",
+  "page.targetRobotInfo.historyRobotBtn": "Просмотреть историю работы",
+
+  "page.targetRobotInfo.modalTitle": "Отключение выдачи задач!",
+  "page.targetRobotInfo.modalContent": "Отключить выдачу задач?"
+}

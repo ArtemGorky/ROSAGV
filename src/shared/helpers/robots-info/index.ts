@@ -35,10 +35,22 @@ export const getRobotsInfoStructuredData = (data: string) => {
                 current_mission: obj.latest_status.current_mission,
                 current_action: obj.latest_status.current_action,
                 current_action_type: obj.latest_status.current_action_type,
-                pose_stamped: obj.latest_status.pose_stamped,
-                vel: obj.latest_status.vel,
                 timestamp: obj.latest_status.timestamp
+            },
+            latest_coord: {
+                id: obj.latest_coord.id,
+                robot_id: obj.latest_coord.robot_id,
+                position_x: obj.latest_coord.position_x,
+                position_y: obj.latest_coord.position_y,
+                position_z: obj.latest_coord.position_z,
+                orientation_x: obj.latest_coord.orientation_x,
+                orientation_y: obj.latest_coord.orientation_y,
+                orientation_z: obj.latest_coord.orientation_z,
+                orientation_w: obj.latest_coord.orientation_w,
+                vel: obj.latest_coord.vel,
+                timestamp: obj.latest_coord.timestamp,
             }
+
         }
 
     });

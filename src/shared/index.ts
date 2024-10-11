@@ -4,7 +4,7 @@ export { parksAndRobotsMockData } from './mock-data';
 
 export { MarginBottomWrapper } from './styled-components';
 
-export { tableScrollX, tableScrollY } from './constants';
+export { tableScrollX, tableScrollY, closeConnectionDelay } from './constants';
 
 export {
     newMockTasksData,
@@ -14,5 +14,6 @@ export {
 } from './mock-data/new-robots-tasks';
 
 export { robotsInfo } from './mock-data/robots-info';
+export { targetRobotMockData } from './mock-data/target-robot-info';
 
 export { getRobotsInfoStructuredData, getStatusBatteryRobotsInfo, getFilterListRobotsInfo } from './helpers/robots-info'

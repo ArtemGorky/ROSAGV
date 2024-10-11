@@ -1,0 +1,16 @@
+{
+  "breadcrumb.robot": "Robot",
+  "page.targetRobotInfo.title": "Robot",
+
+  "page.targetRobotInfo.stateTitle": "State",
+  "page.targetRobotInfo.batteryLevelTitle": "Battery level",
+  "page.targetRobotInfo.currentTaskTitle": "Current task",
+  "page.targetRobotInfo.currentTaskName": "Current task",
+  "page.targetRobotInfo.currentActionName": "Current action",
+  "page.targetRobotInfo.actionsTitle": "Actions",
+  "page.targetRobotInfo.disableTasksBtn": "Disable issue of tasks",
+  "page.targetRobotInfo.historyRobotBtn": "View work history",
+
+  "page.targetRobotInfo.modalTitle": "Disabling the issue of tasks!",
+  "page.targetRobotInfo.modalContent": "Disable the issue of tasks?"
+}

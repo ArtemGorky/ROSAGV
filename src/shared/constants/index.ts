@@ -10,4 +10,6 @@ export const colors = {
     5: "4f0",
     6: "f40",
     7: "fff",
-}
+};
+
+export const closeConnectionDelay = 500;
