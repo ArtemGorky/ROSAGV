@@ -77,6 +77,3 @@ export interface Orientation {
     z: number;
     w: number;
 }
-
-export type TablePaginationPosition = 'topLeft' | 'topCenter' | 'topRight' | 'bottomLeft' | 'bottomCenter' | 'bottomRight' | 'none';
-

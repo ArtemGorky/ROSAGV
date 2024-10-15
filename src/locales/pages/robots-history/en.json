@@ -1,4 +1,26 @@
 {
   "breadcrumb.robots-history": "Robots history",
-  "page.robotsHistory.title": "Robots history"
+  "page.robotsHistory.title": "Robots history",
+
+  "page.robotsHistory.pagination.total": "Total",
+  "page.robotsHistory.pagination.page": "page",
+
+  "page.robotsHistory.table.title": "Title",
+  "page.robotsHistory.table.robot": "Robot",
+  "page.robotsHistory.table.date": "Date",
+  "page.robotsHistory.table.pointName": "Point name",
+  "page.robotsHistory.table.task": "Task",
+  "page.robotsHistory.table.rmsPoint": "RMS point",
+  "page.robotsHistory.table.video": "Video",
+  "page.robotsHistory.table.action": "Action",
+
+  "page.robotsHistory.setTegBtn.title": "Set the tag",
+
+  "page.robotsHistory.filterDropdown.robotId": "Robot Id",
+  "page.robotsHistory.filterDropdown.dateRange": "Date",
+  "page.robotsHistory.filterDropdown.error": "Error",
+
+  "page.robotsHistory.filterDropdown.title": "Filter",
+  "page.robotsHistory.autoComplete.robotIdTitle": "Please, enter the robot's ID!",
+  "page.robotsHistory.filterDropdown.resetBtnTitle": "Reset filter"
 }

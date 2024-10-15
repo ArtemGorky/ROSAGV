@@ -13,8 +13,18 @@
   "page.robotsInfo.tabletFilterList.manual": "Ручное управление",
   "page.robotsInfo.tabletFilterList.active_task": "Активная задача",
   "page.robotsInfo.tabletFilterList.obstacle": "Препятствие",
-  "page.robotsInfo.tabletFilterList.traffic": "Остановлен трафик контролем",
+  "page.robotsInfo.tabletFilterList.traffic": "Остановлен траффик контролем",
   "page.robotsInfo.tabletFilterList.forks_up": "Вилы подняты",
   "page.robotsInfo.tabletFilterList.pedal_pressed": "Педаль зажата",
-  "page.robotsInfo.tabletFilterList.battery_charging": "Заряжается"
+  "page.robotsInfo.tabletFilterList.battery_charging": "Заряжается",
+
+  "page.robotsInfo.tableHeaders.charging_percentage": "Процент зарядки",
+  "page.robotsInfo.tableHeaders.connected": "Подключен к сети",
+  "page.robotsInfo.tableHeaders.manual": "Ручное управление",
+  "page.robotsInfo.tableHeaders.active_task": "Имеет активную задачу",
+  "page.robotsInfo.tableHeaders.obstacle": "Препятствие",
+  "page.robotsInfo.tableHeaders.traffic": "Остановлен траффик контролем",
+  "page.robotsInfo.tableHeaders.forks_up": "Вилы подняты",
+  "page.robotsInfo.tableHeaders.pedal_pressed": "Педаль зажата",
+  "page.robotsInfo.tableHeaders.battery_charging": "Заряжается"
 }

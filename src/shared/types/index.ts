@@ -1,3 +1,5 @@
+import { IntlShape } from "react-intl";
+
 export type ValueTypes = {
     value: string;
 }
@@ -48,3 +50,9 @@ export interface RobotsTargetTaskState {
     end_time: string
     error_code: string
 }
+
+export type IntlProps = {
+    intl: IntlShape;
+};
+
+export type TablePaginationPosition = 'topLeft' | 'topCenter' | 'topRight' | 'bottomLeft' | 'bottomCenter' | 'bottomRight' | 'none';

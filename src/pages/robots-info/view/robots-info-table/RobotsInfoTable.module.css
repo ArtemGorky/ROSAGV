@@ -3,6 +3,11 @@
     padding-bottom: 16px;
 }
 
+.tableContainer .table thead th,
+.tableContainer .table tbody td {
+    padding: 16px 8px;
+}
+
 .roundIndicator {
     width: 8px;
     height: 8px;
@@ -30,13 +35,21 @@
 .normalProgress,
 .exceptionProgress {
     position: absolute;
-    top: -80%;
-    left: 0;
+    top: calc(-26px);
+    left: 6px;
 }
 
 .exceptionProgress svg {
     fill: #f40;
 }
+
 .normalProgress svg {
     fill: #4f0;
+}
+
+.iconContainer {
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    margin: 4px;
 }

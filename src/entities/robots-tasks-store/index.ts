@@ -7,6 +7,20 @@ import { debounceDelay } from "@/shared/constants";
 import moment from "moment";
 import { IntlShape } from "react-intl";
 
+const getDefaultStatus = (currentLocale: string) => {
+    return currentLocale === "ru"
+        ? {
+            label: "Неудачный",
+            value: "Неудачный",
+            id: 6
+        }
+        : {
+            label: "Unsuccessful",
+            value: "Unsuccessful",
+            id: 6
+        }
+}
+
 class robotsTasksStore {
     robotsTasks: RobotsTasks[] = [];
     currentTasks: RobotsTasks[] = [];
@@ -29,13 +43,29 @@ class robotsTasksStore {
     tasksCommand: OptionsTypes[] = [];
     tasksName: string = "";
     tasksRobotId: OptionsTypes[] = [];
-    tasksStatus: OptionsTypes[] = [];
+
+    tasksStatus: OptionsTypes[] = localStorage.getItem('tasksStatuses')
+        // tasksStatus: OptionsTypes[] = localStorage.getItem('tasksStatuses') && localStorage.getItem('tasksStatuses') !== "[]"
+        ? JSON.parse(localStorage.getItem('tasksStatuses'))
+        : [
+            {
+                label: 6,
+                value: 6,
+                id: 6
+            }
+        ];
+
     tasksRangeStatus: OptionsTypes[] = [];
 
     tempTasksCommand: OptionsTypes[] = [];
     tempTasksName: string = "";
     tempTasksRobotId: OptionsTypes[] = [];
-    tempTasksStatus: OptionsTypes[] = [];
+
+    tempTasksStatus: OptionsTypes[] = localStorage.getItem('tmpTasksStatuses')
+        // tempTasksStatus: OptionsTypes[] = localStorage.getItem('tmpTasksStatuses') && localStorage.getItem('tmpTasksStatuses') !== "[]"
+        ? JSON.parse(localStorage.getItem('tmpTasksStatuses'))
+        : [getDefaultStatus(localStorage.getItem('locale'))];
+
     tempTasksRangeStatus: OptionsTypes[] = [];
 
 
@@ -124,6 +154,12 @@ class robotsTasksStore {
     };
 
     setTasksStatus = (option: OptionsTypes[]) => {
+
+        console.log(option);
+
+        localStorage.setItem('tasksStatuses', JSON.stringify(option.map(obj => ({ label: obj.id, value: String(obj.id), id: obj.id }))));
+        localStorage.setItem('tmpTasksStatuses', JSON.stringify(option));
+
         this.tempTasksStatus = option;
         this.handleDebounce(option.map(obj => ({ label: obj.id, value: String(obj.id), id: obj.id })), 'tasksStatus');
     };

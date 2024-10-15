@@ -16,5 +16,15 @@
   "page.robotsInfo.tabletFilterList.traffic": "Stopped by traffic control",
   "page.robotsInfo.tabletFilterList.forks_up": "Forks up",
   "page.robotsInfo.tabletFilterList.pedal_pressed": "Pedal pressed",
-  "page.robotsInfo.tabletFilterList.battery_charging": "Battery charging"
+  "page.robotsInfo.tabletFilterList.battery_charging": "Battery charging",
+
+  "page.robotsInfo.tableHeaders.charging_percentage": "Charging percentage",
+  "page.robotsInfo.tableHeaders.connected": "Connected",
+  "page.robotsInfo.tableHeaders.manual": "Manual",
+  "page.robotsInfo.tableHeaders.active_task": "Active task",
+  "page.robotsInfo.tableHeaders.obstacle": "Obstacle",
+  "page.robotsInfo.tableHeaders.traffic": "Traffic control",
+  "page.robotsInfo.tableHeaders.forks_up": "Forks up",
+  "page.robotsInfo.tableHeaders.pedal_pressed": "Pedal pressed",
+  "page.robotsInfo.tableHeaders.battery_charging": "Battery charging"
 }

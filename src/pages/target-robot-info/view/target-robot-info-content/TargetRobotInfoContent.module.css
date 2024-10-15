@@ -105,8 +105,39 @@ div.card div.descriptions span:has(div.descriptionSkeleton) {
     min-width: 300px;
     text-align: center;
 }
+.cardDesktop {
+    width: 30vw;
+    max-width: 485px;
+    min-width: 300px;
+    min-height: 160px;
+    text-align: center;
+}
 
 .descriptionName {
     width: 85%;
     text-align: left;
+}
+
+.iconContainer {
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    margin: 4px;
+}
+
+.mainSpace {
+    width: 100%;
+    justify-content: center;
+    align-items: baseline;
+    gap: 32px
+}
+
+@media (max-width: 500px) {
+    .title {
+        margin-top: 5px;
+    }
+
+    .card>div {
+        padding: 16px !important;
+    }
 }

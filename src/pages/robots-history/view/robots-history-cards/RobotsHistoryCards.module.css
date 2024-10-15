@@ -1,0 +1,40 @@
+.cardsContainer {
+    width: 100%;
+    text-align: center;
+}
+
+.cardContainer {
+    max-width: 380px;
+    min-width: 330px;
+    display: inline-block;
+    margin-right: 16px;
+    margin-bottom: 16px;
+}
+
+.historyBlock {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 16px;
+}
+
+.imgBlock {
+    display: flex;
+    margin-bottom: 16px;
+    gap: 16px;
+    border-radius: 6px;
+}
+
+.descriptions {
+    margin-bottom: 16px;
+}
+
+.img {
+
+    border-radius: 6px;
+}
+
+@media (max-width: 500px) {
+    .cardContainer {
+        margin-right: 0;
+    }
+}
