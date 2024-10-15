@@ -1,4 +1,26 @@
 {
   "breadcrumb.robots-history": "История роботов",
-  "page.robotsHistory.title": "История роботов"
+  "page.robotsHistory.title": "История роботов",
+
+  "page.robotsHistory.pagination.total": "Всего",
+  "page.robotsHistory.pagination.page": "стр.",
+
+  "page.robotsHistory.table.title": "Заголовок",
+  "page.robotsHistory.table.robot": "Робот",
+  "page.robotsHistory.table.date": "Дата",
+  "page.robotsHistory.table.pointName": "Название точки",
+  "page.robotsHistory.table.task": "Задача",
+  "page.robotsHistory.table.rmsPoint": "Точка РМС",
+  "page.robotsHistory.table.video": "Видео",
+  "page.robotsHistory.table.action": "Действие",
+
+  "page.robotsHistory.setTegBtn.title": "Установить тег",
+
+  "page.robotsHistory.filterDropdown.robotId": "ID робота",
+  "page.robotsHistory.filterDropdown.dateRange": "Дата",
+  "page.robotsHistory.filterDropdown.error": "Ошибки",
+
+  "page.robotsHistory.filterDropdown.title": "Фильтр",
+  "page.robotsHistory.autoComplete.robotIdTitle": "Пожалуйста, введите ID робота!",
+  "page.robotsHistory.filterDropdown.resetBtnTitle": "Сброс фильтров"
 }

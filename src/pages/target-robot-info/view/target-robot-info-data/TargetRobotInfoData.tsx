@@ -8,6 +8,7 @@ import { useEffect } from "react";
 
 import { RobotsInfoStore } from "@/entities";
 import { BasicModal } from "@/ui";
+import { useDeviceDetect } from "@/hooks";
 
 
 export const TargetRobotInfoData = observer(({ intl }: IntlProps) => {
@@ -25,6 +26,8 @@ export const TargetRobotInfoData = observer(({ intl }: IntlProps) => {
     const closeConnection = () => {
         targetRobotInfoSocket?.close();
     }
+
+    const { isMobile } = useDeviceDetect();
 
     useEffect(() => {
         !location.state?.id && navigate("/scenes/robots-info");
@@ -73,6 +76,7 @@ export const TargetRobotInfoData = observer(({ intl }: IntlProps) => {
                 currentRobotInfo={currentRobotInfo}
                 progressState={progressState}
                 setIsTasksDisabled={setIsTasksDisabled}
+                isMobile={isMobile}
             />
             <BasicModal
                 title={intl.formatMessage({ id: 'page.targetRobotInfo.modalTitle' })}

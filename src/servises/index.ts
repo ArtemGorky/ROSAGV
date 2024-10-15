@@ -21,3 +21,7 @@ export {
 export {
     getTargetRobotInfo
 } from './api/target-robot-info';
+
+export {
+    getRobotsHistory, getRobotHistoryIds
+} from './api/robots-history';
